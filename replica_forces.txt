@@ -1,0 +1,576 @@
+{
+	type = mutual_trap
+	particle = 1038
+	ref_particle = 97
+	stiff = 2.8
+	r0 = 1.2
+	PBC = 1
+}
+{
+	type = mutual_trap
+	particle = 97
+	ref_particle = 1038
+	stiff = 2.8
+	r0 = 1.2
+	PBC = 1
+}
+{
+	type = mutual_trap
+	particle = 1014
+	ref_particle = 97
+	stiff = 2.8
+	r0 = 1.2
+	PBC = 1
+}
+{
+	type = mutual_trap
+	particle = 97
+	ref_particle = 1014
+	stiff = 2.8
+	r0 = 1.2
+	PBC = 1
+}
+{
+	type = mutual_trap
+	particle = 990
+	ref_particle = 160
+	stiff = 2.8
+	r0 = 1.2
+	PBC = 1
+}
+{
+	type = mutual_trap
+	particle = 160
+	ref_particle = 990
+	stiff = 2.8
+	r0 = 1.2
+	PBC = 1
+}
+{
+	type = mutual_trap
+	particle = 942
+	ref_particle = 99
+	stiff = 2.8
+	r0 = 1.2
+	PBC = 1
+}
+{
+	type = mutual_trap
+	particle = 99
+	ref_particle = 942
+	stiff = 2.8
+	r0 = 1.2
+	PBC = 1
+}
+{
+	type = mutual_trap
+	particle = 918
+	ref_particle = 99
+	stiff = 2.8
+	r0 = 1.2
+	PBC = 1
+}
+{
+	type = mutual_trap
+	particle = 99
+	ref_particle = 918
+	stiff = 2.8
+	r0 = 1.2
+	PBC = 1
+}
+{
+	type = mutual_trap
+	particle = 966
+	ref_particle = 99
+	stiff = 2.8
+	r0 = 1.2
+	PBC = 1
+}
+{
+	type = mutual_trap
+	particle = 99
+	ref_particle = 966
+	stiff = 2.8
+	r0 = 1.2
+	PBC = 1
+}
+{
+	type = mutual_trap
+	particle = 1086
+	ref_particle = 128
+	stiff = 2.8
+	r0 = 1.2
+	PBC = 1
+}
+{
+	type = mutual_trap
+	particle = 128
+	ref_particle = 1086
+	stiff = 2.8
+	r0 = 1.2
+	PBC = 1
+}
+{
+	type = mutual_trap
+	particle = 1110
+	ref_particle = 128
+	stiff = 2.8
+	r0 = 1.2
+	PBC = 1
+}
+{
+	type = mutual_trap
+	particle = 128
+	ref_particle = 1110
+	stiff = 2.8
+	r0 = 1.2
+	PBC = 1
+}
+{
+	type = mutual_trap
+	particle = 1062
+	ref_particle = 128
+	stiff = 2.8
+	r0 = 1.2
+	PBC = 1
+}
+{
+	type = mutual_trap
+	particle = 128
+	ref_particle = 1062
+	stiff = 2.8
+	r0 = 1.2
+	PBC = 1
+}
+{
+	type = mutual_trap
+	particle = 798
+	ref_particle = 106
+	stiff = 2.8
+	r0 = 1.2
+	PBC = 1
+}
+{
+	type = mutual_trap
+	particle = 106
+	ref_particle = 798
+	stiff = 2.8
+	r0 = 1.2
+	PBC = 1
+}
+{
+	type = mutual_trap
+	particle = 822
+	ref_particle = 173
+	stiff = 2.8
+	r0 = 1.2
+	PBC = 1
+}
+{
+	type = mutual_trap
+	particle = 173
+	ref_particle = 822
+	stiff = 2.8
+	r0 = 1.2
+	PBC = 1
+}
+{
+	type = mutual_trap
+	particle = 774
+	ref_particle = 173
+	stiff = 2.8
+	r0 = 1.2
+	PBC = 1
+}
+{
+	type = mutual_trap
+	particle = 173
+	ref_particle = 774
+	stiff = 2.8
+	r0 = 1.2
+	PBC = 1
+}
+{
+	type = mutual_trap
+	particle = 702
+	ref_particle = 118
+	stiff = 2.8
+	r0 = 1.2
+	PBC = 1
+}
+{
+	type = mutual_trap
+	particle = 118
+	ref_particle = 702
+	stiff = 2.8
+	r0 = 1.2
+	PBC = 1
+}
+{
+	type = mutual_trap
+	particle = 750
+	ref_particle = 95
+	stiff = 2.8
+	r0 = 1.2
+	PBC = 1
+}
+{
+	type = mutual_trap
+	particle = 95
+	ref_particle = 750
+	stiff = 2.8
+	r0 = 1.2
+	PBC = 1
+}
+{
+	type = mutual_trap
+	particle = 726
+	ref_particle = 95
+	stiff = 2.8
+	r0 = 1.2
+	PBC = 1
+}
+{
+	type = mutual_trap
+	particle = 95
+	ref_particle = 726
+	stiff = 2.8
+	r0 = 1.2
+	PBC = 1
+}
+{
+	type = mutual_trap
+	particle = 846
+	ref_particle = 150
+	stiff = 2.8
+	r0 = 1.2
+	PBC = 1
+}
+{
+	type = mutual_trap
+	particle = 150
+	ref_particle = 846
+	stiff = 2.8
+	r0 = 1.2
+	PBC = 1
+}
+{
+	type = mutual_trap
+	particle = 894
+	ref_particle = 150
+	stiff = 2.8
+	r0 = 1.2
+	PBC = 1
+}
+{
+	type = mutual_trap
+	particle = 150
+	ref_particle = 894
+	stiff = 2.8
+	r0 = 1.2
+	PBC = 1
+}
+{
+	type = mutual_trap
+	particle = 870
+	ref_particle = 150
+	stiff = 2.8
+	r0 = 1.2
+	PBC = 1
+}
+{
+	type = mutual_trap
+	particle = 150
+	ref_particle = 870
+	stiff = 2.8
+	r0 = 1.2
+	PBC = 1
+}
+{
+	type = mutual_trap
+	particle = 1038
+	ref_particle = 97
+	stiff = 2.8
+	r0 = 1.2
+	PBC = 1
+}
+{
+	type = mutual_trap
+	particle = 97
+	ref_particle = 1038
+	stiff = 2.8
+	r0 = 1.2
+	PBC = 1
+}
+{
+	type = mutual_trap
+	particle = 1014
+	ref_particle = 97
+	stiff = 2.8
+	r0 = 1.2
+	PBC = 1
+}
+{
+	type = mutual_trap
+	particle = 97
+	ref_particle = 1014
+	stiff = 2.8
+	r0 = 1.2
+	PBC = 1
+}
+{
+	type = mutual_trap
+	particle = 990
+	ref_particle = 160
+	stiff = 2.8
+	r0 = 1.2
+	PBC = 1
+}
+{
+	type = mutual_trap
+	particle = 160
+	ref_particle = 990
+	stiff = 2.8
+	r0 = 1.2
+	PBC = 1
+}
+{
+	type = mutual_trap
+	particle = 942
+	ref_particle = 99
+	stiff = 2.8
+	r0 = 1.2
+	PBC = 1
+}
+{
+	type = mutual_trap
+	particle = 99
+	ref_particle = 942
+	stiff = 2.8
+	r0 = 1.2
+	PBC = 1
+}
+{
+	type = mutual_trap
+	particle = 918
+	ref_particle = 99
+	stiff = 2.8
+	r0 = 1.2
+	PBC = 1
+}
+{
+	type = mutual_trap
+	particle = 99
+	ref_particle = 918
+	stiff = 2.8
+	r0 = 1.2
+	PBC = 1
+}
+{
+	type = mutual_trap
+	particle = 966
+	ref_particle = 99
+	stiff = 2.8
+	r0 = 1.2
+	PBC = 1
+}
+{
+	type = mutual_trap
+	particle = 99
+	ref_particle = 966
+	stiff = 2.8
+	r0 = 1.2
+	PBC = 1
+}
+{
+	type = mutual_trap
+	particle = 1086
+	ref_particle = 128
+	stiff = 2.8
+	r0 = 1.2
+	PBC = 1
+}
+{
+	type = mutual_trap
+	particle = 128
+	ref_particle = 1086
+	stiff = 2.8
+	r0 = 1.2
+	PBC = 1
+}
+{
+	type = mutual_trap
+	particle = 1110
+	ref_particle = 128
+	stiff = 2.8
+	r0 = 1.2
+	PBC = 1
+}
+{
+	type = mutual_trap
+	particle = 128
+	ref_particle = 1110
+	stiff = 2.8
+	r0 = 1.2
+	PBC = 1
+}
+{
+	type = mutual_trap
+	particle = 1062
+	ref_particle = 128
+	stiff = 2.8
+	r0 = 1.2
+	PBC = 1
+}
+{
+	type = mutual_trap
+	particle = 128
+	ref_particle = 1062
+	stiff = 2.8
+	r0 = 1.2
+	PBC = 1
+}
+{
+	type = mutual_trap
+	particle = 798
+	ref_particle = 106
+	stiff = 2.8
+	r0 = 1.2
+	PBC = 1
+}
+{
+	type = mutual_trap
+	particle = 106
+	ref_particle = 798
+	stiff = 2.8
+	r0 = 1.2
+	PBC = 1
+}
+{
+	type = mutual_trap
+	particle = 822
+	ref_particle = 173
+	stiff = 2.8
+	r0 = 1.2
+	PBC = 1
+}
+{
+	type = mutual_trap
+	particle = 173
+	ref_particle = 822
+	stiff = 2.8
+	r0 = 1.2
+	PBC = 1
+}
+{
+	type = mutual_trap
+	particle = 774
+	ref_particle = 173
+	stiff = 2.8
+	r0 = 1.2
+	PBC = 1
+}
+{
+	type = mutual_trap
+	particle = 173
+	ref_particle = 774
+	stiff = 2.8
+	r0 = 1.2
+	PBC = 1
+}
+{
+	type = mutual_trap
+	particle = 702
+	ref_particle = 118
+	stiff = 2.8
+	r0 = 1.2
+	PBC = 1
+}
+{
+	type = mutual_trap
+	particle = 118
+	ref_particle = 702
+	stiff = 2.8
+	r0 = 1.2
+	PBC = 1
+}
+{
+	type = mutual_trap
+	particle = 750
+	ref_particle = 95
+	stiff = 2.8
+	r0 = 1.2
+	PBC = 1
+}
+{
+	type = mutual_trap
+	particle = 95
+	ref_particle = 750
+	stiff = 2.8
+	r0 = 1.2
+	PBC = 1
+}
+{
+	type = mutual_trap
+	particle = 726
+	ref_particle = 95
+	stiff = 2.8
+	r0 = 1.2
+	PBC = 1
+}
+{
+	type = mutual_trap
+	particle = 95
+	ref_particle = 726
+	stiff = 2.8
+	r0 = 1.2
+	PBC = 1
+}
+{
+	type = mutual_trap
+	particle = 846
+	ref_particle = 150
+	stiff = 2.8
+	r0 = 1.2
+	PBC = 1
+}
+{
+	type = mutual_trap
+	particle = 150
+	ref_particle = 846
+	stiff = 2.8
+	r0 = 1.2
+	PBC = 1
+}
+{
+	type = mutual_trap
+	particle = 894
+	ref_particle = 150
+	stiff = 2.8
+	r0 = 1.2
+	PBC = 1
+}
+{
+	type = mutual_trap
+	particle = 150
+	ref_particle = 894
+	stiff = 2.8
+	r0 = 1.2
+	PBC = 1
+}
+{
+	type = mutual_trap
+	particle = 870
+	ref_particle = 150
+	stiff = 2.8
+	r0 = 1.2
+	PBC = 1
+}
+{
+	type = mutual_trap
+	particle = 150
+	ref_particle = 870
+	stiff = 2.8
+	r0 = 1.2
+	PBC = 1
+}
