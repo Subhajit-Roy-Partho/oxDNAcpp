@@ -8,6 +8,8 @@
 
 // cg = type, total count, joints
 
+// Known bug there is an extra space at the end of every line for top file be careful to delete it, at least for the first line.
+
 #include <iostream>
 #include <fstream>
 #include <string>
