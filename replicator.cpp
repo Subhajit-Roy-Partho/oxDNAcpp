@@ -281,6 +281,14 @@ int main(int argc, char* argv[]){
     //         oforce<<"{\n\ttype = mutual_trap\n\tparticle = "<<realParticle<<"\n\tref_particle = "<<realRefParticle<<"\n\tstiff = 2.8\n\tr0 = 1.2\n\tPBC = 1\n}"<<endl;
     //     }
     // }
+
+    for(int rep=0; rep<replicas;rep++){
+        for(int j=0;j<i;j++){
+            int par = (particles[j]<count)?particles[j]+count*(rep):(count*replicas)+(countN*rep)+(particles[j]-count);
+            int refPar = (refParticles[j]<count)?refParticles[j]+count*(rep):(count*replicas)+(countN*rep)+(refParticles[j]-count);
+            oforce<<"{\n\ttype = mutual_trap\n\tparticle = "<<par<<"\n\tref_particle = "<<refPar<<"\n\tstiff = 2.8\n\tr0 = 1.2\n\tPBC = 1\n}"<<endl;
+        }
+    }
     oforce.close();
     
 //Return no error

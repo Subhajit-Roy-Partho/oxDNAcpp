@@ -1,6 +1,294 @@
 {
 	type = mutual_trap
-	particle = 1038
+	particle = 516
+	ref_particle = 7
+	stiff = 2.8
+	r0 = 1.2
+	PBC = 1
+}
+{
+	type = mutual_trap
+	particle = 7
+	ref_particle = 516
+	stiff = 2.8
+	r0 = 1.2
+	PBC = 1
+}
+{
+	type = mutual_trap
+	particle = 492
+	ref_particle = 7
+	stiff = 2.8
+	r0 = 1.2
+	PBC = 1
+}
+{
+	type = mutual_trap
+	particle = 7
+	ref_particle = 492
+	stiff = 2.8
+	r0 = 1.2
+	PBC = 1
+}
+{
+	type = mutual_trap
+	particle = 468
+	ref_particle = 70
+	stiff = 2.8
+	r0 = 1.2
+	PBC = 1
+}
+{
+	type = mutual_trap
+	particle = 70
+	ref_particle = 468
+	stiff = 2.8
+	r0 = 1.2
+	PBC = 1
+}
+{
+	type = mutual_trap
+	particle = 420
+	ref_particle = 9
+	stiff = 2.8
+	r0 = 1.2
+	PBC = 1
+}
+{
+	type = mutual_trap
+	particle = 9
+	ref_particle = 420
+	stiff = 2.8
+	r0 = 1.2
+	PBC = 1
+}
+{
+	type = mutual_trap
+	particle = 396
+	ref_particle = 9
+	stiff = 2.8
+	r0 = 1.2
+	PBC = 1
+}
+{
+	type = mutual_trap
+	particle = 9
+	ref_particle = 396
+	stiff = 2.8
+	r0 = 1.2
+	PBC = 1
+}
+{
+	type = mutual_trap
+	particle = 444
+	ref_particle = 9
+	stiff = 2.8
+	r0 = 1.2
+	PBC = 1
+}
+{
+	type = mutual_trap
+	particle = 9
+	ref_particle = 444
+	stiff = 2.8
+	r0 = 1.2
+	PBC = 1
+}
+{
+	type = mutual_trap
+	particle = 564
+	ref_particle = 38
+	stiff = 2.8
+	r0 = 1.2
+	PBC = 1
+}
+{
+	type = mutual_trap
+	particle = 38
+	ref_particle = 564
+	stiff = 2.8
+	r0 = 1.2
+	PBC = 1
+}
+{
+	type = mutual_trap
+	particle = 588
+	ref_particle = 38
+	stiff = 2.8
+	r0 = 1.2
+	PBC = 1
+}
+{
+	type = mutual_trap
+	particle = 38
+	ref_particle = 588
+	stiff = 2.8
+	r0 = 1.2
+	PBC = 1
+}
+{
+	type = mutual_trap
+	particle = 540
+	ref_particle = 38
+	stiff = 2.8
+	r0 = 1.2
+	PBC = 1
+}
+{
+	type = mutual_trap
+	particle = 38
+	ref_particle = 540
+	stiff = 2.8
+	r0 = 1.2
+	PBC = 1
+}
+{
+	type = mutual_trap
+	particle = 276
+	ref_particle = 16
+	stiff = 2.8
+	r0 = 1.2
+	PBC = 1
+}
+{
+	type = mutual_trap
+	particle = 16
+	ref_particle = 276
+	stiff = 2.8
+	r0 = 1.2
+	PBC = 1
+}
+{
+	type = mutual_trap
+	particle = 300
+	ref_particle = 83
+	stiff = 2.8
+	r0 = 1.2
+	PBC = 1
+}
+{
+	type = mutual_trap
+	particle = 83
+	ref_particle = 300
+	stiff = 2.8
+	r0 = 1.2
+	PBC = 1
+}
+{
+	type = mutual_trap
+	particle = 252
+	ref_particle = 83
+	stiff = 2.8
+	r0 = 1.2
+	PBC = 1
+}
+{
+	type = mutual_trap
+	particle = 83
+	ref_particle = 252
+	stiff = 2.8
+	r0 = 1.2
+	PBC = 1
+}
+{
+	type = mutual_trap
+	particle = 180
+	ref_particle = 28
+	stiff = 2.8
+	r0 = 1.2
+	PBC = 1
+}
+{
+	type = mutual_trap
+	particle = 28
+	ref_particle = 180
+	stiff = 2.8
+	r0 = 1.2
+	PBC = 1
+}
+{
+	type = mutual_trap
+	particle = 228
+	ref_particle = 5
+	stiff = 2.8
+	r0 = 1.2
+	PBC = 1
+}
+{
+	type = mutual_trap
+	particle = 5
+	ref_particle = 228
+	stiff = 2.8
+	r0 = 1.2
+	PBC = 1
+}
+{
+	type = mutual_trap
+	particle = 204
+	ref_particle = 5
+	stiff = 2.8
+	r0 = 1.2
+	PBC = 1
+}
+{
+	type = mutual_trap
+	particle = 5
+	ref_particle = 204
+	stiff = 2.8
+	r0 = 1.2
+	PBC = 1
+}
+{
+	type = mutual_trap
+	particle = 324
+	ref_particle = 60
+	stiff = 2.8
+	r0 = 1.2
+	PBC = 1
+}
+{
+	type = mutual_trap
+	particle = 60
+	ref_particle = 324
+	stiff = 2.8
+	r0 = 1.2
+	PBC = 1
+}
+{
+	type = mutual_trap
+	particle = 372
+	ref_particle = 60
+	stiff = 2.8
+	r0 = 1.2
+	PBC = 1
+}
+{
+	type = mutual_trap
+	particle = 60
+	ref_particle = 372
+	stiff = 2.8
+	r0 = 1.2
+	PBC = 1
+}
+{
+	type = mutual_trap
+	particle = 348
+	ref_particle = 60
+	stiff = 2.8
+	r0 = 1.2
+	PBC = 1
+}
+{
+	type = mutual_trap
+	particle = 60
+	ref_particle = 348
+	stiff = 2.8
+	r0 = 1.2
+	PBC = 1
+}
+{
+	type = mutual_trap
+	particle = 948
 	ref_particle = 97
 	stiff = 2.8
 	r0 = 1.2
@@ -9,14 +297,14 @@
 {
 	type = mutual_trap
 	particle = 97
-	ref_particle = 1038
+	ref_particle = 948
 	stiff = 2.8
 	r0 = 1.2
 	PBC = 1
 }
 {
 	type = mutual_trap
-	particle = 1014
+	particle = 924
 	ref_particle = 97
 	stiff = 2.8
 	r0 = 1.2
@@ -25,14 +313,14 @@
 {
 	type = mutual_trap
 	particle = 97
-	ref_particle = 1014
+	ref_particle = 924
 	stiff = 2.8
 	r0 = 1.2
 	PBC = 1
 }
 {
 	type = mutual_trap
-	particle = 990
+	particle = 900
 	ref_particle = 160
 	stiff = 2.8
 	r0 = 1.2
@@ -41,14 +329,14 @@
 {
 	type = mutual_trap
 	particle = 160
-	ref_particle = 990
+	ref_particle = 900
 	stiff = 2.8
 	r0 = 1.2
 	PBC = 1
 }
 {
 	type = mutual_trap
-	particle = 942
+	particle = 852
 	ref_particle = 99
 	stiff = 2.8
 	r0 = 1.2
@@ -57,14 +345,14 @@
 {
 	type = mutual_trap
 	particle = 99
-	ref_particle = 942
+	ref_particle = 852
 	stiff = 2.8
 	r0 = 1.2
 	PBC = 1
 }
 {
 	type = mutual_trap
-	particle = 918
+	particle = 828
 	ref_particle = 99
 	stiff = 2.8
 	r0 = 1.2
@@ -73,14 +361,14 @@
 {
 	type = mutual_trap
 	particle = 99
-	ref_particle = 918
+	ref_particle = 828
 	stiff = 2.8
 	r0 = 1.2
 	PBC = 1
 }
 {
 	type = mutual_trap
-	particle = 966
+	particle = 876
 	ref_particle = 99
 	stiff = 2.8
 	r0 = 1.2
@@ -89,14 +377,14 @@
 {
 	type = mutual_trap
 	particle = 99
-	ref_particle = 966
+	ref_particle = 876
 	stiff = 2.8
 	r0 = 1.2
 	PBC = 1
 }
 {
 	type = mutual_trap
-	particle = 1086
+	particle = 996
 	ref_particle = 128
 	stiff = 2.8
 	r0 = 1.2
@@ -105,14 +393,14 @@
 {
 	type = mutual_trap
 	particle = 128
-	ref_particle = 1086
+	ref_particle = 996
 	stiff = 2.8
 	r0 = 1.2
 	PBC = 1
 }
 {
 	type = mutual_trap
-	particle = 1110
+	particle = 1020
 	ref_particle = 128
 	stiff = 2.8
 	r0 = 1.2
@@ -121,14 +409,14 @@
 {
 	type = mutual_trap
 	particle = 128
-	ref_particle = 1110
+	ref_particle = 1020
 	stiff = 2.8
 	r0 = 1.2
 	PBC = 1
 }
 {
 	type = mutual_trap
-	particle = 1062
+	particle = 972
 	ref_particle = 128
 	stiff = 2.8
 	r0 = 1.2
@@ -137,14 +425,14 @@
 {
 	type = mutual_trap
 	particle = 128
-	ref_particle = 1062
+	ref_particle = 972
 	stiff = 2.8
 	r0 = 1.2
 	PBC = 1
 }
 {
 	type = mutual_trap
-	particle = 798
+	particle = 708
 	ref_particle = 106
 	stiff = 2.8
 	r0 = 1.2
@@ -153,14 +441,14 @@
 {
 	type = mutual_trap
 	particle = 106
-	ref_particle = 798
+	ref_particle = 708
 	stiff = 2.8
 	r0 = 1.2
 	PBC = 1
 }
 {
 	type = mutual_trap
-	particle = 822
+	particle = 732
 	ref_particle = 173
 	stiff = 2.8
 	r0 = 1.2
@@ -169,14 +457,14 @@
 {
 	type = mutual_trap
 	particle = 173
-	ref_particle = 822
+	ref_particle = 732
 	stiff = 2.8
 	r0 = 1.2
 	PBC = 1
 }
 {
 	type = mutual_trap
-	particle = 774
+	particle = 684
 	ref_particle = 173
 	stiff = 2.8
 	r0 = 1.2
@@ -185,14 +473,14 @@
 {
 	type = mutual_trap
 	particle = 173
-	ref_particle = 774
+	ref_particle = 684
 	stiff = 2.8
 	r0 = 1.2
 	PBC = 1
 }
 {
 	type = mutual_trap
-	particle = 702
+	particle = 612
 	ref_particle = 118
 	stiff = 2.8
 	r0 = 1.2
@@ -201,14 +489,14 @@
 {
 	type = mutual_trap
 	particle = 118
-	ref_particle = 702
+	ref_particle = 612
 	stiff = 2.8
 	r0 = 1.2
 	PBC = 1
 }
 {
 	type = mutual_trap
-	particle = 750
+	particle = 660
 	ref_particle = 95
 	stiff = 2.8
 	r0 = 1.2
@@ -217,14 +505,14 @@
 {
 	type = mutual_trap
 	particle = 95
-	ref_particle = 750
+	ref_particle = 660
 	stiff = 2.8
 	r0 = 1.2
 	PBC = 1
 }
 {
 	type = mutual_trap
-	particle = 726
+	particle = 636
 	ref_particle = 95
 	stiff = 2.8
 	r0 = 1.2
@@ -233,14 +521,14 @@
 {
 	type = mutual_trap
 	particle = 95
-	ref_particle = 726
+	ref_particle = 636
 	stiff = 2.8
 	r0 = 1.2
 	PBC = 1
 }
 {
 	type = mutual_trap
-	particle = 846
+	particle = 756
 	ref_particle = 150
 	stiff = 2.8
 	r0 = 1.2
@@ -249,14 +537,14 @@
 {
 	type = mutual_trap
 	particle = 150
-	ref_particle = 846
+	ref_particle = 756
 	stiff = 2.8
 	r0 = 1.2
 	PBC = 1
 }
 {
 	type = mutual_trap
-	particle = 894
+	particle = 804
 	ref_particle = 150
 	stiff = 2.8
 	r0 = 1.2
@@ -265,14 +553,14 @@
 {
 	type = mutual_trap
 	particle = 150
-	ref_particle = 894
+	ref_particle = 804
 	stiff = 2.8
 	r0 = 1.2
 	PBC = 1
 }
 {
 	type = mutual_trap
-	particle = 870
+	particle = 780
 	ref_particle = 150
 	stiff = 2.8
 	r0 = 1.2
@@ -281,295 +569,7 @@
 {
 	type = mutual_trap
 	particle = 150
-	ref_particle = 870
-	stiff = 2.8
-	r0 = 1.2
-	PBC = 1
-}
-{
-	type = mutual_trap
-	particle = 1038
-	ref_particle = 97
-	stiff = 2.8
-	r0 = 1.2
-	PBC = 1
-}
-{
-	type = mutual_trap
-	particle = 97
-	ref_particle = 1038
-	stiff = 2.8
-	r0 = 1.2
-	PBC = 1
-}
-{
-	type = mutual_trap
-	particle = 1014
-	ref_particle = 97
-	stiff = 2.8
-	r0 = 1.2
-	PBC = 1
-}
-{
-	type = mutual_trap
-	particle = 97
-	ref_particle = 1014
-	stiff = 2.8
-	r0 = 1.2
-	PBC = 1
-}
-{
-	type = mutual_trap
-	particle = 990
-	ref_particle = 160
-	stiff = 2.8
-	r0 = 1.2
-	PBC = 1
-}
-{
-	type = mutual_trap
-	particle = 160
-	ref_particle = 990
-	stiff = 2.8
-	r0 = 1.2
-	PBC = 1
-}
-{
-	type = mutual_trap
-	particle = 942
-	ref_particle = 99
-	stiff = 2.8
-	r0 = 1.2
-	PBC = 1
-}
-{
-	type = mutual_trap
-	particle = 99
-	ref_particle = 942
-	stiff = 2.8
-	r0 = 1.2
-	PBC = 1
-}
-{
-	type = mutual_trap
-	particle = 918
-	ref_particle = 99
-	stiff = 2.8
-	r0 = 1.2
-	PBC = 1
-}
-{
-	type = mutual_trap
-	particle = 99
-	ref_particle = 918
-	stiff = 2.8
-	r0 = 1.2
-	PBC = 1
-}
-{
-	type = mutual_trap
-	particle = 966
-	ref_particle = 99
-	stiff = 2.8
-	r0 = 1.2
-	PBC = 1
-}
-{
-	type = mutual_trap
-	particle = 99
-	ref_particle = 966
-	stiff = 2.8
-	r0 = 1.2
-	PBC = 1
-}
-{
-	type = mutual_trap
-	particle = 1086
-	ref_particle = 128
-	stiff = 2.8
-	r0 = 1.2
-	PBC = 1
-}
-{
-	type = mutual_trap
-	particle = 128
-	ref_particle = 1086
-	stiff = 2.8
-	r0 = 1.2
-	PBC = 1
-}
-{
-	type = mutual_trap
-	particle = 1110
-	ref_particle = 128
-	stiff = 2.8
-	r0 = 1.2
-	PBC = 1
-}
-{
-	type = mutual_trap
-	particle = 128
-	ref_particle = 1110
-	stiff = 2.8
-	r0 = 1.2
-	PBC = 1
-}
-{
-	type = mutual_trap
-	particle = 1062
-	ref_particle = 128
-	stiff = 2.8
-	r0 = 1.2
-	PBC = 1
-}
-{
-	type = mutual_trap
-	particle = 128
-	ref_particle = 1062
-	stiff = 2.8
-	r0 = 1.2
-	PBC = 1
-}
-{
-	type = mutual_trap
-	particle = 798
-	ref_particle = 106
-	stiff = 2.8
-	r0 = 1.2
-	PBC = 1
-}
-{
-	type = mutual_trap
-	particle = 106
-	ref_particle = 798
-	stiff = 2.8
-	r0 = 1.2
-	PBC = 1
-}
-{
-	type = mutual_trap
-	particle = 822
-	ref_particle = 173
-	stiff = 2.8
-	r0 = 1.2
-	PBC = 1
-}
-{
-	type = mutual_trap
-	particle = 173
-	ref_particle = 822
-	stiff = 2.8
-	r0 = 1.2
-	PBC = 1
-}
-{
-	type = mutual_trap
-	particle = 774
-	ref_particle = 173
-	stiff = 2.8
-	r0 = 1.2
-	PBC = 1
-}
-{
-	type = mutual_trap
-	particle = 173
-	ref_particle = 774
-	stiff = 2.8
-	r0 = 1.2
-	PBC = 1
-}
-{
-	type = mutual_trap
-	particle = 702
-	ref_particle = 118
-	stiff = 2.8
-	r0 = 1.2
-	PBC = 1
-}
-{
-	type = mutual_trap
-	particle = 118
-	ref_particle = 702
-	stiff = 2.8
-	r0 = 1.2
-	PBC = 1
-}
-{
-	type = mutual_trap
-	particle = 750
-	ref_particle = 95
-	stiff = 2.8
-	r0 = 1.2
-	PBC = 1
-}
-{
-	type = mutual_trap
-	particle = 95
-	ref_particle = 750
-	stiff = 2.8
-	r0 = 1.2
-	PBC = 1
-}
-{
-	type = mutual_trap
-	particle = 726
-	ref_particle = 95
-	stiff = 2.8
-	r0 = 1.2
-	PBC = 1
-}
-{
-	type = mutual_trap
-	particle = 95
-	ref_particle = 726
-	stiff = 2.8
-	r0 = 1.2
-	PBC = 1
-}
-{
-	type = mutual_trap
-	particle = 846
-	ref_particle = 150
-	stiff = 2.8
-	r0 = 1.2
-	PBC = 1
-}
-{
-	type = mutual_trap
-	particle = 150
-	ref_particle = 846
-	stiff = 2.8
-	r0 = 1.2
-	PBC = 1
-}
-{
-	type = mutual_trap
-	particle = 894
-	ref_particle = 150
-	stiff = 2.8
-	r0 = 1.2
-	PBC = 1
-}
-{
-	type = mutual_trap
-	particle = 150
-	ref_particle = 894
-	stiff = 2.8
-	r0 = 1.2
-	PBC = 1
-}
-{
-	type = mutual_trap
-	particle = 870
-	ref_particle = 150
-	stiff = 2.8
-	r0 = 1.2
-	PBC = 1
-}
-{
-	type = mutual_trap
-	particle = 150
-	ref_particle = 870
+	ref_particle = 780
 	stiff = 2.8
 	r0 = 1.2
 	PBC = 1
