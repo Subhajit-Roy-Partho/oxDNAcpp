@@ -1,3 +1,4 @@
+// This file is copied from oxDNA
 /*
  * LR_vector.h
  *

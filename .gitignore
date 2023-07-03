@@ -4,11 +4,13 @@
 
 # Unignore all with extensions
 !*.*
+!input*
 
 # Unignore all dirs
 !*/
 #####################################################
 
 *.out
-*/bin/
-
+*/bin/*
+*/build/*
+*.o
