@@ -45,8 +45,8 @@ class Analysis{
             gsl_vector_free(work);
         }
 
-        int pickAndPlace(double *points){
-
+        bool pickAndPlace(int *cluster){
+                
 
             double points[] = {158720.15575206,42724.03921793,56622.47200362,
                             42724.03921793,132381.4182789,-83288.45034046,
@@ -54,8 +54,13 @@ class Analysis{
             gsl_matrix_view U = gsl_matrix_view_array(points,3,3);
             int pass = gsl_linalg_SV_decomp(&U.matrix,V,S,work);
             gsl_matrix_fprintf(stdout,V,"%g");
-            return 0;
+            return true;
         };
+
+        bool planeFitting(int *cluster, LR_vector center, LR_vector normal){
+            
+            return true;
+        }
 
     private:
         string line,temp;
@@ -113,3 +118,14 @@ class Analysis{
             return 0;
         }
 };
+
+// class np{
+//     public:
+//     <template typename A>
+//     void mean(){
+
+//     }
+// };
+
+// Selected Points
+// 1070,134,145,155,1004,1385,560,1291,904,136,1112,126,1355,1850,1384,686,392,1605,618,1024,2027,474,1640,1720,1831,387,1504,947,1832,1262,676,1067,195,121,734,245,217
