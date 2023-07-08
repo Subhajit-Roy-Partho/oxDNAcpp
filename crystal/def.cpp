@@ -18,7 +18,13 @@ using namespace std;
 class Particle{
     public:
         int id,color,strand;
-        LR_vector r,a1,a3;
+        LR_vector r={0,0,0},a1,a3;
+};
+
+struct Traj{
+    LR_vector r;
+    LR_vector a1;
+    LR_vector a3;
 };
 
 class Analysis{
@@ -26,10 +32,12 @@ class Analysis{
         int particleNum,strands,i;
         string type;
         LR_vector box,energy;
-        std::vector<Particle> particles;
+        vector<Particle> particles;
+        vector<vector<Traj>> traj; //For storing trajectory;
         gsl_matrix *V=gsl_matrix_alloc(3,3);
         gsl_vector *S = gsl_vector_alloc(3);
         gsl_vector *work = gsl_vector_alloc(3);
+        Traj trajtemp;
 
         Analysis(string topology,string config,string type="", string output="output",string externalForces="",string parameter1="",string parameter2=""){
             if(type=="crystal"){
@@ -45,8 +53,10 @@ class Analysis{
             gsl_vector_free(work);
         }
 
-        bool pickAndPlace(int *cluster){
-                
+        bool pickAndPlace(int *cluster, Analysis* particle2){
+            int N = sizeof(cluster)/sizeof(int);
+            LR_vector distances[N];
+            double pos[N];
 
             double points[] = {158720.15575206,42724.03921793,56622.47200362,
                             42724.03921793,132381.4182789,-83288.45034046,
@@ -118,14 +128,14 @@ class Analysis{
             return 0;
         }
 };
-
-// class np{
-//     public:
-//     <template typename A>
-//     void mean(){
-
-//     }
-// };
+template <typename A, std::size_t N>
+A npMean(A (&vector)[N]){
+    A result=vector[0];
+    for(int i=1;i<N;i++){
+        result+=vector[i];
+    }
+    return result/N;
+}
 
 // Selected Points
 // 1070,134,145,155,1004,1385,560,1291,904,136,1112,126,1355,1850,1384,686,392,1605,618,1024,2027,474,1640,1720,1831,387,1504,947,1832,1262,676,1067,195,121,734,245,217
