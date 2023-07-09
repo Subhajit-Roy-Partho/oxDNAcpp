@@ -3,149 +3,167 @@
 11 - error opening input Config
 */
 
-#include <iostream>
-#include <vector>
-#include <fstream>
-#include <sstream>
-#include <cmath>
 #include "LR_vector.h"
+#include <cmath>
+#include <fstream>
 #include <gsl/gsl_linalg.h>
+#include <iostream>
+#include <sstream>
+#include <vector>
 
-// int gsl_linalg_SV_decomp(gsl_matrix *A, gsl_matrix *V, gsl_vector *S, gsl_vector *work)
+// int gsl_linalg_SV_decomp(gsl_matrix *A, gsl_matrix *V, gsl_vector *S,
+// gsl_vector *work)
 
 using namespace std;
 
-class Particle{
-    public:
-        int id,color,strand;
-        LR_vector r={0,0,0},a1,a3;
+class Particle {
+public:
+  int id, color, strand;
+  LR_vector r = {0, 0, 0}, a1, a3;
 };
 
-struct Traj{
-    LR_vector r;
-    LR_vector a1;
-    LR_vector a3;
+struct Traj {
+  LR_vector r;
+  LR_vector a1;
+  LR_vector a3;
 };
 
-class Analysis{
-    public:
-        int particleNum,strands,i;
-        string type;
-        LR_vector box,energy;
-        vector<Particle> particles;
-        vector<vector<Traj>> traj; //For storing trajectory;
-        gsl_matrix *V=gsl_matrix_alloc(3,3);
-        gsl_vector *S = gsl_vector_alloc(3);
-        gsl_vector *work = gsl_vector_alloc(3);
-        Traj trajtemp;
+class Analysis {
+public:
+  int particleNum, strands, i;
+  string type;
+  LR_vector box, energy;
+  vector<Particle> particles;
+  vector<vector<Traj>> traj; // For storing trajectory;
+  gsl_matrix *V = gsl_matrix_alloc(3, 3);
+  gsl_vector *S = gsl_vector_alloc(3);
+  gsl_vector *work = gsl_vector_alloc(3);
+  Traj trajtemp;
 
-        Analysis(string topology,string config,string type="", string output="output",string externalForces="",string parameter1="",string parameter2=""){
-            if(type=="crystal"){
-                this->type=type;
-                readCrystalTopology(topology);
-                readConfig(config);
-                // pickAndPlace();
-            }
-        }
-        ~Analysis(){
-            gsl_matrix_free(V);
-            gsl_vector_free(S);
-            gsl_vector_free(work);
-        }
-        // Output the center for a number of index
-        LR_vector CenterForIndex(int *indexes){
-            int N = sizeof(indexes)/sizeof(int);
-            LR_vector mean={0,0,0};
-            for(int i=0;i<N;i++){
-                mean+= particles[indexes[i]]->r;
-            }
-            mean/=N;
-            return mean;
-        }
+  Analysis(string topology, string config, string type = "",
+           string output = "output", string externalForces = "",
+           string parameter1 = "", string parameter2 = "") {
+    if (type == "crystal") {
+      this->type = type;
+      readCrystalTopology(topology);
+      readConfig(config);
+      // pickAndPlace();
+    }
+  }
+  ~Analysis() {
+    gsl_matrix_free(V);
+    gsl_vector_free(S);
+    gsl_vector_free(work);
+  }
+  // Output the center for a number of index
+  LR_vector CenterForIndex(int *indexes) {
+    int N = sizeof(indexes) / sizeof(int);
+    LR_vector mean = {0, 0, 0};
+    for (int i = 0; i < N; i++) {
+      mean += particles[indexes[i]].r;
+    }
+    mean /= N;
+    return mean;
+  }
 
-        bool pickAndPlace(int *cluster, Analysis* particle2){
-            LR_vector center = CenterForIndex(cluster);
-            
+  bool pickAndPlace(int *cluster, Analysis* target) {
+    LR_vector center = CenterForIndex(cluster);
 
+    double points[] = {158720.15575206, 42724.03921793,  56622.47200362,
+                       42724.03921793,  132381.4182789,  -83288.45034046,
+                       56622.47200362,  -83288.45034046, 100855.62941231};
+    gsl_matrix_view U = gsl_matrix_view_array(points, 3, 3);
+    int pass = gsl_linalg_SV_decomp(&U.matrix, V, S, work);
+    gsl_matrix_fprintf(stdout, V, "%g");
+    return true;
+  };
 
-            double points[] = {158720.15575206,42724.03921793,56622.47200362,
-                            42724.03921793,132381.4182789,-83288.45034046,
-                            56622.47200362,-83288.45034046,100855.62941231};
-            gsl_matrix_view U = gsl_matrix_view_array(points,3,3);
-            int pass = gsl_linalg_SV_decomp(&U.matrix,V,S,work);
-            gsl_matrix_fprintf(stdout,V,"%g");
-            return true;
-        };
+  bool planeFitting(int *cluster, LR_vector center, LR_vector normal) {
 
-        bool planeFitting(int *cluster, LR_vector center, LR_vector normal){
-            
-            return true;
-        }
+    return true;
+  }
 
-    private:
-        string line,temp;
-        istringstream ss;
-        int readCrystalTopology(string topology){
-            ifstream inputTop(topology);
-            if(!inputTop.is_open()) return 10;
-            getline(inputTop,line);
-            ss.clear();
-            ss.str(line);
-            ss>>particleNum;
-            ss>>strands;
-            particles.resize(particleNum);
+private:
+  string line, temp;
+  istringstream ss;
+  int readCrystalTopology(string topology) {
+    ifstream inputTop(topology);
+    if (!inputTop.is_open())
+      return 10;
+    getline(inputTop, line);
+    ss.clear();
+    ss.str(line);
+    ss >> particleNum;
+    ss >> strands;
+    particles.resize(particleNum);
 
-            ss.clear();
-            getline(inputTop,line);
-            ss.str(line);
+    ss.clear();
+    getline(inputTop, line);
+    ss.str(line);
 
-             for(i=0;i<particleNum;i++){
-                ss>>temp;
-                particles[i].id=i;
-                particles[i].color=stoi(temp);
-            }
-            return 0;
-        }
+    for (i = 0; i < particleNum; i++) {
+      ss >> temp;
+      particles[i].id = i;
+      particles[i].color = stoi(temp);
+    }
+    return 0;
+  }
 
-        int readConfig(string config){
-            ifstream inputConfig(config);
-            if(!inputConfig.is_open()) return 11;
-            getline(inputConfig,line);
-            getline(inputConfig,line);
-            ss.clear();ss.str(line);ss>>temp; ss>>temp;
-            ss>>box.x; ss>> box.y;ss>>box.z;
-            getline(inputConfig,line);
-            ss.clear();ss.str(line);ss>>temp;ss>>temp;
-            ss>>energy.x;ss>>energy.y;ss>>energy.z;
-            for(i=0;i<particleNum;i++){
-                getline(inputConfig,line);
-                ss.clear();
-                ss.str(line);
-                ss>>particles[i].r.x;ss>>particles[i].r.y;ss>>particles[i].r.z;
-                ss>>particles[i].a1.x;ss>>particles[i].a1.y;ss>>particles[i].a1.z;
-                ss>>particles[i].a3.x;ss>>particles[i].a3.y;ss>>particles[i].a3.z;
-            }
-            return 0;
-        }
+  int readConfig(string config) {
+    ifstream inputConfig(config);
+    if (!inputConfig.is_open())
+      return 11;
+    getline(inputConfig, line);
+    getline(inputConfig, line);
+    ss.clear();
+    ss.str(line);
+    ss >> temp;
+    ss >> temp;
+    ss >> box.x;
+    ss >> box.y;
+    ss >> box.z;
+    getline(inputConfig, line);
+    ss.clear();
+    ss.str(line);
+    ss >> temp;
+    ss >> temp;
+    ss >> energy.x;
+    ss >> energy.y;
+    ss >> energy.z;
+    for (i = 0; i < particleNum; i++) {
+      getline(inputConfig, line);
+      ss.clear();
+      ss.str(line);
+      ss >> particles[i].r.x;
+      ss >> particles[i].r.y;
+      ss >> particles[i].r.z;
+      ss >> particles[i].a1.x;
+      ss >> particles[i].a1.y;
+      ss >> particles[i].a1.z;
+      ss >> particles[i].a3.x;
+      ss >> particles[i].a3.y;
+      ss >> particles[i].a3.z;
+    }
+    return 0;
+  }
 
-        int readPatches(string patches){
-            ifstream inputPatches(patches);
-            return 0;
-        }
+  int readPatches(string patches) {
+    ifstream inputPatches(patches);
+    return 0;
+  }
 
-        int readParticles(string crystalpar){
-            ifstream inputCrystal(crystalpar);
-            return 0;
-        }
+  int readParticles(string crystalpar) {
+    ifstream inputCrystal(crystalpar);
+    return 0;
+  }
 };
 // Output means
-template <typename A, std::size_t N>
-A npMean(A (&vector)[N]){
-    A result=vector[0];
-    for(int i=1;i<N;i++){
-        result+=vector[i];
-    }
-    return result/N;
+template <typename A, std::size_t N> A npMean(A (&vector)[N]) {
+  A result = vector[0];
+  for (int i = 1; i < N; i++) {
+    result += vector[i];
+  }
+  return result / N;
 }
 
 // Selected Points

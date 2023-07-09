@@ -1,6 +1,8 @@
 ### Below will ignore all files without extension ###
 # Ignore all
 *
+## Ignore replit extra stuff
+*cache*
 
 # Unignore all with extensions
 !*.*
