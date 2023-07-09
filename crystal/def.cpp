@@ -55,8 +55,8 @@ class Analysis{
 
         bool pickAndPlace(int *cluster, Analysis* particle2){
             int N = sizeof(cluster)/sizeof(int);
-            LR_vector distances[N];
-            double pos[N];
+            LR_vector positions[N];
+
 
             double points[] = {158720.15575206,42724.03921793,56622.47200362,
                             42724.03921793,132381.4182789,-83288.45034046,
@@ -128,6 +128,7 @@ class Analysis{
             return 0;
         }
 };
+// Output means
 template <typename A, std::size_t N>
 A npMean(A (&vector)[N]){
     A result=vector[0];
@@ -135,6 +136,13 @@ A npMean(A (&vector)[N]){
         result+=vector[i];
     }
     return result/N;
+}
+
+// Output the center for a number of index
+LR_vector npCenter(int *indexes){
+    int N = sizeof(indexes)/sizeof(int);
+    LR_vector positions;
+
 }
 
 // Selected Points
