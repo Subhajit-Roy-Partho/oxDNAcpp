@@ -5,6 +5,8 @@
 # Unignore all with extensions
 !*.*
 !input*
+!Makefile
+!CMake*
 
 # Unignore all dirs
 !*/
