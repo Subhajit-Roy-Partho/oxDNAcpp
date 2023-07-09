@@ -52,10 +52,20 @@ class Analysis{
             gsl_vector_free(S);
             gsl_vector_free(work);
         }
+        // Output the center for a number of index
+        LR_vector CenterForIndex(int *indexes){
+            int N = sizeof(indexes)/sizeof(int);
+            LR_vector mean={0,0,0};
+            for(int i=0;i<N;i++){
+                mean+= particles[indexes[i]]->r;
+            }
+            mean/=N;
+            return mean;
+        }
 
         bool pickAndPlace(int *cluster, Analysis* particle2){
-            int N = sizeof(cluster)/sizeof(int);
-            LR_vector positions[N];
+            LR_vector center = CenterForIndex(cluster);
+            
 
 
             double points[] = {158720.15575206,42724.03921793,56622.47200362,
@@ -136,13 +146,6 @@ A npMean(A (&vector)[N]){
         result+=vector[i];
     }
     return result/N;
-}
-
-// Output the center for a number of index
-LR_vector npCenter(int *indexes){
-    int N = sizeof(indexes)/sizeof(int);
-    LR_vector positions;
-
 }
 
 // Selected Points
