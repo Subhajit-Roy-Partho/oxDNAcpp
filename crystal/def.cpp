@@ -6,13 +6,12 @@
 #include "LR_vector.h"
 #include <cmath>
 #include <fstream>
-#include <gsl/gsl_linalg.h>
+// #include <gsl/gsl_linalg.h>
 #include <iostream>
 #include <sstream>
 #include <vector>
+#include <eigen3/Eigen/Dense>
 
-// int gsl_linalg_SV_decomp(gsl_matrix *A, gsl_matrix *V, gsl_vector *S,
-// gsl_vector *work)
 
 using namespace std;
 
@@ -31,13 +30,13 @@ struct Traj {
 class Analysis {
 public:
   int particleNum, strands, i;
-  string type;
+  string type,output;
   LR_vector box, energy;
   vector<Particle> particles;
   vector<vector<Traj>> traj; // For storing trajectory;
-  gsl_matrix *V = gsl_matrix_alloc(3, 3);
-  gsl_vector *S = gsl_vector_alloc(3);
-  gsl_vector *work = gsl_vector_alloc(3);
+//   gsl_matrix *V = gsl_matrix_alloc(3, 3);
+//   gsl_vector *S = gsl_vector_alloc(3);
+//   gsl_vector *work = gsl_vector_alloc(3);
   Traj trajtemp;
 
   Analysis(string topology, string config, string type = "",
@@ -45,19 +44,19 @@ public:
            string parameter1 = "", string parameter2 = "") {
     if (type == "crystal") {
       this->type = type;
+      this->output=output;
       readCrystalTopology(topology);
       readConfig(config);
       // pickAndPlace();
     }
   }
   ~Analysis() {
-    gsl_matrix_free(V);
-    gsl_vector_free(S);
-    gsl_vector_free(work);
+    // gsl_matrix_free(V);
+    // gsl_vector_free(S);
+    // gsl_vector_free(work);
   }
   // Output the center for a number of index
-  LR_vector CenterForIndex(int *indexes) {
-    int N = sizeof(indexes) / sizeof(int);
+  LR_vector CenterForIndex(int *indexes,int N) {
     LR_vector mean = {0, 0, 0};
     for (int i = 0; i < N; i++) {
       mean += particles[indexes[i]].r;
@@ -66,15 +65,42 @@ public:
     return mean;
   }
 
-  bool pickAndPlace(int *cluster, Analysis* target) {
-    LR_vector center = CenterForIndex(cluster);
+  LR_vector NormalToPlane(Eigen::MatrixXd points){
+    Eigen::Matrix3d m(3,3);
+    m << points.transpose()*points;
+    Eigen::JacobiSVD<Eigen::MatrixXd> svd(m,Eigen::ComputeFullU| Eigen::ComputeFullV);
+    m=svd.matrixV();
+    return (LR_vector) {m(0,2),m(1,2),m(2,1)};
 
-    double points[] = {158720.15575206, 42724.03921793,  56622.47200362,
-                       42724.03921793,  132381.4182789,  -83288.45034046,
-                       56622.47200362,  -83288.45034046, 100855.62941231};
-    gsl_matrix_view U = gsl_matrix_view_array(points, 3, 3);
-    int pass = gsl_linalg_SV_decomp(&U.matrix, V, S, work);
-    gsl_matrix_fprintf(stdout, V, "%g");
+  };
+
+  bool pickAndPlace(int *cluster,int N,Analysis* target,LR_vector centralShift={0,0,0}) {
+    Eigen::MatrixXd points(N,3);
+
+    LR_vector center = CenterForIndex(cluster,N);
+    for(int i=0;i<N;i++){
+        particles[cluster[i]].r-=center+centralShift;
+        points(i,0)=particles[cluster[i]].r.x;
+        points(i,1)=particles[cluster[i]].r.y;
+        points(i,2)=particles[cluster[i]].r.z;
+    }
+    LR_vector normal = NormalToPlane(points);
+    // cout<< normal<<endl;
+
+    Eigen::Matrix3d Rot;
+    Rot=Eigen::AngleAxisd(acos(normal.x)-M_PI,Eigen::Vector3d::UnitY())*
+        Eigen::AngleAxisd(M_PI-acos(normal.y),Eigen::Vector3d::UnitX());
+
+    points= points*Rot;
+    for (int i=0; i<N;i++){
+        particles[cluster[i]].r={points(i,0),points(i,1),points(i,2)};
+    }
+    writeCrystalTopology();
+    writeConfig();
+    // cout<<points<<"\n\n\n"<<endl;
+    // cout<<points*Rot<<endl;
+
+
     return true;
   };
 
@@ -83,9 +109,45 @@ public:
     return true;
   }
 
+    int writeCrystalTopology(string topology=""){
+    if (topology=="") topology=output+".top";
+    ofstream outputTop(topology);
+    if(!outputTop.is_open()) return 20;
+    outputTop<<particleNum<<" "<<strands<<endl;
+    for(int i=0;i<particleNum;i++){
+        outputTop<<particles[i].strand<<" ";
+    }
+    outputTop.close();
+    return 0;
+  }
+
+  int writeConfig(string config=""){
+    if (config=="") config=output+".dat";
+    ofstream outputConfig(config);
+    if(!outputConfig.is_open()) return 21;
+    outputConfig.precision(15);
+    outputConfig<<"t = 0"<<endl;
+    outputConfig<<"b = "<<box.x<<" "<<box.y<<" "<<box.z<<endl;
+    outputConfig<<"E = 0 0 0"<<endl;
+    for (int i=0;i<particleNum;i++){
+        outputConfig<<particles[i].r.x<<" ";
+        outputConfig<<particles[i].r.y<<" ";
+        outputConfig<<particles[i].r.z<<" ";
+        outputConfig<<particles[i].a1.x<<" ";
+        outputConfig<<particles[i].a1.y<<" ";
+        outputConfig<<particles[i].a1.z<<" ";
+        outputConfig<<particles[i].a3.x<<" ";
+        outputConfig<<particles[i].a3.y<<" ";
+        outputConfig<<particles[i].a3.z<<" ";
+        outputConfig<<"0 0 0 0 0 0"<<endl;
+    }
+    return 0;
+  }
+
 private:
   string line, temp;
   istringstream ss;
+
   int readCrystalTopology(string topology) {
     ifstream inputTop(topology);
     if (!inputTop.is_open())
@@ -104,7 +166,7 @@ private:
     for (i = 0; i < particleNum; i++) {
       ss >> temp;
       particles[i].id = i;
-      particles[i].color = stoi(temp);
+      particles[i].strand = stoi(temp);
     }
     return 0;
   }
@@ -158,7 +220,8 @@ private:
   }
 };
 // Output means
-template <typename A, std::size_t N> A npMean(A (&vector)[N]) {
+template <typename A, std::size_t N> 
+A npMean(A (&vector)[N]) {
   A result = vector[0];
   for (int i = 1; i < N; i++) {
     result += vector[i];
@@ -166,5 +229,15 @@ template <typename A, std::size_t N> A npMean(A (&vector)[N]) {
   return result / N;
 }
 
+// template <typename A>
+
 // Selected Points
 // 1070,134,145,155,1004,1385,560,1291,904,136,1112,126,1355,1850,1384,686,392,1605,618,1024,2027,474,1640,1720,1831,387,1504,947,1832,1262,676,1067,195,121,734,245,217
+
+
+    // double points[] = {158720.15575206, 42724.03921793,  56622.47200362,
+    //                    42724.03921793,  132381.4182789,  -83288.45034046,
+    //                    56622.47200362,  -83288.45034046, 100855.62941231};
+    // gsl_matrix_view U = gsl_matrix_view_array(points, 3, 3);
+    // int pass = gsl_linalg_SV_decomp(&U.matrix, V, S, work);
+    // gsl_matrix_fprintf(stdout, V, "%g");

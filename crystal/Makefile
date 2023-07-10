@@ -1,14 +1,14 @@
 CC = g++
 
-CFLAGS = -g
-INCLUDES = -I/usr/include
+CFLAGS = -g -std=c++11
+INCLUDES = -I/usr/include/
 LIBS = -L/usr/lib -lm -lgsl -lgslcblas
 OBJECTFILES = def.o crystal.o
 
 # Rule to create .o files from .c files
-.c.o:
+.cpp.o:
 	$(RM) $@
-	$(CC) -c $(CFLAGS) $(INCLUDES) $*.c
+	$(CC) -c $(CFLAGS) $(INCLUDES) $*.cpp
 
 #Targets:
 

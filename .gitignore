@@ -3,6 +3,7 @@
 *
 ## Ignore replit extra stuff
 *cache*
+.vscode
 
 # Unignore all with extensions
 !*.*
