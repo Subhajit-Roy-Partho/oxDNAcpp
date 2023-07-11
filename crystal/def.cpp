@@ -27,9 +27,28 @@ struct Traj {
   LR_vector a3;
 };
 
+template <typename A, std::size_t N> 
+A npMean(A (&vector)[N]) {
+  A result = vector[0];
+  for (int i = 1; i < N; i++) {
+    result += vector[i];
+  }
+  return result / N;
+};
+
+template <typename A>
+double npNorm(A vector, int norm =2){
+  if(is_same<A,LR_vector>::value)
+    return pow(pow(vector.x,norm) + pow(vector.y,norm)+pow(vector.z,norm),1.0/(double)norm);
+  
+  return 0;
+}
+
+
 class Analysis {
 public:
   int particleNum, strands, i;
+  double safeMultiplier=2; // Multiplier with safe distance 
   string type,output;
   LR_vector box, energy;
   vector<Particle> particles;
@@ -78,12 +97,17 @@ public:
     Eigen::MatrixXd points(N,3);
 
     LR_vector center = CenterForIndex(cluster,N);
+    // cout<<center<<endl;
+    // cout <<particles[cluster[8]].r<<endl;
     for(int i=0;i<N;i++){
-        particles[cluster[i]].r-=center+centralShift;
-        points(i,0)=particles[cluster[i]].r.x;
-        points(i,1)=particles[cluster[i]].r.y;
-        points(i,2)=particles[cluster[i]].r.z;
+      LR_vector some = particles[cluster[i]].r -particles[cluster[i+1]].r;
+      cout<<some.module()<<endl;
+      particles[cluster[i]].r-=center+centralShift;
+      points(i,0)=particles[cluster[i]].r.x;
+      points(i,1)=particles[cluster[i]].r.y;
+      points(i,2)=particles[cluster[i]].r.z;
     }
+
     LR_vector normal = NormalToPlane(points);
     // cout<< normal<<endl;
 
@@ -91,14 +115,24 @@ public:
     Rot=Eigen::AngleAxisd(acos(normal.x)-M_PI,Eigen::Vector3d::UnitY())*
         Eigen::AngleAxisd(M_PI-acos(normal.y),Eigen::Vector3d::UnitX());
 
+    cout<<(LR_vector) {points(0,0),points(0,1),points(0,2)}<<endl;
     points= points*Rot;
-    for (int i=0; i<N;i++){
-        particles[cluster[i]].r={points(i,0),points(i,1),points(i,2)};
+    double safeDistance=99999999999999999;
+    double dist;
+    for (int i=0;i<N-1;i++){
+      dist = npNorm((LR_vector) {points(i,0),points(i,1),points(i,2)} - (LR_vector){points(i+1,0),points(i+1,1),points(i+1,2)});
+      cout<<dist<<"\t";
+      if(dist<safeDistance) safeDistance=dist;
     }
-    writeCrystalTopology();
-    writeConfig();
-    // cout<<points<<"\n\n\n"<<endl;
-    // cout<<points*Rot<<endl;
+    // cout <<safeDistance<<endl;
+    // cout<<npNorm((LR_vector) {points(0,0),points(0,1),points(0,2)} - (LR_vector){points(1,0),points(1,1),points(1,2)})<<endl;
+
+
+    // for (int i=0; i<N;i++){
+    //     particles[cluster[i]].r={points(i,0),points(i,1),points(i,2)};
+    // }
+    // writeCrystalTopology();
+    // writeConfig();
 
 
     return true;
@@ -219,15 +253,8 @@ private:
     return 0;
   }
 };
-// Output means
-template <typename A, std::size_t N> 
-A npMean(A (&vector)[N]) {
-  A result = vector[0];
-  for (int i = 1; i < N; i++) {
-    result += vector[i];
-  }
-  return result / N;
-}
+
+
 
 // template <typename A>
 
