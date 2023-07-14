@@ -197,7 +197,7 @@ private:
   double subBoxing(double coordinate,double divisor){
     coordinate = std::remainder(coordinate,divisor);
     if(coordinate<0) coordinate+=divisor;
-    return 0; 
+    return coordinate; 
   };
 
   int readCrystalTopology(string topology) {
