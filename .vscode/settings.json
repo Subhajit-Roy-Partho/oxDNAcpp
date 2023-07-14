@@ -1,6 +1,7 @@
 {
     "files.associations": {
         "ostream": "cpp",
-        "dense": "cpp"
+        "dense": "cpp",
+        "cmath": "cpp"
     }
 }

@@ -44,6 +44,9 @@ double npNorm(A vector, int norm =2){
   return 0;
 }
 
+	// LR_vector LRremainder(LR_vector a, LR_vector b){
+	// 	return (LR_vector){std::remainder(a.x,b.x),std::remainder(a.y,b.y),std::remainder(a.z,b.z)};
+	// };
 
 class Analysis {
 public:
@@ -92,16 +95,25 @@ public:
     return (LR_vector) {m(0,2),m(1,2),m(2,1)};
 
   };
+  void inboxing(LR_vector center ={0,0,0}){
+    for(int i=0;i<particleNum;i++){
+      particles[i].r.x = subBoxing(particles[i].r.x,box.x);
+      particles[i].r.y = subBoxing(particles[i].r.y,box.y);
+      particles[i].r.z = subBoxing(particles[i].r.x,box.z);
+    }
+  }
 
   bool pickAndPlace(int *cluster,int N,Analysis* target,LR_vector centralShift={0,0,0}) {
     Eigen::MatrixXd points(N,3);
 
     LR_vector center = CenterForIndex(cluster,N);
+    double t = std::remainder((double)-7.1,(double)3);
+    cout << "Redmainder = "<<t<<endl;
     // cout<<center<<endl;
     // cout <<particles[cluster[8]].r<<endl;
     for(int i=0;i<N;i++){
       LR_vector some = particles[cluster[i]].r -particles[cluster[i+1]].r;
-      cout<<some.module()<<endl;
+      // cout<<some.module()<<endl;
       particles[cluster[i]].r-=center+centralShift;
       points(i,0)=particles[cluster[i]].r.x;
       points(i,1)=particles[cluster[i]].r.y;
@@ -115,13 +127,13 @@ public:
     Rot=Eigen::AngleAxisd(acos(normal.x)-M_PI,Eigen::Vector3d::UnitY())*
         Eigen::AngleAxisd(M_PI-acos(normal.y),Eigen::Vector3d::UnitX());
 
-    cout<<(LR_vector) {points(0,0),points(0,1),points(0,2)}<<endl;
+    // cout<<(LR_vector) {points(0,0),points(0,1),points(0,2)}<<endl;
     points= points*Rot;
     double safeDistance=99999999999999999;
     double dist;
     for (int i=0;i<N-1;i++){
       dist = npNorm((LR_vector) {points(i,0),points(i,1),points(i,2)} - (LR_vector){points(i+1,0),points(i+1,1),points(i+1,2)});
-      cout<<dist<<"\t";
+      // cout<<dist<<"\t";
       if(dist<safeDistance) safeDistance=dist;
     }
     // cout <<safeDistance<<endl;
@@ -181,6 +193,12 @@ public:
 private:
   string line, temp;
   istringstream ss;
+
+  double subBoxing(double coordinate,double divisor){
+    coordinate = std::remainder(coordinate,divisor);
+    if(coordinate<0) coordinate+=divisor;
+    return 0; 
+  };
 
   int readCrystalTopology(string topology) {
     ifstream inputTop(topology);

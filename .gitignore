@@ -19,3 +19,8 @@
 */bin/*
 */build/*
 *.o
+
+## Ignores for replit
+.ccls-cache
+/*cache*/
+.vscode
