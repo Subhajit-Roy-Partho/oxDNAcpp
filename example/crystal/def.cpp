@@ -16,8 +16,8 @@
 using namespace std;
 
 template <typename S>
-ostream& operator<<(ostream& os,
-                    const vector<S>& vector)
+std::ostream& std::operator<<(std::ostream& os,
+                    const std::vector<S>& vector)
 {
     // Printing all the elements
     // using <<
@@ -70,19 +70,19 @@ A npRound(A vector){
 class Analysis {
 public:
   int particleNum, strands, i;
-  double safeMultiplier=1.5; // Multiplier with safe distance 
-  string type,output;
+  double safeMultiplier=1.4; // Multiplier with safe distance 
+  std::string type,output;
   LR_vector box, energy;
-  vector<Particle> particles;
-  vector<vector<Traj>> traj; // For storing trajectory;
+  std::vector<Particle> particles;
+  std::vector<std::vector<Traj>> traj; // For storing trajectory;
 //   gsl_matrix *V = gsl_matrix_alloc(3, 3);
 //   gsl_vector *S = gsl_vector_alloc(3);
 //   gsl_vector *work = gsl_vector_alloc(3);
   Traj trajtemp;
 
-  Analysis(string topology, string config, string type = "",
-           string output = "output", string externalForces = "",
-           string parameter1 = "", string parameter2 = "") {
+  Analysis(std::string topology, std::string config, std::string type = "",
+           std::string output = "output", std::string externalForces = "",
+           std::string parameter1 = "", std::string parameter2 = "") {
     if (type == "crystal") {
       this->type = type;
       this->output=output;
@@ -153,7 +153,7 @@ public:
       if(dist<safeDistance) safeDistance=dist;
     }
     safeDistance *=safeMultiplier;
-    cout <<safeDistance<<endl;
+    // std::cout <<safeDistance<<std::endl;
     std::vector <int> infected,infectedColors;
     // cout <<min_image(1,particles[2].r)<<endl;
     for(int j=0;j<N;j++){
@@ -164,14 +164,14 @@ public:
         }
       }
     }
-    // cout << infectedColors<<endl;
+    if(infected.size()>N) std::cout<<"Please reduce the safe distance multiplier. This feature is work in progress"<<std::endl;
 
     for(int i=0;i<N;i++){
       int tempColor=particles[cluster[i]].strand;
       std::cout << "Color = "<<tempColor<<std::endl;
       std::vector<int>::iterator itr = std::find(infectedColors.begin(),infectedColors.end(),tempColor);
       if(itr!=infectedColors.cend()){
-        int index = distance(infectedColors.begin(),itr);
+        int index = std::distance(infectedColors.begin(),itr);
         cout<< "Index = "<<index<<endl;
         cout<<"Prev:\n"<<infectedColors<<endl;
         infectedColors.erase(infectedColors.begin()+index);
@@ -214,11 +214,11 @@ public:
     return true;
   }
 
-    int writeCrystalTopology(string topology=""){
+    int writeCrystalTopology(std::string topology=""){
     if (topology=="") topology=output+".top";
-    ofstream outputTop(topology);
+    std::ofstream outputTop(topology);
     if(!outputTop.is_open()) return 20;
-    outputTop<<particleNum<<" "<<strands<<endl;
+    outputTop<<particleNum<<" "<<strands<<std::endl;
     for(int i=0;i<particleNum;i++){
         outputTop<<particles[i].strand<<" ";
     }
@@ -226,14 +226,14 @@ public:
     return 0;
   }
 
-  int writeConfig(string config=""){
+  int writeConfig(std::string config=""){
     if (config=="") config=output+".dat";
-    ofstream outputConfig(config);
+    std::ofstream outputConfig(config);
     if(!outputConfig.is_open()) return 21;
     outputConfig.precision(15);
-    outputConfig<<"t = 0"<<endl;
-    outputConfig<<"b = "<<box.x<<" "<<box.y<<" "<<box.z<<endl;
-    outputConfig<<"E = 0 0 0"<<endl;
+    outputConfig<<"t = 0"<<std::endl;
+    outputConfig<<"b = "<<box.x<<" "<<box.y<<" "<<box.z<<std::endl;
+    outputConfig<<"E = 0 0 0"<<std::endl;
     for (int i=0;i<particleNum;i++){
         outputConfig<<particles[i].r.x<<" ";
         outputConfig<<particles[i].r.y<<" ";
@@ -244,7 +244,7 @@ public:
         outputConfig<<particles[i].a3.x<<" ";
         outputConfig<<particles[i].a3.y<<" ";
         outputConfig<<particles[i].a3.z<<" ";
-        outputConfig<<"0 0 0 0 0 0"<<endl;
+        outputConfig<<"0 0 0 0 0 0"<<std::endl;
     }
     return 0;
   }
