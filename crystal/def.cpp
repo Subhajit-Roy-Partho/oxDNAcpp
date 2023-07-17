@@ -15,6 +15,18 @@
 
 using namespace std;
 
+template <typename S>
+ostream& operator<<(ostream& os,
+                    const vector<S>& vector)
+{
+    // Printing all the elements
+    // using <<
+    for (auto element : vector) {
+        os << element << " ";
+    }
+    return os;
+}
+
 class Particle {
 public:
   int id, color, strand;
@@ -27,6 +39,7 @@ struct Traj {
   LR_vector a3;
 };
 
+// Tried to create numpy like function valid for atleast LR_vector
 template <typename A, std::size_t N> 
 A npMean(A (&vector)[N]) {
   A result = vector[0];
@@ -44,14 +57,20 @@ double npNorm(A vector, int norm =2){
   return 0;
 }
 
-	// LR_vector LRremainder(LR_vector a, LR_vector b){
-	// 	return (LR_vector){std::remainder(a.x,b.x),std::remainder(a.y,b.y),std::remainder(a.z,b.z)};
-	// };
+template <typename A>
+A npFloor(A vector){
+  if(is_same<A,LR_vector>::value) return (LR_vector){std::floor(vector.x),std::floor(vector.y),std::floor(vector.z)};
+}
+
+template <typename A>
+A npRound(A vector){
+  if(is_same<A,LR_vector>::value) return (LR_vector){std::round(vector.x),std::round(vector.y),std::round(vector.z)};
+}
 
 class Analysis {
 public:
   int particleNum, strands, i;
-  double safeMultiplier=2; // Multiplier with safe distance 
+  double safeMultiplier=1.5; // Multiplier with safe distance 
   string type,output;
   LR_vector box, energy;
   vector<Particle> particles;
@@ -69,6 +88,7 @@ public:
       this->output=output;
       readCrystalTopology(topology);
       readConfig(config);
+      inboxing();
       // pickAndPlace();
     }
   }
@@ -99,7 +119,7 @@ public:
     for(int i=0;i<particleNum;i++){
       particles[i].r.x = subBoxing(particles[i].r.x,box.x);
       particles[i].r.y = subBoxing(particles[i].r.y,box.y);
-      particles[i].r.z = subBoxing(particles[i].r.x,box.z);
+      particles[i].r.z = subBoxing(particles[i].r.z,box.z);
     }
   }
 
@@ -108,9 +128,6 @@ public:
 
     LR_vector center = CenterForIndex(cluster,N);
     double t = std::remainder((double)-7.1,(double)3);
-    cout << "Redmainder = "<<t<<endl;
-    // cout<<center<<endl;
-    // cout <<particles[cluster[8]].r<<endl;
     for(int i=0;i<N;i++){
       LR_vector some = particles[cluster[i]].r -particles[cluster[i+1]].r;
       // cout<<some.module()<<endl;
@@ -133,22 +150,64 @@ public:
     double dist;
     for (int i=0;i<N-1;i++){
       dist = npNorm((LR_vector) {points(i,0),points(i,1),points(i,2)} - (LR_vector){points(i+1,0),points(i+1,1),points(i+1,2)});
-      // cout<<dist<<"\t";
       if(dist<safeDistance) safeDistance=dist;
     }
-    // cout <<safeDistance<<endl;
-    // cout<<npNorm((LR_vector) {points(0,0),points(0,1),points(0,2)} - (LR_vector){points(1,0),points(1,1),points(1,2)})<<endl;
+    safeDistance *=safeMultiplier;
+    cout <<safeDistance<<endl;
+    std::vector <int> infected,infectedColors;
+    // cout <<min_image(1,particles[2].r)<<endl;
+    for(int j=0;j<N;j++){
+      for(int i=0;i<particleNum;i++){
+        if(min_image(j,target->particles[i].r)<safeDistance && !(std::find(infected.begin(),infected.end(),i)!=infected.end())) {
+          infected.push_back(i);
+          infectedColors.push_back(target->particles[i].strand);
+        }
+      }
+    }
+    // cout << infectedColors<<endl;
 
+    for(int i=0;i<N;i++){
+      int tempColor=particles[cluster[i]].strand;
+      std::cout << "Color = "<<tempColor<<std::endl;
+      std::vector<int>::iterator itr = std::find(infectedColors.begin(),infectedColors.end(),tempColor);
+      if(itr!=infectedColors.cend()){
+        int index = distance(infectedColors.begin(),itr);
+        cout<< "Index = "<<index<<endl;
+        cout<<"Prev:\n"<<infectedColors<<endl;
+        infectedColors.erase(infectedColors.begin()+index);
+        infected.erase(infected.begin()+index);
+        cout <<"Now:\n"<<infectedColors<<endl;
+      }else{
+        cout<<"Outside"<<endl;
+      }
+    }
+    cout <<infected<<endl;
 
-    // for (int i=0; i<N;i++){
-    //     particles[cluster[i]].r={points(i,0),points(i,1),points(i,2)};
-    // }
-    // writeCrystalTopology();
     // writeConfig();
-
-
     return true;
   };
+
+  // Computes the minimum distances for two particles with indices p and q
+  template <typename A,typename B>
+  double min_image(A p, B q){
+    //valid only for cubic box.
+    LR_vector p1,q1;
+    if constexpr(is_same<A,LR_vector>::value){
+      p1=p-npFloor(p/box.x)*box.x;
+    }else if constexpr(is_same<A,int>::value){
+      p1 = particles[p].r-npFloor(particles[p].r/box.x)*box.x;
+    }
+    
+    if constexpr(is_same<B,LR_vector>::value){
+      q1=q-npFloor(q/box.x)*box.x;
+    }else if constexpr(is_same<B,int>::value){
+      q1 = particles[q].r-npFloor(particles[q].r/box.x)*box.x;
+    }
+
+    p1-=q1;
+    p1 -= npRound(p1/box.x)*box.x;
+    return p1.module();
+  }
 
   bool planeFitting(int *cluster, LR_vector center, LR_vector normal) {
 

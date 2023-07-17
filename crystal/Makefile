@@ -1,6 +1,6 @@
 CC = g++
 
-CFLAGS = -g -std=c++11
+CFLAGS = -g -std=c++17
 INCLUDES = -I/usr/include/
 LIBS = -L/usr/lib -lm -lgsl -lgslcblas
 OBJECTFILES = def.o crystal.o
