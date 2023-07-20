@@ -70,7 +70,7 @@ A npRound(A vector){
 class Analysis {
 public:
   int particleNum, strands, i;
-  double safeMultiplier=1.4; // Multiplier with safe distance 
+  double safeMultiplier=1.5; // Multiplier with safe distance 
   std::string type,output;
   LR_vector box, energy;
   std::vector<Particle> particles;
@@ -172,13 +172,14 @@ public:
       std::vector<int>::iterator itr = std::find(infectedColors.begin(),infectedColors.end(),tempColor);
       if(itr!=infectedColors.cend()){
         int index = std::distance(infectedColors.begin(),itr);
-        cout<< "Index = "<<index<<endl;
-        cout<<"Prev:\n"<<infectedColors<<endl;
+        // cout<< "Index = "<<index<<endl;
+        // cout<<"Prev:\n"<<infectedColors<<endl;
+        target->particles[infected[index]].r=particles[cluster[i]].r;
         infectedColors.erase(infectedColors.begin()+index);
         infected.erase(infected.begin()+index);
-        cout <<"Now:\n"<<infectedColors<<endl;
+        // cout <<"Now:\n"<<infectedColors<<endl;
       }else{
-        cout<<"Outside"<<endl;
+        cout<<"Outside\n\n\n"<<endl;
       }
     }
     cout <<infected<<endl;
