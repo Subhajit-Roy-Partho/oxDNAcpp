@@ -10,6 +10,7 @@
 #include <iostream>
 #include <sstream>
 #include <vector>
+#include <ctime>
 #include <eigen3/Eigen/Dense>
 
 
@@ -70,7 +71,7 @@ A npRound(A vector){
 class Analysis {
 public:
   int particleNum, strands, i;
-  double safeMultiplier=1.5; // Multiplier with safe distance 
+  double safeMultiplier=1.4; // Multiplier with safe distance 
   std::string type,output;
   LR_vector box, energy;
   std::vector<Particle> particles;
@@ -121,6 +122,24 @@ public:
       particles[i].r.y = subBoxing(particles[i].r.y,box.y);
       particles[i].r.z = subBoxing(particles[i].r.z,box.z);
     }
+  }
+
+  bool randomReplaceColor(int originalColor,int newColor,int N=1){
+    for(int i=0;i<N;i++){
+      srand(time(0));
+      bool found = false;
+      int random = rand()%particleNum;
+      for(int j=random;j<particleNum;j++){
+        if(particles[j].color==originalColor){particles[j].color=newColor;found=true;}
+      }
+      if(!found){
+        for(int j=random;j<particleNum;j--){
+          if(particles[j].color==originalColor){particles[j].color=newColor;found=true;}
+        }
+      }
+      if(!found) return false;
+    }
+    return true;
   }
 
   bool pickAndPlace(int *cluster,int N,Analysis* target,LR_vector centralShift={0,0,0}) {
@@ -178,8 +197,16 @@ public:
         infectedColors.erase(infectedColors.begin()+index);
         infected.erase(infected.begin()+index);
         // cout <<"Now:\n"<<infectedColors<<endl;
-      }else{
+      }else if(infected.size()>0){
+        // int tempColor = target->particles[infected[0]].color;
+        cout<<randomReplaceColor(particles[cluster[i]].color,target->particles[infected[0]].color)<<endl;
+        target->particles[infected[0]].r = particles[cluster[i]].r;
+        target->particles[infected[0]].color=particles[cluster[i]].color;
+        infectedColors.erase(infectedColors.begin());
+        infected.erase(infected.begin());
         cout<<"Outside\n\n\n"<<endl;
+      }else{
+        cout<<"Reached the sadness of end"<<endl;
       }
     }
     cout <<infected<<endl;
