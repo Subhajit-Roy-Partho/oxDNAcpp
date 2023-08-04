@@ -70,6 +70,56 @@ A npRound(A vector){
 
 class Analysis {
 public:
+class Forces {
+public:
+  std::vector <int> particles;
+  std::vector <float> stiff,rate,position;
+  std::vector <std::string> type;
+  std::vector <LR_vector> dir,pos0;
+
+  bool add(string name,int particle=-1,float stiff=0,LR_vector normal ={1,0,0},LR_vector pos={0,0,0}){
+    type.push_back(name);
+    particles.push_back(particle);
+    dir.push_back(normal);
+    pos0.push_back(pos);
+    this->stiff.push_back(stiff);
+    return true;
+  }
+  bool addRepulsion(int particles=-1,float stiff=1,LR_vector dir={1,0,0},float position=0){
+    type.push_back("repulsion_plane");
+    this->particles.push_back(particles);
+    this->stiff.push_back(stiff);
+    this->dir.push_back(dir);
+    this->position.push_back(position);
+  }
+  bool addHarmonic(int particles=0,float stiff=1,float rate,LR_vector pos0={0,0,0},LR_vector dir={1,0,0}){
+    type.push_back("trap");
+    this->particles.push_back(particles);
+    this->stiff.push_back(stiff);
+    this->rate.push_back(rate);
+    this->pos0.push_back(pos0);
+    this->dir.push_back(dir);
+  }
+
+  bool write(string filename){
+    ofstream file(filename);
+    if(!file.is_open()) return false;
+    for(int i=0;i<type.size();i++){
+      file<<"{"<<std::endl;
+      if(type[i]=="trap"){
+        file<<"type = trap\n";
+        file<<"particle = "<<particles[i]<<endl;
+        file<<"pos0 = "<<pos0[i]<<endl;
+        file<<"stiff = "<<stiff[i]<<endl;
+        file<<"rate = "<<rate[i]<<endl;
+        file<<"dir = "<<dir[i]<<endl;
+      }
+      file<<"}\n";
+    }
+    file.close();
+    return true;
+  }
+};
   int particleNum, strands, i;
   double safeMultiplier=1.4; // Multiplier with safe distance 
   std::string type,output;
@@ -124,22 +174,49 @@ public:
     }
   }
 
-  bool randomReplaceColor(int originalColor,int newColor,int N=1){
+  bool randomReplaceColor(int originalColor,int newColor,vector<int> ignore={},int N=1){
     for(int i=0;i<N;i++){
-      srand(time(0));
+      // srand(time(0));
       bool found = false;
       int random = rand()%particleNum;
       for(int j=random;j<particleNum;j++){
-        if(particles[j].color==originalColor){particles[j].color=newColor;found=true;}
+        if(ignore.size()>0 && std::find(ignore.begin(),ignore.end(),particles[j].id)!=ignore.cend()) continue;
+        // cout<<"id\t"<<j<<"\tOriginal Color "<<originalColor<<"\tNew Color "<<newColor<<"\tParticle Color :"<<particles[j].strand<<endl;
+        if(particles[j].strand==originalColor){particles[j].strand=newColor;return true;}
       }
       if(!found){
-        for(int j=random;j<particleNum;j--){
-          if(particles[j].color==originalColor){particles[j].color=newColor;found=true;}
+        for(int j=random;j>=0;j--){
+          if(ignore.size()>0 && std::find(ignore.begin(),ignore.end(),particles[j].id)!=ignore.cend()) continue;
+          // cout<<"id\t"<<j<<"\tOriginal Color "<<originalColor<<"\tNew Color "<<newColor<<"\tParticle Color :"<<particles[j].strand<<endl;
+          if(particles[j].strand==originalColor){particles[j].strand=newColor;return true;}
         }
       }
       if(!found) return false;
     }
     return true;
+  }
+
+  bool randomReplacePosition(int originalColor,Particle *newParticle,vector<int> ignore={}){
+    srand(time(0));
+    bool found = false;
+    int random = rand()%particleNum;
+    for(int j=random;j<particleNum;j++){
+      if(particles[j].strand==originalColor){
+        particles[j].r=newParticle->r;
+        particles[j].a1=newParticle->a1;
+        particles[j].a3=newParticle->a3;
+        return true;
+      }
+    }
+    for(int j=random;j>=0;j--){
+      if(particles[j].strand==originalColor){
+        particles[j].r=newParticle->r;
+        particles[j].a1=newParticle->a1;
+        particles[j].a3=newParticle->a3;
+        return true;
+      }
+    }
+    return false;
   }
 
   bool pickAndPlace(int *cluster,int N,Analysis* target,LR_vector centralShift={0,0,0}) {
@@ -183,6 +260,7 @@ public:
         }
       }
     }
+    std::vector <int> infectedStore = infected;
     if(infected.size()>N) std::cout<<"Please reduce the safe distance multiplier. This feature is work in progress"<<std::endl;
 
     for(int i=0;i<N;i++){
@@ -194,22 +272,28 @@ public:
         // cout<< "Index = "<<index<<endl;
         // cout<<"Prev:\n"<<infectedColors<<endl;
         target->particles[infected[index]].r=particles[cluster[i]].r;
+        target->particles[infected[index]].a1 = particles[cluster[i]].a1;
+        target->particles[infected[index]].a3 = particles[cluster[i]].a3;
         infectedColors.erase(infectedColors.begin()+index);
         infected.erase(infected.begin()+index);
         // cout <<"Now:\n"<<infectedColors<<endl;
       }else if(infected.size()>0){
         // int tempColor = target->particles[infected[0]].color;
-        cout<<randomReplaceColor(particles[cluster[i]].color,target->particles[infected[0]].color)<<endl;
+        // cout<<particles[cluster[i]].color<<"\t"<<target->particles[infected[0]].color<<endl;
+        cout<<target->randomReplaceColor(tempColor,infectedColors[0],infectedStore)<<endl;
         target->particles[infected[0]].r = particles[cluster[i]].r;
-        target->particles[infected[0]].color=particles[cluster[i]].color;
+        target->particles[infected[0]].a1 = particles[cluster[i]].a1;
+        target->particles[infected[0]].a3 = particles[cluster[i]].a3;
+        target->particles[infected[0]].strand=tempColor;
         infectedColors.erase(infectedColors.begin());
         infected.erase(infected.begin());
         cout<<"Outside\n\n\n"<<endl;
       }else{
-        cout<<"Reached the sadness of end"<<endl;
+        // cout<<"Reached the sadness of end"<<endl;
+        cout<<target->randomReplacePosition(tempColor, &particles[cluster[i]])<<endl;
       }
     }
-    cout <<infected<<endl;
+    cout<<"Full infected list: " <<infectedStore<<endl;
 
     // writeConfig();
     return true;
