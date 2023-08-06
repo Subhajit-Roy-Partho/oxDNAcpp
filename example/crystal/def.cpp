@@ -91,14 +91,16 @@ public:
     this->stiff.push_back(stiff);
     this->dir.push_back(dir);
     this->position.push_back(position);
+    return true;
   }
-  bool addHarmonic(int particles=0,float stiff=1,float rate,LR_vector pos0={0,0,0},LR_vector dir={1,0,0}){
+  bool addHarmonic(int particles=0,float stiff=1,float rate=1,LR_vector pos0={0,0,0},LR_vector dir={1,0,0}){
     type.push_back("trap");
     this->particles.push_back(particles);
     this->stiff.push_back(stiff);
     this->rate.push_back(rate);
     this->pos0.push_back(pos0);
     this->dir.push_back(dir);
+    return true;
   }
 
   bool write(string filename){

@@ -1,0 +1,7 @@
+{
+    type= repulsion_plane
+    particles = -1  # whole system
+    stiff = 1 #48.6 pN
+    dir=0,0,1 # x y plane
+    position = 0 # offset
+}
