@@ -16,5 +16,6 @@ int main(int argNum, char *argv[]) {
   // crystal.inboxing();
   // crystal.writeConfig("inboxed.dat");
   crystal.pickAndPlace(clusters, sizeof(clusters)/sizeof(int),&target,{0,0,0.5});
+  // target.customSeedForces()
   return 0;
 }
