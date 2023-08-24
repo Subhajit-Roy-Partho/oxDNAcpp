@@ -131,13 +131,13 @@ public:
         file << "type = trap\n";
         file << "particle = " << particles[0] << endl;
         particles.erase(particles.begin());
-        file << "pos0 = " << pos0[0] << endl;
+        file << "pos0 = " << pos0[0].x<<","<<pos0[0].y<<","<<pos0[0].z << endl;
         pos0.erase(pos0.begin());
         file << "stiff = " << stiff[0] << endl;
         stiff.erase(stiff.begin());
         file << "rate = " << rate[0] << endl;
         rate.erase(rate.begin());
-        file << "dir = " << dir[0] << endl;
+        file << "dir = " << dir[0].x<<","<<dir[0].y<<","<<dir[0].z << endl;
         dir.erase(dir.begin());
       }
       else if (type[i] == "repulsion_plane")
@@ -147,7 +147,7 @@ public:
         particles.erase(particles.begin());
         file << "stiff = " << stiff[0] << endl;
         stiff.erase(stiff.begin());
-        file << "dir = " << dir[0] << endl;
+        file << "dir = " << dir[0].x<<","<<dir[0].y<<","<<dir[0].z << endl;
         dir.erase(dir.begin());
         file << "position = " << position[0] << endl;
         position.erase(position.begin());
@@ -352,6 +352,7 @@ public:
       }
     }
     inboxing();
+    target->inboxing();
     std::vector<int> infectedStore = infected;
     if (infected.size() > N)
       std::cout << "Please reduce the safe distance multiplier. This feature is work in progress" << std::endl;

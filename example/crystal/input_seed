@@ -36,7 +36,7 @@ move_1 = {
 
 no_stdout_energy = 0
 restart_step_counter = 1
-energy_file = energy.dat
+energy_file = energy_seed.dat
 print_conf_interval = 1e7
 print_energy_every = 1e5
 time_scale = linear
@@ -53,14 +53,10 @@ refresh_vel = 1
 ######## PATCHY SETUP ######
 ############################
 #interaction_type = PLPATCHY_KF_like
-interaction_type = PatchyShape
+interaction_type = PatchyShapeInteraction
 
-#plugin_search_path = /home/petr/projects/venice/SIMULATION/oxDNA_valence_ico2/oxdna-code/oxDNA/contrib/romano/
-#plugin_search_path = /home/petr/projects/venice/SAXS_profiles/latest_oxDNA/oxdna-code/oxDNA/contrib/romano 
-#plugin_search_path =   /home/petr/projects/venice/SAXS/oxDNA/contrib/romano
+plugin_search_path = /home/gila/Documents/Archive/oxDNA/contrib/romano
 
-#plugin_search_path = /home/petr/workspace/latest_patches/oxdna-code/oxDNA/contrib/romano/
-#interaction_type = PLPATCHY
 shape = sphere
 particle_types_N = 4
 patch_types_N  = 24
@@ -74,7 +70,7 @@ interaction_tensor = 0
 
 PATCHY_radius = 0.4
 
-lastconf_file = last_conf2.BIG.dat
+lastconf_file = last_conf_seed.dat
 
 ##############################
 ####    INPUT / OUTPUT    ####
@@ -82,16 +78,18 @@ lastconf_file = last_conf2.BIG.dat
 topology = BIG.top
 conf_file = BIG.conf
 trajectory_file = trajectory.dat
-log_file = log.ign
+external_forces=1
+external_forces_file = external_forces
 
 
-#data_output_1 = {
-# name = clusters.txt
-# print_every = 2e6
-# col_1 = {
-#   type = PLCluster
-#   show_types = 1
-# }
-#}
+
+data_output_1 = {
+ name = clusters.txt
+ print_every = 2e6
+ col_1 = {
+   type = PLCluster
+   show_types = 1
+ }
+}
 
 
