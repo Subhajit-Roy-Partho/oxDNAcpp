@@ -4,39 +4,8 @@ INFO: Initializing backend
 WARNING: The 'backend_precision' option cannot be set by input file when running on CPU
 
 INFO: Simulation type: MD
-INFO: The generator will try to take into account bonded interactions by choosing distances between bonded neighbours no larger than 2.000000
-INFO: Using excluded volume shape 0 (sphere)
-INFO: Using no_multipatch option: 1; only makes sense if used with MC2 MCMovePatchyShape!
-INFO: Particles of the same type can bond
-INFO: Particle of type 0 adding a patch of color 21
-INFO: Particle of type 0 adding a patch of color 22
-INFO: Particle of type 0 adding a patch of color 23
-INFO: Particle of type 0 adding a patch of color 24
-INFO: Particle of type 0 adding a patch of color 25
-INFO: Particle of type 0 adding a patch of color 26
-INFO: Particle of type 0 has 0 vertexes
-INFO: Particle of type 1 adding a patch of color 27
-INFO: Particle of type 1 adding a patch of color -22
-INFO: Particle of type 1 adding a patch of color 28
-INFO: Particle of type 1 adding a patch of color 29
-INFO: Particle of type 1 adding a patch of color -25
-INFO: Particle of type 1 adding a patch of color 30
-INFO: Particle of type 1 has 0 vertexes
-INFO: Particle of type 2 adding a patch of color 31
-INFO: Particle of type 2 adding a patch of color -28
-INFO: Particle of type 2 adding a patch of color -21
-INFO: Particle of type 2 adding a patch of color 32
-INFO: Particle of type 2 adding a patch of color -30
-INFO: Particle of type 2 adding a patch of color -24
-INFO: Particle of type 2 has 0 vertexes
-INFO: Particle of type 3 adding a patch of color -27
-INFO: Particle of type 3 adding a patch of color -31
-INFO: Particle of type 3 adding a patch of color -23
-INFO: Particle of type 3 adding a patch of color -29
-INFO: Particle of type 3 adding a patch of color -32
-INFO: Particle of type 3 adding a patch of color -26
-INFO: Particle of type 3 has 0 vertexes
-INFO: Loaded 24 patch types and 4 particle types
-INFO: (PatchyShapeInteraction) using radius=0.4, alpha=0.12, cutoff=-0.1, multipatch=1
-INFO: pid: 480148
-INFO: INFO: setting _patch_E_cut to -0.000000 which is -0.000000, with alpha=0.120000
+WARNING: Plugin shared library 'PatchyShapeInteraction.so' not found
+INFO: Aggregated I/O statistics (set debug=1 for file-wise information)
+	  0.000  B written to files
+	  0.000  B written to stdout/stderr
+ERROR: Interaction 'PatchyShapeInteraction' not found. Aborting

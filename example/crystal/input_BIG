@@ -53,11 +53,12 @@ refresh_vel = 1
 ######## PATCHY SETUP ######
 ############################
 #interaction_type = PLPATCHY_KF_like
-interaction_type = PatchyShape
+interaction_type = PatchyShapeInteraction
 
 #plugin_search_path = /home/petr/projects/venice/SIMULATION/oxDNA_valence_ico2/oxdna-code/oxDNA/contrib/romano/
 #plugin_search_path = /home/petr/projects/venice/SAXS_profiles/latest_oxDNA/oxdna-code/oxDNA/contrib/romano 
 #plugin_search_path =   /home/petr/projects/venice/SAXS/oxDNA/contrib/romano
+plugin_search_path  = /scratch/sroy85/Software/oxDNA/contrib/romano
 
 #plugin_search_path = /home/petr/workspace/latest_patches/oxdna-code/oxDNA/contrib/romano/
 #interaction_type = PLPATCHY
@@ -80,12 +81,12 @@ lastconf_file = last_conf2.BIG.dat
 ####    INPUT / OUTPUT    ####
 ##############################
 topology = BIG.top
-conf_file = BIG.conf
+conf_file = output.conf
 trajectory_file = trajectory.dat
-log_file = log.ign
+external_forces = 1
+external_forces_file = external_forces.txt
 
-
-#data_output_1 = {
+data_output_1 = {
 # name = clusters.txt
 # print_every = 2e6
 # col_1 = {
