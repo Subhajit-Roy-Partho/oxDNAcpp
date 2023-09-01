@@ -81,18 +81,18 @@ lastconf_file = last_conf2.BIG.dat
 ####    INPUT / OUTPUT    ####
 ##############################
 topology = BIG.top
-conf_file = output.conf
+conf_file = BIG.conf
 trajectory_file = trajectory.dat
 external_forces = 1
 external_forces_file = external_forces.txt
 
 data_output_1 = {
-# name = clusters.txt
-# print_every = 2e6
-# col_1 = {
-#   type = PLCluster
-#   show_types = 1
-# }
-#}
+ name = clusters.txt
+ print_every = 2e6
+ col_1 = {
+   type = PLCluster
+   show_types = 1
+ }
+}
 
 

@@ -1,0 +1,141 @@
+INFO: seeding the RNG with 10
+INFO: Initializing backend 
+INFO: Backend precision: double
+INFO: Simulation type: MD
+INFO: Using excluded volume shape 0 (sphere)
+INFO: Using no_multipatch option: 1; only makes sense if used with MC2 MCMovePatchyShape!
+INFO: Particles of the same type can bond
+INFO: Particle of type 0 adding a patch of color 21
+INFO: Particle of type 0 adding a patch of color 22
+INFO: Particle of type 0 adding a patch of color 23
+INFO: Particle of type 0 adding a patch of color 24
+INFO: Particle of type 0 adding a patch of color 25
+INFO: Particle of type 0 adding a patch of color 26
+INFO: Particle of type 0 has 0 vertexes
+INFO: Particle of type 1 adding a patch of color 27
+INFO: Particle of type 1 adding a patch of color -22
+INFO: Particle of type 1 adding a patch of color 28
+INFO: Particle of type 1 adding a patch of color 29
+INFO: Particle of type 1 adding a patch of color -25
+INFO: Particle of type 1 adding a patch of color 30
+INFO: Particle of type 1 has 0 vertexes
+INFO: Particle of type 2 adding a patch of color 31
+INFO: Particle of type 2 adding a patch of color -28
+INFO: Particle of type 2 adding a patch of color -21
+INFO: Particle of type 2 adding a patch of color 32
+INFO: Particle of type 2 adding a patch of color -30
+INFO: Particle of type 2 adding a patch of color -24
+INFO: Particle of type 2 has 0 vertexes
+INFO: Particle of type 3 adding a patch of color -27
+INFO: Particle of type 3 adding a patch of color -31
+INFO: Particle of type 3 adding a patch of color -23
+INFO: Particle of type 3 adding a patch of color -29
+INFO: Particle of type 3 adding a patch of color -32
+INFO: Particle of type 3 adding a patch of color -26
+INFO: Particle of type 3 has 0 vertexes
+INFO: Loaded 24 patch types and 4 particle types
+INFO: (PatchyShapeInteraction) using radius=0.4, alpha=0.12, cutoff=-0.1, multipatch=1
+INFO: pid: 31781
+INFO: INFO: setting _patch_E_cut to -0.000000 which is -0.000000, with alpha=0.120000
+INFO: There were 2048 particles, 4 types, and finished allocation, and line was 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 , and N_particle types was 4
+INFO: Parsing Force file external_forces.txt
+INFO:    Using temporary file
+INFO: Adding RepulsionPlane (stiff=1, position=0, dir=0,0,1, on ALL particles
+INFO:    Using temporary file
+INFO: Adding RepulsionPlane (stiff=1, position=27.3596, dir=0,0,-1, on ALL particles
+INFO:    Using temporary file
+INFO: Adding MovingTrap (stiff=1, rate=0, dir=1,0,0, pos0=2.30517,27.1809,17.9687 on particle 418
+INFO:    Using temporary file
+INFO: Adding MovingTrap (stiff=1, rate=0, dir=1,0,0, pos0=26.2699,26.6704,14.71 on particle 155
+INFO:    Using temporary file
+INFO: Adding MovingTrap (stiff=1, rate=0, dir=1,0,0, pos0=1.86713,25.8436,16.6024 on particle 403
+INFO:    Using temporary file
+INFO: Adding MovingTrap (stiff=1, rate=0, dir=1,0,0, pos0=2.14519,26.5129,17.2521 on particle 558
+INFO:    Using temporary file
+INFO: Adding MovingTrap (stiff=1, rate=0, dir=1,0,0, pos0=0.761329,26.6896,15.5226 on particle 1162
+INFO:    Using temporary file
+INFO: Adding MovingTrap (stiff=1, rate=0, dir=1,0,0, pos0=3.05912,27.2055,18.5458 on particle 810
+INFO:    Using temporary file
+INFO: Adding MovingTrap (stiff=1, rate=0, dir=1,0,0, pos0=27.2945,26.4246,17.2841 on particle 514
+INFO:    Using temporary file
+INFO: Adding MovingTrap (stiff=1, rate=0, dir=1,0,0, pos0=25.3524,26.5946,16.46 on particle 749
+INFO:    Using temporary file
+INFO: Adding MovingTrap (stiff=1, rate=0, dir=1,0,0, pos0=0.36989,26.5811,16.4109 on particle 753
+INFO:    Using temporary file
+INFO: Adding MovingTrap (stiff=1, rate=0, dir=1,0,0, pos0=0.676456,0.433391,17.8597 on particle 1631
+INFO:    Using temporary file
+INFO: Adding MovingTrap (stiff=1, rate=0, dir=1,0,0, pos0=26.4134,0.516201,17.1003 on particle 672
+INFO:    Using temporary file
+INFO: Adding MovingTrap (stiff=1, rate=0, dir=1,0,0, pos0=0.997903,25.9327,16.0988 on particle 2040
+INFO:    Using temporary file
+INFO: Adding MovingTrap (stiff=1, rate=0, dir=1,0,0, pos0=25.9809,0.381044,17.9742 on particle 528
+INFO:    Using temporary file
+INFO: Adding MovingTrap (stiff=1, rate=0, dir=1,0,0, pos0=26.5495,1.25801,17.7827 on particle 531
+INFO:    Using temporary file
+INFO: Adding MovingTrap (stiff=1, rate=0, dir=1,0,0, pos0=0.155007,25.9672,15.6944 on particle 439
+INFO:    Using temporary file
+INFO: Adding MovingTrap (stiff=1, rate=0, dir=1,0,0, pos0=26.5593,25.9286,15.3182 on particle 969
+INFO:    Using temporary file
+INFO: Adding MovingTrap (stiff=1, rate=0, dir=1,0,0, pos0=0.0546479,1.18533,18.1408 on particle 1942
+INFO:    Using temporary file
+INFO: Adding MovingTrap (stiff=1, rate=0, dir=1,0,0, pos0=24.9194,1.74641,17.679 on particle 592
+INFO:    Using temporary file
+INFO: Adding MovingTrap (stiff=1, rate=0, dir=1,0,0, pos0=25.9048,26.6325,15.6475 on particle 620
+INFO:    Using temporary file
+INFO: Adding MovingTrap (stiff=1, rate=0, dir=1,0,0, pos0=26.1265,27.2118,16.3617 on particle 1768
+INFO:    Using temporary file
+INFO: Adding MovingTrap (stiff=1, rate=0, dir=1,0,0, pos0=25.6023,26.0273,15.0335 on particle 342
+INFO:    Using temporary file
+INFO: Adding MovingTrap (stiff=1, rate=0, dir=1,0,0, pos0=2.52561,26.5926,16.3316 on particle 202
+INFO:    Using temporary file
+INFO: Adding MovingTrap (stiff=1, rate=0, dir=1,0,0, pos0=27.0564,27.1591,16.8338 on particle 905
+INFO:    Using temporary file
+INFO: Adding MovingTrap (stiff=1, rate=0, dir=1,0,0, pos0=24.7766,1.0304,16.9555 on particle 1626
+INFO:    Using temporary file
+INFO: Adding MovingTrap (stiff=1, rate=0, dir=1,0,0, pos0=2.87981,0.527966,17.8519 on particle 1168
+INFO:    Using temporary file
+INFO: Adding MovingTrap (stiff=1, rate=0, dir=1,0,0, pos0=1.88139,26.0208,17.8992 on particle 1174
+INFO:    Using temporary file
+INFO: Adding MovingTrap (stiff=1, rate=0, dir=1,0,0, pos0=0.547815,27.0922,17.178 on particle 1474
+INFO:    Force file parsed
+INFO: (Cells.cpp) N_cells_side: 16, 16, 16; rcut=1.3, IS_MC: 0
+INFO: N: 2048
+INFO: Using randomly distributed velocities
+INFO: Initial kinetic energy: 758.241050
+INFO: SVN CODE VERSION: Unversioned directory
+INFO: COMPILED ON: 30/08/23
+INFO: diffusion fixed.. -148.96 -148.96
+INFO: diffusion fixed.. -272.589 -272.589
+INFO: diffusion fixed.. -354.623 -354.623
+INFO: diffusion fixed.. -448.775 -448.775
+INFO: diffusion fixed.. -540.832 -540.832
+INFO: diffusion fixed.. -617.491 -617.491
+INFO: diffusion fixed.. -679.812 -679.812
+INFO: diffusion fixed.. -694.394 -694.394
+INFO: diffusion fixed.. -748.469 -748.469
+INFO: diffusion fixed.. -776.769 -776.769
+INFO: diffusion fixed.. -783.609 -783.609
+INFO: diffusion fixed.. -812.035 -812.035
+INFO: diffusion fixed.. -829.161 -829.161
+INFO: diffusion fixed.. -862.303 -862.303
+INFO: diffusion fixed.. -877.708 -877.708
+INFO: diffusion fixed.. -909.822 -909.822
+INFO: diffusion fixed.. -915.288 -915.288
+INFO: diffusion fixed.. -886.838 -886.838
+INFO: diffusion fixed.. -899.09 -899.09
+INFO: diffusion fixed.. -945.645 -945.645
+INFO: diffusion fixed.. -927.19 -927.19
+INFO: diffusion fixed.. -943.155 -943.155
+INFO: diffusion fixed.. -956.11 -956.11
+INFO: diffusion fixed.. -947.977 -947.977
+INFO: diffusion fixed.. -960.298 -960.298
+INFO: diffusion fixed.. -948.539 -948.539
+INFO: diffusion fixed.. -957.805 -957.805
+INFO: diffusion fixed.. -960.833 -960.833
+INFO: diffusion fixed.. -949.212 -949.212
+INFO: diffusion fixed.. -967.539 -967.539
+INFO: diffusion fixed.. -975.303 -975.303
+INFO: diffusion fixed.. -967.375 -967.375
+INFO: diffusion fixed.. -973.407 -973.407
+INFO: diffusion fixed.. -971.45 -971.45
+slurmstepd: error: *** JOB 22042022 ON cg21-1 CANCELLED AT 2023-09-01T04:11:23 DUE TO TIME LIMIT ***

@@ -6,6 +6,13 @@ dir = 0,0,1
 position = 0
 }
 {
+type = repulsion_plane
+particle = -1
+stiff = 1
+dir = 0,0,-1
+position = 27.3596151468271
+}
+{
 type = trap
 particle = 418
 pos0 = 2.30517,27.1809,17.9687
