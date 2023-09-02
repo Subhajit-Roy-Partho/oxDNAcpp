@@ -18,9 +18,9 @@ newtonian_steps = 103
 diff_coeff = 0.1
 thermostat = john
 
-sim_type = MD
+sim_type = MC
 dt = 0.001
-verlet_skin = 0.05
+verlet_skin = 0.2
 
 #sim_type = MC2
 move_1 = {
@@ -80,8 +80,8 @@ lastconf_file = last_conf2.BIG.dat
 ##############################
 ####    INPUT / OUTPUT    ####
 ##############################
-topology = BIG.top
-conf_file = BIG.conf
+topology = output.top
+conf_file = output.dat
 trajectory_file = trajectory.dat
 external_forces = 1
 external_forces_file = external_forces.txt
