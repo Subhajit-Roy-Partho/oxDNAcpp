@@ -32,6 +32,20 @@ class Particle
 public:
   int id, color, strand;
   LR_vector r = {0, 0, 0}, a1, a3;
+  inline void operator&=(Particle S){
+    r=S.r;
+    a1=S.a1;
+    a3=S.a3;
+    // color=S.color;
+    // strand=S.strand;
+  }
+  inline void operator+=(Particle S){
+        r=S.r;
+    a1=S.a1;
+    a3=S.a3;
+    color=S.color;
+    strand=S.strand;
+  }
 };
 
 struct Traj
@@ -164,7 +178,7 @@ class Analysis
 public:
   int particleNum, strands, i;
   double safeMultiplier = 1.4; // Multiplier with safe distance
-  std::string type, output;
+  std::string type, output,topology;
   LR_vector box, energy;
   std::vector<Particle> particles;
   std::vector<std::vector<Traj>> traj; // For storing trajectory;
@@ -173,14 +187,12 @@ public:
                                        //   gsl_vector *work = gsl_vector_alloc(3);
   Traj trajtemp;
 
-  Analysis(std::string topology, std::string config, std::string type = "",
-           std::string output = "output", std::string externalForces = "",
-           std::string parameter1 = "", std::string parameter2 = "")
-  {
+  Analysis(std::string topology, std::string config, std::string type = "", std::string output = "output", std::string externalForces = "", std::string parameter1 = "", std::string parameter2 = ""){
     if (type == "crystal")
     {
       this->type = type;
       this->output = output;
+      this->topology = topology;
       readCrystalTopology(topology);
       readConfig(config);
       inboxing();
@@ -194,11 +206,9 @@ public:
     // gsl_vector_free(work);
   }
   // Output the center for a number of index
-  LR_vector CenterForIndex(int *indexes, int N)
-  {
+  LR_vector CenterForIndex(int *indexes, int N){
     LR_vector mean = {0, 0, 0};
-    for (int i = 0; i < N; i++)
-    {
+    for (int i = 0; i < N; i++){
       mean += particles[indexes[i]].r;
     }
     mean /= N;
@@ -301,9 +311,22 @@ public:
     return false;
   }
 
-  bool pickAndPlace(int *cluster, int N, Analysis *target, LR_vector centralShift = {0, 0, 0})
+  // bool mimicParticles(Particle* A, Particle* B){
+    
+  // }
+
+  // bool deleteExcept(Analysis* A, std::vector<int> select){
+  //   for(int i=0;i<particleNum;i++){
+  //     if(particles)
+  //   }
+  //   particleNum=select.size();
+  // }
+
+  // bool pickAndPlace(int *cluster, int N, Analysis *target, LR_vector centralShift = {0, 0, 0})
+  bool pickAndPlace(int *cluster, int N, string tname, LR_vector centralShift = {0, 0, 0})
   {
-    target->inboxing();
+    Analysis target(topology, "BIG.conf", "crystal");
+    target.inboxing();
     Eigen::MatrixXd points(N, 3);
 
     LR_vector center = CenterForIndex(cluster, N);
@@ -337,6 +360,7 @@ public:
         safeDistance = dist;
     }
     safeDistance *= safeMultiplier;
+    // writeConfig();
     // std::cout <<safeDistance<<std::endl;
     std::vector<int> infected, infectedColors;
     // cout <<min_image(1,particles[2].r)<<endl;
@@ -344,68 +368,95 @@ public:
     {
       for (int i = 0; i < particleNum; i++)
       {
-        if (min_image(j, target->particles[i].r) < safeDistance && !(std::find(infected.begin(), infected.end(), i) != infected.end()))
+        if (min_image(j, target.particles[i].r) < safeDistance && !(std::find(infected.begin(), infected.end(), i) != infected.end()))
         {
           infected.push_back(i);
-          infectedColors.push_back(target->particles[i].strand);
+          infectedColors.push_back(target.particles[i].strand);
         }
       }
     }
     inboxing();
-    target->inboxing();
+    target.inboxing();
     std::vector<int> infectedStore = infected;
+    cout << "Full infected list : "<<infected<<endl;
+    cout << "N  "<< N << "   I   "<<infected.size()<<endl;
     if (infected.size() > N)
       std::cout << "Please reduce the safe distance multiplier. This feature is work in progress" << std::endl;
 
-    for (int i = 0; i < N; i++)
-    {
-      int tempColor = particles[cluster[i]].strand;
-      std::vector<int>::iterator itr = std::find(infectedColors.begin(), infectedColors.end(), tempColor);
-      if (itr != infectedColors.cend())
-      {
-        int index = std::distance(infectedColors.begin(), itr);
-        target->particles[infected[index]].r = particles[cluster[i]].r;
-        target->particles[infected[index]].a1 = particles[cluster[i]].a1;
-        target->particles[infected[index]].a3 = particles[cluster[i]].a3;
-        cout<<infected[index]<<particles[cluster[i]].r<<endl;
-        infectedColors.erase(infectedColors.begin() + index);
-        infected.erase(infected.begin() + index);
-      }
-      else if (infected.size() > 0)
-      {
-        int tempColor = target->particles[infected[0]].color;
-        cout << infected[0]<<endl;
-        target->randomReplaceColor(tempColor, infectedColors[0], infectedStore);
-        target->particles[infected[0]].r = particles[cluster[i]].r;
-        target->particles[infected[0]].a1 = particles[cluster[i]].a1;
-        target->particles[infected[0]].a3 = particles[cluster[i]].a3;
-        target->particles[infected[0]].strand = tempColor;
-        infectedColors.erase(infectedColors.begin());
-        infected.erase(infected.begin());
-        // cout << "Outside\n\n\n"<< endl;
-      }
-      else
-      {
-        // cout<<"Reached the sadness of end"<<endl;
-        target->randomReplacePosition(tempColor, &particles[cluster[i]]);
-      }
-    }
 
     // for (int i=0;i<N;i++){
-    //   target->particles[i].r = particles[cluster[i]].r;
+    //   cout <<particles[infected[i]].r<<endl;
     // }
-    cout << "Full infected list: " << infectedStore << endl;
-    target->inboxing();
-    target->customSeedForces(infectedStore);
-    target->writeConfig();
-    // writeConfig();
+
+    for (int i=0;i<infected.size();i++){
+      target.particles[infected[i]]+=particles[cluster[i]];
+      cout << infected[i]<<",";
+      // <<target.particles[infected[i]].r <<particles[cluster[i]].r<< endl;
+    }
+    int p = infected.size();
+    for (int j = 0; j < N; j++){
+      for (int i = 0; i < particleNum; i++){
+        if (min_image(j, target.particles[i].r) < safeDistance+0.2 && min_image(j, target.particles[i].r) > safeDistance && !(std::find(infected.begin(), infected.end(), i) != infected.end())){
+          infected.push_back(i);
+          infectedColors.push_back(target.particles[i].strand);
+        }
+      }
+    }
+    for (int i=p;i<N;i++){
+      target.particles[infected[i]]+=particles[cluster[i]];
+      cout << infected[i]<<",";
+    }
+    
+    // cout << infected << endl;
+
+    // for (int i = 0; i < N; i++){
+    //   int tempColor = particles[cluster[i]].strand;
+    //   std::vector<int>::iterator itr = std::find(infectedColors.begin(), infectedColors.end(), tempColor);
+    //   if (itr != infectedColors.cend()){
+    //     int index = std::distance(infectedColors.begin(), itr);
+    //     target.particles[infected[index]]=particles[cluster[i]];
+    //     infectedColors.erase(infectedColors.begin() + index);
+    //     infected.erase(infected.begin() + index);
+    //   }else if (infected.size() > 0){
+    //     cout<<infected<<endl;
+
+
+
+
+
+
+    //     // int tempColor = target.particles[infected[0]].color;
+    // //     // cout << infected[0]<<endl;
+    // //     target.randomReplaceColor(tempColor, infectedColors[0], infectedStore);
+    // //     target.particles[infected[0]].r = particles[cluster[i]].r;
+    // //     target.particles[infected[0]].a1 = particles[cluster[i]].a1;
+    // //     target.particles[infected[0]].a3 = particles[cluster[i]].a3;
+    // //     target.particles[infected[0]].strand = tempColor;
+    // //     infectedColors.erase(infectedColors.begin());
+    // //     infected.erase(infected.begin());
+    // //     // cout << "Outside\n\n\n"<< endl;
+    //   }
+    //   else
+    //   {
+    // //     // cout<<"Reached the sadness of end"<<endl;
+    // //     target.randomReplacePosition(tempColor, &particles[cluster[i]]);
+    //   }
+    // } 
+
+    // // for (int i=0;i<N;i++){
+    // //   target.particles[i].r = particles[cluster[i]].r;
+    // // }
+    // cout << "Full infected list: " << infectedStore << endl;
+    target.inboxing();
+    target.customSeedForces(infectedStore);
+    target.writeConfig();
+    target.writeCrystalTopology();
+    cout<<target.particles[418].r<<endl;
     return true;
   };
 
   // Computes the minimum distances for two particles with indices p and q
-  template <typename A, typename B>
-  double min_image(A p, B q)
-  {
+  template <typename A, typename B>double min_image(A p, B q){
     // valid only for cubic box.
     LR_vector p1, q1;
     if constexpr (is_same<A, LR_vector>::value)
@@ -431,30 +482,28 @@ public:
     return p1.module();
   }
 
-  bool planeFitting(int *cluster, LR_vector center, LR_vector normal)
-  {
+  bool planeFitting(int *cluster, LR_vector center, LR_vector normal){
 
     return true;
   }
 
-  int writeCrystalTopology(std::string topology = "")
-  {
+  bool writeCrystalTopology(std::string topology = ""){
     if (topology == "")
       topology = output + ".top";
     std::ofstream outputTop(topology);
     if (!outputTop.is_open())
-      return 20;
+      return false;
     outputTop << particleNum << " " << strands << std::endl;
     for (int i = 0; i < particleNum; i++)
     {
       outputTop << particles[i].strand << " ";
     }
     outputTop.close();
-    return 0;
+    return true;
   }
 
-  int writeConfig(std::string config = "")
-  {
+  bool writeConfig(std::string config = ""){
+
     if (config == "")
       config = output + ".dat";
     std::ofstream outputConfig(config);
@@ -484,16 +533,14 @@ private:
   string line, temp;
   istringstream ss;
 
-  double subBoxing(double coordinate, double divisor)
-  {
+  double subBoxing(double coordinate, double divisor){
     coordinate = std::remainder(coordinate, divisor);
     if (coordinate < 0)
       coordinate += divisor;
     return coordinate;
   };
 
-  int readCrystalTopology(string topology)
-  {
+  int readCrystalTopology(string topology){
     ifstream inputTop(topology);
     if (!inputTop.is_open())
       return 10;
@@ -517,8 +564,7 @@ private:
     return 0;
   }
 
-  int readConfig(string config)
-  {
+  int readConfig(string config){
     ifstream inputConfig(config);
     if (!inputConfig.is_open())
       return 11;
@@ -557,14 +603,12 @@ private:
     return 0;
   }
 
-  int readPatches(string patches)
-  {
+  int readPatches(string patches){
     ifstream inputPatches(patches);
     return 0;
   }
 
-  int readParticles(string crystalpar)
-  {
+  int readParticles(string crystalpar){
     ifstream inputCrystal(crystalpar);
     return 0;
   }
