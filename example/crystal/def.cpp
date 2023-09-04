@@ -245,6 +245,15 @@ public:
     return true;
   };
 
+  bool correctA(string newFile){
+    Analysis newPar(topology,newFile,"crystal");
+    for(int i=0;i<particleNum;i++){
+      particles[i].a1=newPar.particles[i].a1;
+      particles[i].a3=newPar.particles[i].a3;
+    }
+    return true;
+  }
+
   bool randomReplaceColor(int originalColor, int newColor, vector<int> ignore = {}, int N = 1)
   {
     for (int i = 0; i < N; i++)

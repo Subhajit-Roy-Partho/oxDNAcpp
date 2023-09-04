@@ -81,10 +81,10 @@ lastconf_file = last_conf2.BIG.dat
 ####    INPUT / OUTPUT    ####
 ##############################
 topology = output.top
-conf_file = output.dat
+conf_file = newTest.dat
 trajectory_file = trajectory.dat
 external_forces = 1
-external_forces_file = external_forces.txt
+external_forces_file = forces.txt
 
 data_output_1 = {
  name = clusters.txt
