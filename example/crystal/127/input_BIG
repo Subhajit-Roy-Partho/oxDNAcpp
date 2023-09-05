@@ -47,7 +47,7 @@ steps = 5e10
 check_energy_every = 10000
 check_energy_threshold = 1.e-4
 
-T = 0.130
+T = 0.127
 refresh_vel = 1
 ############################
 ######## PATCHY SETUP ######

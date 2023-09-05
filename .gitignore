@@ -25,3 +25,6 @@
 /*cache*/
 .vscode
 .vscode/
+
+## Ignore trajectory
+trajectory*.dat
