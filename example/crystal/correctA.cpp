@@ -2,8 +2,8 @@
 
 int main(int argNum, char *argv[]) {
 
-  Analysis crystal("output.top", "test.dat", "crystal");
+  Analysis crystal("output.top", "./4crystals/test.txt", "crystal");
   crystal.correctA("output.dat");
-  crystal.writeConfig("newTest");
+  crystal.writeConfig("./4crystals/newTest.dat");
   return 0;
 }
