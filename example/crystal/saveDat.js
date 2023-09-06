@@ -25,7 +25,7 @@ function download(filename, text) {
 }
 
 function repulsion_plane(position, dir){
-  return `\n{\ntype = repulsion_plane\nparticle = -1\nstiff = 1\ndir = ${dir[0]}, ${dir[0]}, ${dir[0]}\nposition = ${position}\n}`
+  return `\n{\ntype = repulsion_plane\nparticle = -1\nstiff = 1\ndir = ${dir[0]}, ${dir[1]}, ${dir[2]}\nposition = ${position}\n}`
 }
 
 function trap(particle, position){
