@@ -2,7 +2,7 @@
 // crystal outputName topfile
 // Error 10 = can't open top file
 
-#include "def.cpp"
+#include "DNAcpp.h"
 
 int main(int argNum, char *argv[]) {
 

@@ -3,29 +3,11 @@
 11 - error opening input Config
 */
 
-#include "LR_vector.h"
-#include <cmath>
-#include <fstream>
-#include <iostream>
-#include <sstream>
-#include <vector>
-#include <ctime>
 #include <eigen3/Eigen/Dense>
 // #include <gsl/gsl_linalg.h>
 
 using namespace std;
 
-template <typename S>
-std::ostream &std::operator<<(std::ostream &os, const std::vector<S> &vector)
-{
-  // Printing all the elements
-  // using <<
-  for (auto element : vector)
-  {
-    os << element << " ";
-  }
-  return os;
-}
 
 class Particle
 {
