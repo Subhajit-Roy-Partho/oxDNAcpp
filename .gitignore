@@ -28,3 +28,6 @@
 
 ## Ignore trajectory
 trajectory*.dat
+
+## Ignore intermediate files
+*.gch *.out *.o
