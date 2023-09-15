@@ -9,8 +9,7 @@
 #ifndef SRC_UTILITIES_LR_VECTOR_H_
 #define SRC_UTILITIES_LR_VECTOR_H_
 
-#include <cmath>
-#include <iostream>
+
 
 #ifdef FLOAT_PRECISION
 using number = float;
