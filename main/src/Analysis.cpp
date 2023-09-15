@@ -1,86 +1,6 @@
-class Forces
-{
-public:
-  std::vector<int> particles;
-  std::vector<float> stiff, rate, position;
-  std::vector<std::string> type;
-  std::vector<LR_vector> dir, pos0;
-
-  bool add(string name, int particle = -1, float stiff = 0, LR_vector normal = {0, 0, 1}, LR_vector pos = {0, 0, 0})
-  {
-    type.push_back(name);
-    particles.push_back(particle);
-    dir.push_back(normal);
-    pos0.push_back(pos);
-    this->stiff.push_back(stiff);
-    return true;
-  }
-  bool addRepulsion(int particles = -1, float stiff = 1, LR_vector dir = {0, 0, 1}, float position = 0)
-  {
-    type.push_back("repulsion_plane");
-    this->particles.push_back(particles);
-    this->stiff.push_back(stiff);
-    this->dir.push_back(dir);
-    this->position.push_back(position);
-    return true;
-  }
-  bool addHarmonic(int particles = 0, float stiff = 1, float rate = 0, LR_vector pos0 = {0, 0, 0}, LR_vector dir = {1, 0, 0})
-  {
-    type.push_back("trap");
-    this->particles.push_back(particles);
-    this->stiff.push_back(stiff);
-    this->rate.push_back(rate);
-    this->pos0.push_back(pos0);
-    this->dir.push_back(dir);
-    return true;
-  }
-
-  bool addHarmonicFromParticle(Particle *particle, float stiff = 1, float rate = 0)
-  {
-    return addHarmonic(particle->id, stiff, rate, particle->r);
-  }
-
-  bool save(string filename = "external_forces.txt")
-  {
-    ofstream file(filename);
-    if (!file.is_open())
-      return false;
-    for (int i = 0; i < type.size(); i++)
-    {
-      file << "{" << std::endl;
-      if (type[i] == "trap")
-      {
-        file << "type = trap\n";
-        file << "particle = " << particles[0] << endl;
-        particles.erase(particles.begin());
-        file << "pos0 = " << pos0[0].x<<","<<pos0[0].y<<","<<pos0[0].z << endl;
-        pos0.erase(pos0.begin());
-        file << "stiff = " << stiff[0] << endl;
-        stiff.erase(stiff.begin());
-        file << "rate = " << rate[0] << endl;
-        rate.erase(rate.begin());
-        file << "dir = " << dir[0].x<<","<<dir[0].y<<","<<dir[0].z << endl;
-        dir.erase(dir.begin());
-      }
-      else if (type[i] == "repulsion_plane")
-      {
-        file << "type = repulsion_plane" << endl;
-        file << "particle = " << particles[0] << endl;
-        particles.erase(particles.begin());
-        file << "stiff = " << stiff[0] << endl;
-        stiff.erase(stiff.begin());
-        file << "dir = " << dir[0].x<<","<<dir[0].y<<","<<dir[0].z << endl;
-        dir.erase(dir.begin());
-        file << "position = " << position[0] << endl;
-        position.erase(position.begin());
-      }
-      file << "}\n";
-    }
-    file.close();
-    return true;
-  }
-};
-
+#include "main.h"
+#include "Forces.cpp"
+using namespace std;
 class Analysis
 {
 public:
@@ -95,7 +15,7 @@ public:
                                        //   gsl_vector *work = gsl_vector_alloc(3);
   Traj trajtemp;
 
-  Analysis(std::string topology, std::string config, std::string type = "", std::string output = "output", std::string externalForces = "", std::string parameter1 = "", std::string parameter2 = ""){
+    Analysis(std::string topology, std::string config, std::string type = "", std::string output = "output", std::string externalForces = "", std::string parameter1 = "", std::string parameter2 = ""){
     if (type == "crystal")
     {
       this->type = type;
@@ -107,13 +27,9 @@ public:
       // pickAndPlace();
     }
   }
-  ~Analysis()
-  {
-    // gsl_matrix_free(V);
-    // gsl_vector_free(S);
-    // gsl_vector_free(work);
-  }
-  // Output the center for a number of index
+
+  ~Analysis(){};
+
   LR_vector CenterForIndex(int *indexes, int N){
     LR_vector mean = {0, 0, 0};
     for (int i = 0; i < N; i++){
@@ -121,11 +37,17 @@ public:
     }
     mean /= N;
     return mean;
-  }
+  };
 
-  
-  void inboxing(LR_vector center = {0, 0, 0})
-  {
+  LR_vector NormalToPlane(Eigen::MatrixXd points){
+    Eigen::Matrix3d m(3, 3);
+    m << points.transpose() * points;
+    Eigen::JacobiSVD<Eigen::MatrixXd> svd(m, Eigen::ComputeFullU | Eigen::ComputeFullV);
+    m = svd.matrixV();
+    return (LR_vector){m(0, 2), m(1, 2), m(2, 1)};
+  };
+
+  void inboxing(LR_vector center = {0, 0, 0}){
     for (int i = 0; i < particleNum; i++)
     {
       particles[i].r.x = subBoxing(particles[i].r.x, box.x);
@@ -133,7 +55,6 @@ public:
       particles[i].r.z = subBoxing(particles[i].r.z, box.z);
     }
   }
-
   bool customSeedForces(std::vector<int> ids)
   {
     Forces force;
@@ -523,15 +444,3 @@ private:
     return 0;
   }
 };
-
-// template <typename A>
-
-// Selected Points
-// 1070,134,145,155,1004,1385,560,1291,904,136,1112,126,1355,1850,1384,686,392,1605,618,1024,2027,474,1640,1720,1831,387,1504,947,1832,1262,676,1067,195,121,734,245,217
-
-// double points[] = {158720.15575206, 42724.03921793,  56622.47200362,
-//                    42724.03921793,  132381.4182789,  -83288.45034046,
-//                    56622.47200362,  -83288.45034046, 100855.62941231};
-// gsl_matrix_view U = gsl_matrix_view_array(points, 3, 3);
-// int pass = gsl_linalg_SV_decomp(&U.matrix, V, S, work);
-// gsl_matrix_fprintf(stdout, V, "%g");
