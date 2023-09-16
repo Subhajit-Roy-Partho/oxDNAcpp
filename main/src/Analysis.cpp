@@ -1,10 +1,94 @@
 #include "main.h"
-#include "Forces.cpp"
+
+
+// using namespace std;
+
+class Forces{
+public:
+  std::vector<int> particles;
+  std::vector<float> stiff, rate, position;
+  std::vector<std::string> type;
+  std::vector<LR_vector> dir, pos0;
+
+  bool add(std::string name, int particle = -1, float stiff = 0, LR_vector normal = {0, 0, 1}, LR_vector pos = {0, 0, 0})
+  {
+    type.push_back(name);
+    particles.push_back(particle);
+    dir.push_back(normal);
+    pos0.push_back(pos);
+    this->stiff.push_back(stiff);
+    return true;
+  }
+  bool addRepulsion(int particles = -1, float stiff = 1, LR_vector dir = {0, 0, 1}, float position = 0)
+  {
+    type.push_back("repulsion_plane");
+    this->particles.push_back(particles);
+    this->stiff.push_back(stiff);
+    this->dir.push_back(dir);
+    this->position.push_back(position);
+    return true;
+  }
+  bool addHarmonic(int particles = 0, float stiff = 1, float rate = 0, LR_vector pos0 = {0, 0, 0}, LR_vector dir = {1, 0, 0})
+  {
+    type.push_back("trap");
+    this->particles.push_back(particles);
+    this->stiff.push_back(stiff);
+    this->rate.push_back(rate);
+    this->pos0.push_back(pos0);
+    this->dir.push_back(dir);
+    return true;
+  }
+
+  bool addHarmonicFromParticle(Particle *particle, float stiff = 1, float rate = 0)
+  {
+    return addHarmonic(particle->id, stiff, rate, particle->r);
+  }
+
+  bool save(std::string filename = "external_forces.txt")
+  {
+    std::ofstream file(filename);
+    if (!file.is_open())
+      return false;
+    for (int i = 0; i < type.size(); i++)
+    {
+      file << "{" << std::endl;
+      if (type[i] == "trap")
+      {
+        file << "type = trap\n";
+        file << "particle = " << particles[0] << std::endl;
+        particles.erase(particles.begin());
+        file << "pos0 = " << pos0[0].x<<","<<pos0[0].y<<","<<pos0[0].z << std::endl;
+        pos0.erase(pos0.begin());
+        file << "stiff = " << stiff[0] << std::endl;
+        stiff.erase(stiff.begin());
+        file << "rate = " << rate[0] << std::endl;
+        rate.erase(rate.begin());
+        file << "dir = " << dir[0].x<<","<<dir[0].y<<","<<dir[0].z << std::endl;
+        dir.erase(dir.begin());
+      }
+      else if (type[i] == "repulsion_plane")
+      {
+        file << "type = repulsion_plane" << std::endl;
+        file << "particle = " << particles[0] << std::endl;
+        particles.erase(particles.begin());
+        file << "stiff = " << stiff[0] << std::endl;
+        stiff.erase(stiff.begin());
+        file << "dir = " << dir[0].x<<","<<dir[0].y<<","<<dir[0].z << std::endl;
+        dir.erase(dir.begin());
+        file << "position = " << position[0] << std::endl;
+        position.erase(position.begin());
+      }
+      file << "}\n";
+    }
+    file.close();
+    return true;
+  }
+};
 using namespace std;
 class Analysis
 {
 public:
-  int particleNum, strands, i;
+  int particleNum, strands, i=0;
   double safeMultiplier = 1.4; // Multiplier with safe distance
   std::string type, output,topology;
   LR_vector box, energy;
@@ -15,9 +99,8 @@ public:
                                        //   gsl_vector *work = gsl_vector_alloc(3);
   Traj trajtemp;
 
-    Analysis(std::string topology, std::string config, std::string type = "", std::string output = "output", std::string externalForces = "", std::string parameter1 = "", std::string parameter2 = ""){
-    if (type == "crystal")
-    {
+    Analysis(std::string topology="", std::string config="", std::string type = "", std::string output = "output", std::string externalForces = "", std::string parameter1 = "", std::string parameter2 = ""){
+    if (type == "crystal"){
       this->type = type;
       this->output = output;
       this->topology = topology;
@@ -26,12 +109,26 @@ public:
       inboxing();
       // pickAndPlace();
     }
+
+    if(type=="newCrystal"){
+      this->type = "crystal";
+      this->output = output;
+    }
   }
 
   ~Analysis(){};
 
   LR_vector CenterForIndex(int *indexes, int N){
     LR_vector mean = {0, 0, 0};
+
+    if(N==-1){
+      for(i=0;i<particleNum;i++){
+        mean+= particles[i].r;
+      }
+      mean /=particleNum;
+      return mean;
+    }
+
     for (int i = 0; i < N; i++){
       mean += particles[indexes[i]].r;
     }
@@ -55,8 +152,7 @@ public:
       particles[i].r.z = subBoxing(particles[i].r.z, box.z);
     }
   }
-  bool customSeedForces(std::vector<int> ids)
-  {
+  bool customSeedForces(std::vector<int> ids){
     Forces force;
     force.addRepulsion();
     for (int i = 0; i < ids.size(); i++)
@@ -360,6 +456,10 @@ public:
     return 0;
   }
 
+  //system creator
+
+
+
 private:
   string line, temp;
   istringstream ss;
@@ -370,6 +470,26 @@ private:
       coordinate += divisor;
     return coordinate;
   };
+
+  bool readDNATopology(string topology){
+    std::ifstream inputTop(topology);
+    if(!inputTop.is_open()) return false;
+    std::getline(inputTop,line);
+    ss.clear();
+    ss.str(line);
+    ss>>particleNum;
+    ss>>strands;
+    particles.resize(particleNum);
+    for (i=0;i<particleNum;i++){
+      std::getline(inputTop,line);
+      ss.clear();
+      ss.str(line);
+      ss>>temp;
+      particles[i].id=i;
+      particles[i].strand=std::stoi(temp);
+    }
+    return true;
+  }
 
   int readCrystalTopology(string topology){
     ifstream inputTop(topology);
