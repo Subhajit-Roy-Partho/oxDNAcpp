@@ -12,7 +12,7 @@ std::ostream &std::operator<<(std::ostream &os, const std::vector<S> &vector)
 class Particle{
 public:
   int id, color, strand;
-  LR_vector r = {0, 0, 0}, a1, a3;
+  LR_vector r = {0, 0, 0}, a1={1,0,0}, a3={1,0,0};
   inline void operator&=(Particle S){
     r=S.r;
     a1=S.a1;

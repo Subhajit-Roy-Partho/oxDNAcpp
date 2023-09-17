@@ -457,7 +457,20 @@ public:
   }
 
   //system creator
-
+  // bool systemCreator(int particleNum,int totalStrands,vector<int> assembledId,bool inverse=true){
+  //   this->particleNum=particleNum;
+  //   particles.resize(particleNum);
+  //   int dim=ceil(pow(particleNum, 1/3.));
+  //   if(inverse == true) 
+  //     for(i=dim-1;i>=0;i--){
+  //       for(int j=dim-1;j>=0;j--){
+  //         for(int k=dim-1;k>=0;k--){
+            
+  //         }
+  //       }
+  //     };
+  //   return true;
+  // };
 
 
 private:
