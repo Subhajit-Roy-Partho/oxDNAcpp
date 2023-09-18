@@ -16,17 +16,17 @@ values:
 inputFiles: input
 batches:
   account:
-    - sulcgpu1
-    - sulcgpu2
     - sulcgpu3
+    - sulcgpu2
+    - sulcgpu1
   queue:
     - sulcgpu1
     - sulcgpu1
     - sulcgpu1
   allocations:
-    - 20
-    - 28
     - 32
+    - 28
+    - 20
 
 progressRepoter: progress.txt
 
