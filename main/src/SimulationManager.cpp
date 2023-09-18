@@ -6,14 +6,13 @@ public:
     string configPath,projectName;
     Manager(string configPath=""){
         this->configPath=configPath;
-        // if(configPath !="") readYAML();
+        if(configPath !="") readYAML();
     };
 
     bool readYAML(){
         YAML::Node config = YAML::LoadFile(configPath);
         projectName = config["project"].as<string>();
-        cout<<"called"<<endl;
-        // cout<<projectName<<"\n";
+        cout<<projectName<<"\n";
         return true;
     };
 };

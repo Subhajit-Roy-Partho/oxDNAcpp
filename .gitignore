@@ -25,6 +25,7 @@
 /*cache*/
 .vscode
 .vscode/
+.ipynb_checkpoints
 
 ## Ignore trajectory
 trajectory*.dat
