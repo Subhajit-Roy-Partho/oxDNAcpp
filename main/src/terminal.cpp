@@ -1,5 +1,5 @@
 /*
-    Usage: terminal manager --config "location"
+    Usage: terminal manager --config "location in folder"
 */
 
 // #include "Analysis.cpp"
