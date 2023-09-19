@@ -68,7 +68,7 @@ public:
                 file<< variable<<" = "<<values[i];
                 file.close();
                 filesystem::current_path(relative);
-                system("sbatch submit");
+                system("sbatch submit.sh");
                 // if(sbatch){
                 //     ofstream 
                 // }

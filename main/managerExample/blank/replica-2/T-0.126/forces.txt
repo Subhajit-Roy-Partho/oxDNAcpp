@@ -1,0 +1,14 @@
+{
+type = repulsion_plane
+particle = -1
+stiff = 1
+dir = 0, 0, 0
+position = 0
+}
+{
+type = repulsion_plane
+particle = -1
+stiff = 1
+dir = 0, 0, 0
+position = 28
+}
