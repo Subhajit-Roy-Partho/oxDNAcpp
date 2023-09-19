@@ -8,5 +8,4 @@
 #SBATCH -q sulcgpu1
 #SBATCH --job-name="Seeding Blank"
 
-module load gcc/11.2.0
 oxDNA2 input

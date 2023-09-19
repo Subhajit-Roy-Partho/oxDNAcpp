@@ -55,9 +55,11 @@ public:
         path = filesystem::current_path();
 
         for(int j=0;j<replicas;j++){
+            filesystem::current_path(path);
             string relative2 = "replica-"+to_string(j+1);
             relative2 = projectName+"/"+relative2;
             for(int i=0;i<values.size();i++){
+                filesystem::current_path(path);
                 string relative = string(variable)+"-"+to_string_with_precision(values[i],3);
                 relative=relative2+"/"+relative;
                 filesystem::create_directories(relative);
@@ -65,6 +67,8 @@ public:
                 ofstream file(relative+"/input",ios::out|ios::app);
                 file<< variable<<" = "<<values[i];
                 file.close();
+                filesystem::current_path(relative);
+                system("sbatch submit");
                 // if(sbatch){
                 //     ofstream 
                 // }
