@@ -6,4 +6,4 @@
 ### Important Notes
 
 To change the path of the cmake to .local.
-cmake .. -DCMAKE_INSTALL_LIBDIR=~/.local/lib -DCMAKE_INSTALL_INCLUDEDIR=~/.local/include
+`cmake .. -DCMAKE_INSTALL_LIBDIR=~/.local/lib -DCMAKE_INSTALL_INCLUDEDIR=~/.local/include`
