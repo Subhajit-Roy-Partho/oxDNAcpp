@@ -1,6 +1,8 @@
 ---
 # Without any seed particles
-project: blank
+project: 
+  - blank
+  - large
 replicas: 4
 variable: T
 values:
@@ -12,8 +14,13 @@ values:
   - 0.127
   - 0.128
   - 0.129
-inputFiles: input
-
+inputFiles: 
+  - inputs
+  - large
+outputFiles: "/scratch/sroy85/seeding2"
+generateFiles:
+  - false
+  - true
 account:
   - sulcgpu3
   - sulcgpu2
@@ -34,5 +41,5 @@ gpuPerJob:
   - 0
   - 0
   - 0
-
+sbatchLine: 8
 ...

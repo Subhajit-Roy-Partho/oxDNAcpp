@@ -1,0 +1,14 @@
+---
+project: 
+  - blank
+  - large
+configuration: 
+  - true
+  - false
+simulationOngoing: 
+  - true
+  - false
+allocations:
+  - 32
+  - 0
+  - 0
