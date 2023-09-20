@@ -57,6 +57,10 @@
         "stop_token": "cpp",
         "streambuf": "cpp",
         "thread": "cpp",
-        "typeinfo": "cpp"
+        "typeinfo": "cpp",
+        "hash_map": "cpp",
+        "list": "cpp",
+        "hashtable": "cpp",
+        "valarray": "cpp"
     }
 }

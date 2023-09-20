@@ -1,7 +1,6 @@
 ---
 # Without any seed particles
 project: 
-  - blank
   - large
 replicas: 4
 variable: T
@@ -17,7 +16,7 @@ values:
 inputFiles: 
   - inputs
   - large
-outputFiles: "/scratch/sroy85/seeding2"
+outputFiles: "/scratch/sroy85/seeding"
 generateFiles:
   - false
   - true
@@ -30,7 +29,7 @@ queue:
   - sulcgpu1
   - sulcgpu1
 allocations:
-  - 32
+  - 0
   - 28
   - 20
 cpuPerJob:

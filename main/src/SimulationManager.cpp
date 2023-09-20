@@ -109,7 +109,7 @@ public:
                     file.close();
                     file2.close();
                     filesystem::current_path(relative);
-                    // system("sbatch submit.sh");
+                    system("sbatch submit.sh");
                     // if(sbatch){
                     //     ofstream 
                     // }

@@ -25,11 +25,11 @@
 /*cache*/
 .vscode
 .vscode/
-.ipynb_checkpoints
+*/.ipynb_checkpoints/
 
 ## Ignore trajectory
 trajectory*.dat
 
 ## Ignore intermediate files
 *.gch *.out *.o
-*/blank/*
+*/blank/
