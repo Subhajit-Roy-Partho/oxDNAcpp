@@ -34,6 +34,7 @@ public:
         variable = config["variable"].as<string>();
         outputFiles = config["outputFiles"].as<string>();
         sbatchLine = config["sbatchLine"].as<int>();
+        sbatch = config["sbatch"].as<bool>();
 
         cout<<projectName<<"\n";
 
@@ -95,24 +96,26 @@ public:
                     ofstream file(relative+"/input",ios::out|ios::app);
                     file<< variable<<" = "<<values[i];
                     file.close();
-                    file.open(relative+"/submit.sh");
-                    ifstream file2(inputFiles[p]+"/submit.sh");
-                    for(int i=0;i<sbatchLine-1;i++){
-                        getline(file2,line);
-                        file<<line<<"\n";
+                    if(sbatch){
+                        file.open(relative+"/submit.sh");
+                        ifstream file2(inputFiles[p]+"/submit.sh");
+                        for(int i=0;i<sbatchLine-1;i++){
+                            getline(file2,line);
+                            file<<line<<"\n";
+                        }
+                        file<<"#SBATCH -p "<<account[currentCluster]<<"\n";
+                        file<<"#SBATCH -q "<<queue[currentCluster]<<"\n";
+                        while(getline(file2,line)){
+                            file<<line<<"\n";
+                        }
+                        file.close();
+                        file2.close();
+                        filesystem::current_path(relative);
+                        system("sbatch submit.sh");
+                    }else{
+                        filesystem::current_path(relative);
+                        system("oxDNA_debug input >> out.txt");
                     }
-                    file<<"#SBATCH -p "<<account[currentCluster]<<"\n";
-                    file<<"#SBATCH -q "<<queue[currentCluster]<<"\n";
-                    while(getline(file2,line)){
-                        file<<line<<"\n";
-                    }
-                    file.close();
-                    file2.close();
-                    filesystem::current_path(relative);
-                    system("sbatch submit.sh");
-                    // if(sbatch){
-                    //     ofstream 
-                    // }
 
                     allocations[currentCluster]-=1;
                 }
