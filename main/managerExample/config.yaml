@@ -16,7 +16,7 @@ values:
 inputFiles: 
   - inputs
   - large
-outputFiles: "/scratch/sroy85/seeding"
+outputFiles: "/home/gila/seeding"
 generateFiles:
   - false
   - true
