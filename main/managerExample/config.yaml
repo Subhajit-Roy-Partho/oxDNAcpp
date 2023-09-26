@@ -1,7 +1,7 @@
 ---
 # Without any seed particles
 project: 
-  - extraLarge
+  - 4flat
 replicas: 4
 variable: T
 values:
@@ -14,7 +14,7 @@ values:
   - 0.128
   - 0.129
 inputFiles: 
-  - extraLarge
+  - 4flat
 outputFiles: "/home/gila/seeding"
 sbatch: false
 generateFiles:
@@ -25,7 +25,7 @@ account:
 queue:
   - sulcgpu1
 allocations:
-  - 12
+  - 9999
 cpuPerJob:
   - 1
 gpuPerJob:
