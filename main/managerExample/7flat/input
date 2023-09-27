@@ -56,7 +56,7 @@ interaction_type = PatchyShapeInteraction
 #plugin_search_path = /home/petr/projects/venice/SIMULATION/oxDNA_valence_ico2/oxdna-code/oxDNA/contrib/romano/
 #plugin_search_path = /home/petr/projects/venice/SAXS_profiles/latest_oxDNA/oxdna-code/oxDNA/contrib/romano 
 #plugin_search_path =   /home/petr/projects/venice/SAXS/oxDNA/contrib/romano
-plugin_search_path  = /home/gila/oxDNAold/contrib/romano
+plugin_search_path  = /home/gila/Documents/Github/oxDNAold/contrib/romano
 
 #plugin_search_path = /home/petr/workspace/latest_patches/oxdna-code/oxDNA/contrib/romano/
 #interaction_type = PLPATCHY
@@ -99,3 +99,4 @@ trajectory_file = trajectory.dat
 log_file = log.txt
 #############################
 ####  Programmed Config #####
+T=0.125
