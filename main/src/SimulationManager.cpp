@@ -114,7 +114,7 @@ public:
                         system("sbatch submit.sh");
                     }else{
                         filesystem::current_path(relative);
-                        system("oxDNA2 input >> out.txt &");
+                        system("/home/gila/Documents/Github/oxDNAold/build/bin/oxDNA_debug input >> out.txt &");
                     }
 
                     allocations[currentCluster]-=1;

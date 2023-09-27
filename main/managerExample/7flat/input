@@ -99,4 +99,3 @@ trajectory_file = trajectory.dat
 log_file = log.txt
 #############################
 ####  Programmed Config #####
-T=0.125
