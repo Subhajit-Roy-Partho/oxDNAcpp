@@ -114,7 +114,7 @@ public:
                         system("sbatch submit.sh");
                     }else{
                         filesystem::current_path(relative);
-                        system("oxDNA_debug input >> out.txt &");
+                        system("oxDNA2 input >> out.txt &");
                     }
 
                     allocations[currentCluster]-=1;
