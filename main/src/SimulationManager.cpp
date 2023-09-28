@@ -3,21 +3,23 @@
 #include "yaml-cpp/yaml.h" //This is an external library
 #include <filesystem>
 #include "main.h"
+// #include "gnuplot-iostream.h"
 using namespace std;
 class Manager{
 public:
     std::string configPath,variable,outputFiles,line;
     int currentCluster=0,sbatchLine,replicas;
-    vector<string> account,queue,inputFiles,projectName;
+    vector<string> account,queue,inputFiles,projectName,removeList;
     vector<int> allocations;
     vector<double> values;
     YAML::Node temp;
+    filesystem::path path = filesystem::current_path();
     bool sbatch;
     Manager(string configPath="",bool sbatch=true){
         this->configPath=configPath;
         this->sbatch=sbatch;
         // configuration();
-        if(configPath !="") if(readYAML()) setup();
+        if(configPath !="") readYAML();
     };
 
     // bool configuration(){
@@ -66,14 +68,17 @@ public:
             values.push_back(temp[i].as<double>());
         }
         // cout<<values;
+        path /= configPath;
+        filesystem::current_path(path);
+        path = filesystem::current_path();
         return true;
     };
 
     bool setup(){
-        auto path = filesystem::current_path();
-        path /= configPath;
-        filesystem::current_path(path);
-        path = filesystem::current_path();
+        // auto path = filesystem::current_path();
+        // path /= configPath;
+        // filesystem::current_path(path);
+        // path = filesystem::current_path();
 
         for(int p=0;p<projectName.size();p++){
             for(int j=0;j<replicas;j++){
@@ -124,4 +129,42 @@ public:
 
         return true;
     };
+
+
+
+    bool plot(){
+        // std::cout <<"this is working"<<std::endl;
+        std::ofstream commandfile;
+        for (int p=0;p<inputFiles.size();p++){
+            for(int j=0;j<replicas;j++){
+                commandfile.open("plot.gnuplot",ofstream::out|ofstream::trunc);
+                    commandfile<<"set term png size 1200,900\n";
+                    commandfile<<"set xlabel 'Time(SU)'\n";
+                    commandfile<<"set logscale x\n";
+                    commandfile<<"set ylabel 'Energy(SU)'\n";
+                    commandfile<<"set title '"+projectName[p]+"'\n";
+                    commandfile<<"set output './plots/"+projectName[p]+"-r"+to_string(j+1)+".png'\n";
+                for (int t=0;t<values.size();t++){
+                    string relative=outputFiles+"/"+projectName[p]+"/replica-"+to_string(j+1)+"/"+string(variable)+"-"+to_string_with_precision(values[t],3)+"/energy.dat";
+                    // cout << relative<<endl;
+                    if(t==0){
+                        commandfile<<"plot '"+relative+"' w l title '"+string(variable)+"-"+to_string_with_precision(values[t],3)+"',\\\n";
+                    }else if(t==values.size()-1){
+                        commandfile<<"\t'"+relative+"' w l title '"+string(variable)+"-"+to_string_with_precision(values[t],3)+"'\n";
+                    }else{
+                        commandfile<<"\t'"+relative+"' w l title '"+string(variable)+"-"+to_string_with_precision(values[t],3)+"',\\\n";
+                    }
+                }
+                commandfile.close();
+                system("gnuplot -p plot.gnuplot &");
+            }
+        }
+        cout<<"Done plotting\n";
+        removeList.push_back("plot.gnuplot");
+        return true;
+    }
+
+    // bool clean(){
+        
+    // }
 };

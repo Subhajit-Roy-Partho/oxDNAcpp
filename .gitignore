@@ -33,3 +33,4 @@ trajectory*.dat
 ## Ignore intermediate files
 *.gch *.out *.o
 */blank/
+*/managerExample/plots/
