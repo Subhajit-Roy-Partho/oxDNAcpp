@@ -3,8 +3,11 @@
 #include "yaml-cpp/yaml.h" //This is an external library
 #include <filesystem>
 #include "main.h"
+#include <chrono>
+#include <thread>
 // #include "gnuplot-iostream.h"
 using namespace std;
+using namespace std::chrono_literals;
 class Manager{
 public:
     std::string configPath,variable,outputFiles,line;
@@ -157,6 +160,7 @@ public:
                 }
                 commandfile.close();
                 system("gnuplot -p plot.gnuplot &");
+                this_thread::sleep_for(2s);
             }
         }
         cout<<"Done plotting\n";
