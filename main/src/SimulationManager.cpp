@@ -160,7 +160,7 @@ public:
                 }
                 commandfile.close();
                 system("gnuplot -p plot.gnuplot &");
-                this_thread::sleep_for(2s);
+                // this_thread::sleep_for(2s);
             }
         }
         cout<<"Done plotting\n";
