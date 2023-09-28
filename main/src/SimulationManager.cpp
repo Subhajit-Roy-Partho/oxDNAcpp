@@ -137,6 +137,7 @@ public:
 
     bool plot(){
         // std::cout <<"this is working"<<std::endl;
+        cout<<path<<endl;
         std::ofstream commandfile;
         for (int p=0;p<inputFiles.size();p++){
             for(int j=0;j<replicas;j++){
@@ -159,7 +160,7 @@ public:
                     }
                 }
                 commandfile.close();
-                system("gnuplot -p plot.gnuplot &");
+                system("gnuplot -p plot.gnuplot");
                 // this_thread::sleep_for(2s);
             }
         }

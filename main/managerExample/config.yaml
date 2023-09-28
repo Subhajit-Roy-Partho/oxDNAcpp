@@ -33,3 +33,5 @@ gpuPerJob:
 
 sbatchLine: 8
 ...
+
+# Notes extralarge 3.8e7  4flat 2.41e7 large 4.64e7 7flat 1.58e7
