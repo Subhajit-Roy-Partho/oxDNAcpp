@@ -4,7 +4,6 @@ project:
   - large
   - extraLarge
   - 4flat
-  - 7flat
 replicas: 1
 variable: T
 values:
@@ -20,8 +19,7 @@ inputFiles:
   - large
   - extraLarge
   - 4flat
-  - 7flat
-outputFiles: "/home/gila/seeding"
+outputFiles: "/scratch/sroy85/seeding"
 sbatch: false
 generateFiles:
   - false
