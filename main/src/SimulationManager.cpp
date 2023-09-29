@@ -134,6 +134,7 @@ using namespace std::chrono_literals;
                     commandfile<<"set term png size 1200,900\n";
                     commandfile<<"set xlabel 'Time(SU)'\n";
                     commandfile<<"set logscale x\n";
+                    commandfile<<"set yrange [0:-1.4]\n";
                     commandfile<<"set ylabel 'Energy(SU)'\n";
                     commandfile<<"set title '"+projectName[p]+"'\n";
                     commandfile<<"set output './plots/"+projectName[p]+"-r"+to_string(j+1)+".png'\n";
