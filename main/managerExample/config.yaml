@@ -4,6 +4,7 @@ project:
   - large
   - extraLarge
   - 4flat
+  - blank
 replicas: 4
 variable: T
 values:
@@ -19,6 +20,7 @@ inputFiles:
   - large
   - extraLarge
   - 4flat
+  - blank
 outputFiles: "/scratch/sroy85/seeding"
 sbatch: false
 generateFiles:
