@@ -4,7 +4,7 @@ project:
   - large
   - extraLarge
   - 4flat
-replicas: 1
+replicas: 4
 variable: T
 values:
   - 0.122
