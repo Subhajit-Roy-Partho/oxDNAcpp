@@ -4,6 +4,7 @@
 
 // #include "main.h"
 #include "SimulationManager.h"
+#include "Analysis.cpp"
 #include <iostream>
 using namespace std;
 
@@ -17,15 +18,14 @@ int main(int argc, char *argv[]){
         if(string(argv[i])=="--sbatch"){
             sbatch=bool(argv[i+1]);
         }
+    };
+    if(string(argv[1])=="manager" || string(argv[2])=="plot"){
+        Manager manage(config);
+        if(string(argv[1])=="manager")manage.setup();
+        if(string(argv[1])=="plot")manage.plot();
+    }else if(string(argv[1])=="analysis"){
+        
     }
-
-    Manager manage(config);
-
-
-
-
-    if(string(argv[1])=="manager")manage.setup();
-    if(string(argv[1])=="plot")manage.plot();
 
 
     return 0;

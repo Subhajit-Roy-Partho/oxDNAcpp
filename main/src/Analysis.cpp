@@ -420,6 +420,13 @@ private:
     return 0;
   }
 
+  bool readDNAtopology(string topology){
+    ifstream inputTop(topology);
+    if (!inputTop.is_open())
+      return false;
+    getline(inputTop, line);
+  }
+
   int readConfig(string config){
     ifstream inputConfig(config);
     if (!inputConfig.is_open())
