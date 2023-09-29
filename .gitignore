@@ -34,3 +34,5 @@ trajectory*.dat
 *.gch *.out *.o
 */blank/
 # */managerExample/plots/
+*.ipynb_checkpoints
+**/build

@@ -44,8 +44,7 @@ struct Traj{
   LR_vector a3;
 };
 
-template <typename A, std::size_t N>
-A npMean(A (&vector)[N])
+template <typename A, std::size_t N>A npMean(A (&vector)[N])
 {
   A result = vector[0];
   for (int i = 1; i < N; i++)

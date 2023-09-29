@@ -1,24 +1,13 @@
-#include <iostream>
-#include <vector>
+#include "SimulationManager.h"
+#include "main.h"
 #include "yaml-cpp/yaml.h" //This is an external library
 #include <filesystem>
-#include "main.h"
 #include <chrono>
 #include <thread>
 // #include "gnuplot-iostream.h"
 using namespace std;
 using namespace std::chrono_literals;
-class Manager{
-public:
-    std::string configPath,variable,outputFiles,line;
-    int currentCluster=0,sbatchLine,replicas;
-    vector<string> account,queue,inputFiles,projectName,removeList;
-    vector<int> allocations;
-    vector<double> values;
-    YAML::Node temp;
-    filesystem::path path = filesystem::current_path();
-    bool sbatch;
-    Manager(string configPath="",bool sbatch=true){
+    Manager::Manager(string configPath,bool sbatch){
         this->configPath=configPath;
         this->sbatch=sbatch;
         // configuration();
@@ -33,7 +22,7 @@ public:
     //     return true;
     // }
 
-    bool readYAML(){
+    bool Manager::readYAML(){
         YAML::Node config = YAML::LoadFile(configPath+"/config.yaml");
         replicas = config["replicas"].as<int>();
         variable = config["variable"].as<string>();
@@ -77,7 +66,7 @@ public:
         return true;
     };
 
-    bool setup(){
+    bool Manager::setup(){
         // auto path = filesystem::current_path();
         // path /= configPath;
         // filesystem::current_path(path);
@@ -135,7 +124,7 @@ public:
 
 
 
-    bool plot(){
+    bool Manager::plot(){
         // std::cout <<"this is working"<<std::endl;
         cout<<path<<endl;
         std::ofstream commandfile;
@@ -172,4 +161,3 @@ public:
     // bool clean(){
         
     // }
-};

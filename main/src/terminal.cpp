@@ -2,8 +2,8 @@
     Usage: terminal manager --config "location in folder"
 */
 
-// #include "Analysis.cpp"
-#include "SimulationManager.cpp"
+// #include "main.h"
+#include "SimulationManager.h"
 #include <iostream>
 using namespace std;
 
@@ -27,6 +27,6 @@ int main(int argc, char *argv[]){
     if(string(argv[1])=="manager")manage.setup();
     if(string(argv[1])=="plot")manage.plot();
 
-    // std::cout<< "working"<<std::endl;
+
     return 0;
 }
