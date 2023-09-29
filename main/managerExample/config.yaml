@@ -1,7 +1,9 @@
 ---
 # Without any seed particles
 project: 
-  - 7flat
+  - large
+  - extraLarge
+  - 4flat
 replicas: 1
 variable: T
 values:
@@ -14,8 +16,10 @@ values:
   - 0.128
   - 0.129
 inputFiles: 
-  - 7flat
-outputFiles: "/home/gila/seeding"
+  - large
+  - extraLarge
+  - 4flat
+outputFiles: "/scratch/sroy85/seeding"
 sbatch: false
 generateFiles:
   - false
