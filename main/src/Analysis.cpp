@@ -1,16 +1,9 @@
-#include "main.h"
+#include "Analysis.h"
 #include <eigen3/Eigen/Dense>
 using namespace std;
 
-class Forces
-{
-public:
-  std::vector<int> particles;
-  std::vector<float> stiff, rate, position;
-  std::vector<std::string> type;
-  std::vector<LR_vector> dir, pos0;
 
-  bool add(string name, int particle = -1, float stiff = 0, LR_vector normal = {0, 0, 1}, LR_vector pos = {0, 0, 0})
+  bool Forces::add(string name, int particle, float stiff, LR_vector normal, LR_vector pos)
   {
     type.push_back(name);
     particles.push_back(particle);
@@ -19,7 +12,7 @@ public:
     this->stiff.push_back(stiff);
     return true;
   }
-  bool addRepulsion(int particles = -1, float stiff = 1, LR_vector dir = {0, 0, 1}, float position = 0)
+  bool Forces::addRepulsion(int particles, float stiff, LR_vector dir, float position)
   {
     type.push_back("repulsion_plane");
     this->particles.push_back(particles);
@@ -28,7 +21,7 @@ public:
     this->position.push_back(position);
     return true;
   }
-  bool addHarmonic(int particles = 0, float stiff = 1, float rate = 0, LR_vector pos0 = {0, 0, 0}, LR_vector dir = {1, 0, 0})
+  bool Forces::addHarmonic(int particles, float stiff, float rate, LR_vector pos0, LR_vector dir)
   {
     type.push_back("trap");
     this->particles.push_back(particles);
@@ -39,12 +32,12 @@ public:
     return true;
   }
 
-  bool addHarmonicFromParticle(Particle *particle, float stiff = 1, float rate = 0)
+  bool Forces::addHarmonicFromParticle(Particle *particle, float stiff, float rate)
   {
     return addHarmonic(particle->id, stiff, rate, particle->r);
   }
 
-  bool save(string filename = "external_forces.txt")
+  bool Forces::save(string filename)
   {
     ofstream file(filename);
     if (!file.is_open())
@@ -82,22 +75,11 @@ public:
     }
     file.close();
     return true;
-  }
-};
+  };
 
 
-class Analysis{
-  public:
-  int particleNum, strands, i;
-  double safeMultiplier = 1.4; // Multiplier with safe distance
-  std::string type, output,topology;
-  LR_vector box, energy;
-  std::vector<Particle> particles;
-  std::vector<std::vector<Traj>> traj; // For storing trajectory;
 
-  Traj trajtemp;
-
-  Analysis(std::string topology, std::string config, std::string type = "", std::string output = "output", std::string externalForces = "", std::string parameter1 = "", std::string parameter2 = ""){
+  Analysis::Analysis(std::string topology, std::string config, std::string type, std::string output, std::string externalForces, std::string parameter1, std::string parameter2){
     if (type == "crystal")
     {
       this->type = type;
@@ -109,14 +91,14 @@ class Analysis{
       // pickAndPlace();
     }
   }
-  ~Analysis()
+  Analysis::~Analysis()
   {
     // gsl_matrix_free(V);
     // gsl_vector_free(S);
     // gsl_vector_free(work);
   }
   // Output the center for a number of index
-  LR_vector CenterForIndex(int *indexes, int N){
+  LR_vector Analysis::CenterForIndex(int *indexes, int N){
     LR_vector mean = {0, 0, 0};
     for (int i = 0; i < N; i++){
       mean += particles[indexes[i]].r;
@@ -125,7 +107,7 @@ class Analysis{
     return mean;
   }
 
-  LR_vector NormalToPlane(Eigen::MatrixXd points)
+  LR_vector Analysis::NormalToPlane(Eigen::MatrixXd points)
   {
     Eigen::Matrix3d m(3, 3);
     m << points.transpose() * points;
@@ -133,7 +115,7 @@ class Analysis{
     m = svd.matrixV();
     return (LR_vector){m(0, 2), m(1, 2), m(2, 1)};
   };
-  void inboxing(LR_vector center = {0, 0, 0})
+  void Analysis::inboxing(LR_vector center)
   {
     for (int i = 0; i < particleNum; i++)
     {
@@ -143,7 +125,7 @@ class Analysis{
     }
   }
 
-  bool customSeedForces(std::vector<int> ids)
+  bool Analysis::customSeedForces(std::vector<int> ids)
   {
     Forces force;
     force.addRepulsion();
@@ -155,7 +137,7 @@ class Analysis{
     return true;
   };
 
-  bool correctA(string newFile){
+  bool Analysis::correctA(string newFile){
     Analysis newPar(topology,newFile,"crystal");
     for(int i=0;i<particleNum;i++){
       particles[i].a1=newPar.particles[i].a1;
@@ -164,7 +146,7 @@ class Analysis{
     return true;
   }
 
-  bool randomReplaceColor(int originalColor, int newColor, vector<int> ignore = {}, int N = 1)
+  bool Analysis::randomReplaceColor(int originalColor, int newColor, vector<int> ignore, int N)
   {
     for (int i = 0; i < N; i++)
     {
@@ -199,7 +181,7 @@ class Analysis{
     return true;
   }
 
-  bool randomReplacePosition(int originalColor, Particle *newParticle, vector<int> ignore = {})
+  bool Analysis::randomReplacePosition(int originalColor, Particle *newParticle, vector<int> ignore)
   {
     srand(time(0));
     bool found = false;
@@ -226,7 +208,7 @@ class Analysis{
     }
     return false;
   }
-  bool pickAndPlace(int *cluster, int N, string tname, LR_vector centralShift = {0, 0, 0})
+  bool Analysis::pickAndPlace(int *cluster, int N, string tname, LR_vector centralShift)
   {
     Analysis target(topology, "BIG.conf", "crystal");
     target.inboxing();
@@ -312,7 +294,7 @@ class Analysis{
   };
 
   // Computes the minimum distances for two particles with indices p and q
-  template <typename A, typename B>double min_image(A p, B q){
+  template <typename A, typename B>double Analysis::min_image(A p, B q){
     // valid only for cubic box.
     LR_vector p1, q1;
     if constexpr (is_same<A, LR_vector>::value)
@@ -338,12 +320,12 @@ class Analysis{
     return p1.module();
   }
 
-  bool planeFitting(int *cluster, LR_vector center, LR_vector normal){
+  bool Analysis::planeFitting(int *cluster, LR_vector center, LR_vector normal){
 
     return true;
   }
 
-  bool writeCrystalTopology(std::string topology = ""){
+  bool Analysis::writeCrystalTopology(std::string topology){
     if (topology == "")
       topology = output + ".top";
     std::ofstream outputTop(topology);
@@ -358,13 +340,13 @@ class Analysis{
     return true;
   }
 
-  bool writeConfig(std::string config = ""){
+  bool Analysis::writeConfig(std::string config){
 
     if (config == "")
       config = output + ".dat";
     std::ofstream outputConfig(config);
     if (!outputConfig.is_open())
-      return 21;
+      return false;
     outputConfig.precision(15);
     outputConfig << "t = 0" << std::endl;
     outputConfig << "b = " << box.x << " " << box.y << " " << box.z << std::endl;
@@ -382,21 +364,17 @@ class Analysis{
       outputConfig << particles[i].a3.z << " ";
       outputConfig << "0 0 0 0 0 0" << std::endl;
     }
-    return 0;
+    return true;
   }
 
-private:
-  string line, temp;
-  istringstream ss;
-
-  double subBoxing(double coordinate, double divisor){
+  double Analysis::subBoxing(double coordinate, double divisor){
     coordinate = std::remainder(coordinate, divisor);
     if (coordinate < 0)
       coordinate += divisor;
     return coordinate;
   };
 
-  int readCrystalTopology(string topology){
+  int Analysis::readCrystalTopology(string topology){
     ifstream inputTop(topology);
     if (!inputTop.is_open())
       return 10;
@@ -420,14 +398,15 @@ private:
     return 0;
   }
 
-  bool readDNAtopology(string topology){
+  bool Analysis::readDNAtopology(string topology){
     ifstream inputTop(topology);
     if (!inputTop.is_open())
       return false;
     getline(inputTop, line);
+    return true;
   }
 
-  int readConfig(string config){
+  int Analysis::readConfig(string config){
     ifstream inputConfig(config);
     if (!inputConfig.is_open())
       return 11;
@@ -466,13 +445,12 @@ private:
     return 0;
   }
 
-  int readPatches(string patches){
+  int Analysis::readPatches(string patches){
     ifstream inputPatches(patches);
     return 0;
   }
 
-  int readParticles(string crystalpar){
+  int Analysis::readParticles(string crystalpar){
     ifstream inputCrystal(crystalpar);
     return 0;
   }
-};

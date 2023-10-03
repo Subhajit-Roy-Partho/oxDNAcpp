@@ -1,0 +1,47 @@
+
+{
+type = repulsion_plane
+particle = -1
+stiff = 1
+dir = 0, 0, 1
+position = 0
+}
+{
+type = repulsion_plane
+particle = -1
+stiff = 1
+dir = 0, 0, -1
+position = 28
+}
+{
+type = trap
+particle = 528
+pos0 = 8.765796661376953, 11.506706237792969, 0.0015010833740234375
+stiff = 1
+rate =0
+dir = 1,0,0
+}
+{
+type = trap
+particle = 969
+pos0 = 8.98067855834961, 12.120677947998047, 0.7180075645446777
+stiff = 1
+rate =0
+dir = 1,0,0
+}
+{
+type = trap
+particle = 1168
+pos0 = 8.30758285522461, 12.698631286621094, 1.1408934593200684
+stiff = 1
+rate =0
+dir = 1,0,0
+}
+{
+type = trap
+particle = 1174
+pos0 = 7.377696990966797, 12.75136947631836, 0.6688780784606934
+stiff = 1
+rate =0
+dir = 1,0,0
+}

@@ -62,5 +62,6 @@
         "list": "cpp",
         "hashtable": "cpp",
         "valarray": "cpp"
-    }
+    },
+    "cmake.sourceDirectory": "/home/gila/Documents/Github/oxDNAcpp/main/src"
 }
