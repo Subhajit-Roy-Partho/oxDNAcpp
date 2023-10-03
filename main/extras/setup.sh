@@ -1,5 +1,5 @@
 sudo apt install git tmux -y
-sudo apt install gcc g++ python3 cmake make libeigen3-dev -y
+sudo apt install gcc g++ python3 cmake make libeigen3-dev htop -y
 git clone https://github.com/jbeder/yaml-cpp.git
 git clone https://github.com/Subhajit-Roy-Partho/oxDNAcpp.git
 git clone https://github.com/Subhajit-Roy-Partho/oxDNAold.git
