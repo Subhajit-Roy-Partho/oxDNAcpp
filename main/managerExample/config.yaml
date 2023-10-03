@@ -4,7 +4,8 @@ project:
   - 5triangle
   - 4ring
 replicas: 1
-exec: "/scratch/sroy85/Software/oxDNA/build/bin/oxDNA_debug"
+# exec: "/scratch/sroy85/Software/oxDNA/build/bin/oxDNA_debug"
+exec: "/home/gila/oxDNAold/build/bin"
 variable: T
 values:
   - 0.122

@@ -4,6 +4,6 @@ git clone https://github.com/jbeder/yaml-cpp.git
 git clone https://github.com/Subhajit-Roy-Partho/oxDNAcpp.git
 git clone https://github.com/Subhajit-Roy-Partho/oxDNAold.git
 
-cd oxDNAold; mkdir build; cd build; cmake ..; make -j$nproc; make romano -j$nproc; echo "PATH=$PATH:'$pwd'" >> ~/.bashrc; echo "shopt -s autocd";
+cd oxDNAold; mkdir build; cd build; cmake ..; make -j$nproc; make romano -j$nproc;cd bin;echo "export PATH=$PATH:$(readlink -f .)" >> ~/.bashrc; echo "shopt -s autocd" >> ~/.bashrc;source ~/.bashrc;
 cd ~/yaml-cpp; mkdir build; cd build; cmake ..; make -j$nproc; sudo make install;
 cd oxDNAold/main/src
