@@ -28,6 +28,10 @@ int main(int argc, char *argv[]){
             correctDat=string(argv[i+1]);
         }
     };
+    if(string(argv[1])=="test"){
+        Manager manage(config);
+        // manage.readYAML();
+    }
     if(string(argv[1])=="manager" || string(argv[2])=="plot"){
         Manager manage(config);
         if(string(argv[1])=="manager")manage.setup();

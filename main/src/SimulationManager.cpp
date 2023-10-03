@@ -29,6 +29,10 @@ using namespace std::chrono_literals;
         outputFiles = config["outputFiles"].as<string>();
         sbatchLine = config["sbatchLine"].as<int>();
         sbatch = config["sbatch"].as<bool>();
+        if(config["exec"]){
+            exec=config["exec"].as<string>();
+        }
+        cout << "This is being executed   "<<exec << endl;
 
         cout<<projectName<<"\n";
 
@@ -108,10 +112,11 @@ using namespace std::chrono_literals;
                         file.close();
                         file2.close();
                         filesystem::current_path(relative);
-                        system("sbatch submit.sh");
+                        tempInt=system("sbatch submit.sh");
                     }else{
                         filesystem::current_path(relative);
-                        system("/home/gila/Documents/Github/oxDNAold/build/bin/oxDNA_debug input >> out.txt &");
+                        tempString=exec+" input >> out.txt &";
+                        tempInt=system(tempString.c_str());
                     }
 
                     allocations[currentCluster]-=1;
@@ -150,7 +155,7 @@ using namespace std::chrono_literals;
                     }
                 }
                 commandfile.close();
-                system("gnuplot -p plot.gnuplot");
+                tempInt=system("gnuplot -p plot.gnuplot");
                 // this_thread::sleep_for(2s);
             }
         }

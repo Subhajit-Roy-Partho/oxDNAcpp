@@ -7,8 +7,8 @@ using namespace std;
 using namespace std::chrono_literals;
 class Manager{
 public:
-    std::string configPath,variable,outputFiles,line;
-    int currentCluster=0,sbatchLine,replicas;
+    std::string configPath,variable,outputFiles,line,exec="oxDNA",tempString;
+    int currentCluster=0,sbatchLine,replicas,tempInt;
     vector<string> account,queue,inputFiles,projectName,removeList;
     vector<int> allocations;
     vector<double> values;
