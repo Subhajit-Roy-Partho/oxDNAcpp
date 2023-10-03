@@ -57,6 +57,7 @@ interaction_type = PatchyShapeInteraction
 #plugin_search_path = /home/petr/projects/venice/SAXS_profiles/latest_oxDNA/oxdna-code/oxDNA/contrib/romano 
 #plugin_search_path =   /home/petr/projects/venice/SAXS/oxDNA/contrib/romano
 plugin_search_path  = /scratch/sroy85/Software/oxDNA/contrib/romano
+plugin_search_path  = /home/gila/oxDNAold/contrib/romano
 
 #plugin_search_path = /home/petr/workspace/latest_patches/oxdna-code/oxDNA/contrib/romano/
 #interaction_type = PLPATCHY

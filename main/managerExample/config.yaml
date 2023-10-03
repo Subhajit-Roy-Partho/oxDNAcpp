@@ -2,8 +2,8 @@
 # Without any seed particles
 project: 
   - 5triangle
-  - 4ring
-replicas: 1
+  # - 4ring
+replicas: 4
 # exec: "/scratch/sroy85/Software/oxDNA/build/bin/oxDNA_debug"
 exec: "/home/gila/oxDNAold/build/bin"
 variable: T
@@ -18,9 +18,9 @@ values:
   - 0.129
 inputFiles: 
   - 5triangle
-  - 4ring
+  # - 4ring
 outputFiles: "/scratch/sroy85/seeding"
-sbatch: true
+sbatch: false
 generateFiles:
   - true
   - true
@@ -29,7 +29,7 @@ account:
 queue:
   - sulcgpu1
 allocations:
-  - 20
+  - 999
 cpuPerJob:
   - 1
 gpuPerJob:
