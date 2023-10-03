@@ -19,7 +19,8 @@ values:
 inputFiles: 
   - 5triangle
   # - 4ring
-outputFiles: "/scratch/sroy85/seeding"
+# outputFiles: "/scratch/sroy85/seeding"
+outputFiles: "/home/gila/seeding"
 sbatch: false
 generateFiles:
   - true
