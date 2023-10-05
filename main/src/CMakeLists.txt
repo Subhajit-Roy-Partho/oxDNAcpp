@@ -17,3 +17,9 @@ target_link_libraries(terminal PUBLIC libraries yaml-cpp)
 target_include_directories(terminal PUBLIC
     "${PROJECT_BINARY_DIR}"
 )
+
+add_executable(test test.cpp)
+target_link_libraries(test PUBLIC libraries)
+target_include_directories(terminal PUBLIC
+    "${PROJECT_BINARY_DIR}"
+)

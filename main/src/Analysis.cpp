@@ -80,15 +80,20 @@ using namespace std;
 
 
   Analysis::Analysis(std::string topology, std::string config, std::string type, std::string output, std::string externalForces, std::string parameter1, std::string parameter2){
-    if (type == "crystal")
-    {
-      this->type = type;
-      this->output = output;
-      this->topology = topology;
+    this->type = type;
+    this->output = output;
+    this->topology = topology;
+    
+    if (type == "crystal"){
       readCrystalTopology(topology);
       readConfig(config);
       inboxing();
       // pickAndPlace();
+    }
+    if(type == "DNA"){
+      readDNAtopology(topology);
+      readConfig(config);
+      inboxing();
     }
   }
   Analysis::~Analysis()
@@ -340,6 +345,10 @@ using namespace std;
     return true;
   }
 
+  bool Analysis::writeDNAtopology(std::string topology){
+    return true;
+  }
+
   bool Analysis::writeConfig(std::string config){
 
     if (config == "")
@@ -403,6 +412,20 @@ using namespace std;
     if (!inputTop.is_open())
       return false;
     getline(inputTop, line);
+    ss.clear();
+    ss.str(line);
+    ss >> particleNum;
+    ss >> strands;
+    particles.resize(particleNum);
+    for(i=0;i<particleNum;i++){
+      ss.clear();
+      getline(inputTop,line);
+      ss.str(line);
+      ss>>particles[i].strand;
+      ss>>particles[i].name;
+      ss>>tempInt;particles[i].connector.push_back(tempInt);
+      ss>>tempInt;particles[i].connector.push_back(tempInt);
+    }
     return true;
   }
 
@@ -454,3 +477,18 @@ using namespace std;
     ifstream inputCrystal(crystalpar);
     return 0;
   }
+
+
+
+
+
+bool Analysis::shiftbox(LR_vector shift){
+  if(shift==LR_vector({0,0,0})){
+    for(i=0;i<particleNum;i++){
+      
+    }
+  }else{
+    return false;
+  }
+  return true;
+}

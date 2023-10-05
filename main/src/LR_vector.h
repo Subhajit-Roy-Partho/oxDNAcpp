@@ -104,6 +104,10 @@ public:
 		return LR_vector(y * V2.z - z * V2.y, z * V2.x - x * V2.z, x * V2.y - y * V2.x);
 	}
 
+	friend bool operator== (const LR_vector v1, LR_vector v2){
+		return (v1.x==v2.x && v1.y==v2.y && v1.z==v2.z);
+	}
+
 	number norm() const {
 		return x * x + y * y + z * z;
 	}

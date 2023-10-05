@@ -20,9 +20,9 @@ public:
 
 class Analysis{
   public:
-  int particleNum, strands, i;
+  int particleNum, strands, i,tempInt;
   double safeMultiplier = 1.4; // Multiplier with safe distance
-  std::string type, output,topology;
+  std::string type, output,topology,tempString;
   LR_vector box, energy;
   std::vector<Particle> particles;
   std::vector<std::vector<Traj>> traj; // For storing trajectory;
@@ -35,33 +35,28 @@ class Analysis{
   LR_vector CenterForIndex(int *indexes, int N);
   LR_vector NormalToPlane(Eigen::MatrixXd points);
   void inboxing(LR_vector center = {0, 0, 0});
-
   bool customSeedForces(std::vector<int> ids);
-
   bool correctA(string newFile);
-
   bool randomReplaceColor(int originalColor, int newColor, vector<int> ignore = {}, int N = 1);
-
   bool randomReplacePosition(int originalColor, Particle *newParticle, vector<int> ignore = {});
   bool pickAndPlace(int *cluster, int N, string tname, LR_vector centralShift = {0, 0, 0});
 
   // Computes the minimum distances for two particles with indices p and q
   template <typename A, typename B>double min_image(A p, B q);
-
   bool planeFitting(int *cluster, LR_vector center, LR_vector normal);
-
   bool writeCrystalTopology(std::string topology = "");
-
   bool writeConfig(std::string config = "");
+  bool shiftbox(LR_vector shift={0,0,0});
 
 private:
   string line, temp;
   istringstream ss;
 
   double subBoxing(double coordinate, double divisor);
-  int readCrystalTopology(string topology);
-  bool readDNAtopology(string topology);
-  int readConfig(string config);
-  int readPatches(string patches);
-  int readParticles(string crystalpar);
+  int readCrystalTopology(std::string topology);
+  bool readDNAtopology(std::string topology);
+  bool writeDNAtopology(std::string topology);
+  int readConfig(std::string config);
+  int readPatches(std::string patches);
+  int readParticles(std::string crystalpar);
 };
