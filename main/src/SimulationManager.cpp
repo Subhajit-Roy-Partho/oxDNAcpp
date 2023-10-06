@@ -11,7 +11,8 @@ using namespace std::chrono_literals;
         this->configPath=configPath;
         this->sbatch=sbatch;
         // configuration();
-        if(configPath !="") readYAML();
+        if(configPath !="") {readYAML();}
+        else{cout<<"Config path is empty"<<endl;}
     };
 
     // bool configuration(){
@@ -32,7 +33,7 @@ using namespace std::chrono_literals;
         if(config["exec"]){
             exec=config["exec"].as<string>();
         }
-        cout << "This is being executed   "<<exec << endl;
+        cout << "Reading yaml files"<<exec << endl;
 
         cout<<projectName<<"\n";
 

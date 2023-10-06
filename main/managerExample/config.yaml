@@ -2,10 +2,13 @@
 # Without any seed particles
 project: 
   # - 5triangle
-  - 4ring
+  # - 4ring
+  - extraLarge
+  - large
+  - 4flat
 replicas: 4
 # exec: "/scratch/sroy85/Software/oxDNA/build/bin/oxDNA_debug"
-exec: "/home/gila/oxDNAold/build/bin/oxDNA_debug"
+# exec: "/home/gila/oxDNAold/build/bin/oxDNA_debug"
 variable: T
 values:
   - 0.122
@@ -18,9 +21,12 @@ values:
   - 0.129
 inputFiles: 
   # - 5triangle
-  - 4ring
-# outputFiles: "/scratch/sroy85/seeding"
-outputFiles: "/home/gila/seeding"
+  # - 4ring
+  - extraLarge
+  - large
+  - 4flat
+outputFiles: "/scratch/sroy85/seeding"
+# outputFiles: "/home/gila/seeding"
 sbatch: false
 generateFiles:
   - true

@@ -32,10 +32,10 @@ int main(int argc, char *argv[]){
         Manager manage(config);
         // manage.readYAML();
     }
-    if(string(argv[1])=="manager" || string(argv[2])=="plot"){
+    if(string(argv[1])=="manager" || string(argv[1])=="plot"){
         Manager manage(config);
         if(string(argv[1])=="manager")manage.setup();
-        if(string(argv[1])=="plot")manage.plot();
+        if(string(argv[1])=="plot"){cout<<"Getting plots ready for you"<<endl;manage.plot();}
     }else if(string(argv[1])=="analysis"){
     }else if(string(argv[1])=="correctA"){
         Analysis crystal(inputTop,inputDat, "crystal");
