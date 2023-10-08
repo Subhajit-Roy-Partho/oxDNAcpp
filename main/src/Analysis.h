@@ -47,6 +47,7 @@ class Analysis{
   bool writeCrystalTopology(std::string topology = "");
   bool writeConfig(std::string config = "");
   bool shiftbox(LR_vector shift={0,0,0});
+  bool testBoxOverloaded();
 
 private:
   string line, temp;

@@ -124,6 +124,14 @@ public:
 		return std::sqrt(sqr_distance(V1));
 	}
 
+	LR_vector abs() const{
+		number x2,y2,z2;
+		x2=x<0?-x:x;
+		y2=y<0?-y:y;
+		z2=z<0?-z:z;
+		return (LR_vector){x2,y2,z2};
+	}
+
 	inline LR_vector stably_normalised() {
 		LR_vector res(*this);
 

@@ -93,7 +93,7 @@ using namespace std;
     if(type == "DNA"){
       readDNAtopology(topology);
       readConfig(config);
-      inboxing();
+      // inboxing();
     }
   }
   Analysis::~Analysis()
@@ -484,11 +484,35 @@ using namespace std;
 
 bool Analysis::shiftbox(LR_vector shift){
   if(shift==LR_vector({0,0,0})){
+    LR_vector minimum={0,0,0};
     for(i=0;i<particleNum;i++){
-      
+      if(minimum.x>particles[i].r.x) minimum.x= particles[i].r.x;
+      if(minimum.y>particles[i].r.y) minimum.y= particles[i].r.y;
+      if(minimum.z>particles[i].r.z) minimum.z= particles[i].r.z;
     }
+    shiftbox(minimum.abs());
+    
   }else{
+    for(i=0;i<particleNum;i++){
+      particles[i].r+=shift;
+    }
     return false;
   }
+  return true;
+}
+
+bool Analysis::testBoxOverloaded(){
+  LR_vector minimum ={0,0,0},maximum = box;
+  for(i=0;i<particleNum;i++){
+    if(minimum.x>particles[i].r.x) minimum.x= particles[i].r.x;
+    if(maximum.x<particles[i].r.x) return false;
+    if(minimum.y>particles[i].r.y) minimum.y= particles[i].r.y;
+    if(maximum.y<particles[i].r.y) return false;
+    if(minimum.z>particles[i].r.z) minimum.z= particles[i].r.z;
+    if(maximum.z<particles[i].r.x) return false;
+  }
+  if (minimum.x<0) return false;
+  if (minimum.y<0) return false;
+  if (minimum.z<0) return false;
   return true;
 }

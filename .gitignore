@@ -24,7 +24,7 @@
 .ccls-cache
 /*cache*/
 .vscode
-.vscode/
+**/.vscode/
 */.ipynb_checkpoints/
 
 ## Ignore trajectory
