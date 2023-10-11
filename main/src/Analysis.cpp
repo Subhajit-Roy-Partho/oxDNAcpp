@@ -93,7 +93,7 @@ using namespace std;
     if(type == "DNA"){
       readDNAtopology(topology);
       readConfig(config);
-      // inboxing();
+      shiftbox({0,0,0});
     }
   }
   Analysis::~Analysis()
@@ -105,6 +105,13 @@ using namespace std;
   // Output the center for a number of index
   LR_vector Analysis::CenterForIndex(int *indexes, int N){
     LR_vector mean = {0, 0, 0};
+    if(N==0){ // if N=0 return the center for the whole structure;
+      for(int i=0;i<particleNum;i++){
+        mean += particles[i].r;
+      }
+      mean /=particleNum; // This operation is only permitted if everything is in 1s quardant
+      return mean;
+    }
     for (int i = 0; i < N; i++){
       mean += particles[indexes[i]].r;
     }
@@ -268,7 +275,7 @@ using namespace std;
     inboxing();
     target.inboxing();
     std::vector<int> infectedStore = infected;
-    cout << "Full infected list : "<<infected<<endl;
+    // cout << "Full infected list : "<<infected<<endl;
     cout << "N  "<< N << "   I   "<<infected.size()<<endl;
     if (infected.size() > N)
       std::cout << "Please reduce the safe distance multiplier. This feature is work in progress" << std::endl;
@@ -514,5 +521,9 @@ bool Analysis::testBoxOverloaded(){
   if (minimum.x<0) return false;
   if (minimum.y<0) return false;
   if (minimum.z<0) return false;
+  return true;
+}
+
+bool Analysis::generatePSP(Particle *PSP,int *ids,int numCluster,int avgSize,int numNeighbour){
   return true;
 }

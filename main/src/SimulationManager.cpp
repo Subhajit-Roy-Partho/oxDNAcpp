@@ -35,7 +35,7 @@ using namespace std::chrono_literals;
         }
         cout << "Reading yaml files"<<exec << endl;
 
-        cout<<projectName<<"\n";
+        // cout<<projectName<<"\n";
 
         temp = config["project"];
         for(size_t i=0; i<temp.size();i++){

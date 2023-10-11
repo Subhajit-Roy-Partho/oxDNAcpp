@@ -3,6 +3,10 @@ project(terminal)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+include_directories("/usr/local/include")
+link_directories("/usr/local/lib")
+
 find_package(yaml-cpp CONFIG REQUIRED)
 message(STATUS "Used config file: ${yaml-cpp_CONFIG}")
 
@@ -20,6 +24,6 @@ target_include_directories(terminal PUBLIC
 
 add_executable(test test.cpp)
 target_link_libraries(test PUBLIC libraries)
-target_include_directories(terminal PUBLIC
+target_include_directories(test PUBLIC
     "${PROJECT_BINARY_DIR}"
 )

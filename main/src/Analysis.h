@@ -45,9 +45,11 @@ class Analysis{
   template <typename A, typename B>double min_image(A p, B q);
   bool planeFitting(int *cluster, LR_vector center, LR_vector normal);
   bool writeCrystalTopology(std::string topology = "");
+  bool writeDNAtopology(std::string topology);
   bool writeConfig(std::string config = "");
   bool shiftbox(LR_vector shift={0,0,0});
   bool testBoxOverloaded();
+  bool generatePSP(Particle *PSP,int *ids,int numCluster=12,int avgSize=10,int numNeighbour=5); // Generate PSP particles from DNA particles
 
 private:
   string line, temp;
@@ -56,7 +58,6 @@ private:
   double subBoxing(double coordinate, double divisor);
   int readCrystalTopology(std::string topology);
   bool readDNAtopology(std::string topology);
-  bool writeDNAtopology(std::string topology);
   int readConfig(std::string config);
   int readPatches(std::string patches);
   int readParticles(std::string crystalpar);
