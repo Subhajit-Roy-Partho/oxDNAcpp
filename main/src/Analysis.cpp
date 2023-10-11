@@ -95,7 +95,10 @@ using namespace std;
       readConfig(config);
       shiftbox({0,0,0});
     }
+    // if(type == "newPSP"){
+    // }
   }
+
   Analysis::~Analysis()
   {
     // gsl_matrix_free(V);
@@ -103,7 +106,7 @@ using namespace std;
     // gsl_vector_free(work);
   }
   // Output the center for a number of index
-  LR_vector Analysis::CenterForIndex(int *indexes, int N){
+  template <typename T> LR_vector Analysis::CenterForIndex(int *indexes, int N){
     LR_vector mean = {0, 0, 0};
     if(N==0){ // if N=0 return the center for the whole structure;
       for(int i=0;i<particleNum;i++){
@@ -366,7 +369,7 @@ using namespace std;
     outputConfig.precision(15);
     outputConfig << "t = 0" << std::endl;
     outputConfig << "b = " << box.x << " " << box.y << " " << box.z << std::endl;
-    outputConfig << "E = 0 0 0" << std::endl;
+    outputConfig << "E = 0 0 0" << std::endl
     for (int i = 0; i < particleNum; i++)
     {
       outputConfig << particles[i].r.x << " ";
@@ -524,6 +527,28 @@ bool Analysis::testBoxOverloaded(){
   return true;
 }
 
-bool Analysis::generatePSP(Particle *PSP,int *ids,int numCluster,int avgSize,int numNeighbour){
+bool Analysis::generatePSP(Analysis *PSP,vector<vector<int>>,int numCluster,int avgSize,int numNeighbour){
+  PSP->particleNum=numCluster+1;
+  vector<double> v; // stores the distance between the clusters
+  for(i=0;i<numCluster;i++){
+    // v.push_back(((CenterForIndex(ids[0],10)-CenterForIndex(ids[i],10))).module());
+  }
   return true;
+}
+
+
+template <typename T> vector<size_t> sort_indexes(const vector<T> &v) {
+
+  // initialize original index locations
+  vector<size_t> idx(v.size());
+  iota(idx.begin(), idx.end(), 0);
+
+  // sort indexes based on comparing values in v
+  // using std::stable_sort instead of std::sort
+  // to avoid unnecessary index re-orderings
+  // when v contains elements of equal values 
+  stable_sort(idx.begin(), idx.end(),
+       [&v](size_t i1, size_t i2) {return v[i1] < v[i2];});
+
+  return idx;
 }

@@ -49,7 +49,7 @@ class Analysis{
   bool writeConfig(std::string config = "");
   bool shiftbox(LR_vector shift={0,0,0});
   bool testBoxOverloaded();
-  bool generatePSP(Particle *PSP,int *ids,int numCluster=12,int avgSize=10,int numNeighbour=5); // Generate PSP particles from DNA particles
+  bool generatePSP(Analysis *PSP,vector<vector<int>>,int numCluster=12,int avgSize=10,int numNeighbour=5); // Generate PSP particles from DNA particles
 
 private:
   string line, temp;
@@ -62,3 +62,6 @@ private:
   int readPatches(std::string patches);
   int readParticles(std::string crystalpar);
 };
+
+
+template <typename T> vector<size_t> sort_indexes(const vector<T> &v);
