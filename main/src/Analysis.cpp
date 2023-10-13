@@ -1,5 +1,6 @@
 #include "Analysis.h"
 #include <eigen3/Eigen/Dense>
+#include <numeric>
 using namespace std;
 
 
@@ -106,7 +107,7 @@ using namespace std;
     // gsl_vector_free(work);
   }
   // Output the center for a number of index
-  template <typename T> LR_vector Analysis::CenterForIndex(int *indexes, int N){
+  LR_vector Analysis::CenterForIndex(int *indexes, int N){
     LR_vector mean = {0, 0, 0};
     if(N==0){ // if N=0 return the center for the whole structure;
       for(int i=0;i<particleNum;i++){
@@ -369,7 +370,7 @@ using namespace std;
     outputConfig.precision(15);
     outputConfig << "t = 0" << std::endl;
     outputConfig << "b = " << box.x << " " << box.y << " " << box.z << std::endl;
-    outputConfig << "E = 0 0 0" << std::endl
+    outputConfig << "E = 0 0 0" << std::endl;
     for (int i = 0; i < particleNum; i++)
     {
       outputConfig << particles[i].r.x << " ";
