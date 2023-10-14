@@ -92,9 +92,9 @@ using namespace std;
       // pickAndPlace();
     }
     if(type == "DNA"){
-      readDNAtopology(topology);
-      readConfig(config);
-      shiftbox({0,0,0});
+      if(!readDNAtopology(topology)){cout <<"Error reading DNA topology "<<endl;throw std::exception();}; 
+      if(!readConfig(config)){cout <<"Error reading configuration file."<<endl;throw std::exception();};
+      if(!shiftbox({0,0,0})){cout<<"Box overloaded from shift."<<endl;throw std::exception();};
     }
     // if(type == "newPSP"){
     // }
@@ -109,6 +109,7 @@ using namespace std;
   // Output the center for a number of index
   LR_vector Analysis::CenterForIndex(int *indexes, int N){
     LR_vector mean = {0, 0, 0};
+    if(N==-1) return mean; // just ignore for default case.
     if(N==0){ // if N=0 return the center for the whole structure;
       for(int i=0;i<particleNum;i++){
         mean += particles[i].r;
@@ -116,6 +117,16 @@ using namespace std;
       mean /=particleNum; // This operation is only permitted if everything is in 1s quardant
       return mean;
     }
+    for (int i = 0; i < N; i++){
+      mean += particles[indexes[i]].r;
+    }
+    mean /= N;
+    return mean;
+  }
+
+  LR_vector Analysis::CenterForIndex(vector<int> indexes){
+    LR_vector mean = {0, 0, 0};
+    int N = indexes.size();
     for (int i = 0; i < N; i++){
       mean += particles[indexes[i]].r;
     }
@@ -394,10 +405,10 @@ using namespace std;
     return coordinate;
   };
 
-  int Analysis::readCrystalTopology(string topology){
+  bool Analysis::readCrystalTopology(string topology){
     ifstream inputTop(topology);
     if (!inputTop.is_open())
-      return 10;
+      return false;
     getline(inputTop, line);
     ss.clear();
     ss.str(line);
@@ -415,7 +426,7 @@ using namespace std;
       particles[i].id = i;
       particles[i].strand = stoi(temp);
     }
-    return 0;
+    return true;
   }
 
   bool Analysis::readDNAtopology(string topology){
@@ -440,10 +451,10 @@ using namespace std;
     return true;
   }
 
-  int Analysis::readConfig(string config){
+  bool Analysis::readConfig(string config){
     ifstream inputConfig(config);
     if (!inputConfig.is_open())
-      return 11;
+      return false;
     getline(inputConfig, line);
     getline(inputConfig, line);
     ss.clear();
@@ -476,17 +487,17 @@ using namespace std;
       ss >> particles[i].a3.y;
       ss >> particles[i].a3.z;
     }
-    return 0;
+    return true;
   }
 
-  int Analysis::readPatches(string patches){
+  bool Analysis::readPatches(string patches){
     ifstream inputPatches(patches);
-    return 0;
+    return false;
   }
 
-  int Analysis::readParticles(string crystalpar){
+  bool Analysis::readParticles(string crystalpar){
     ifstream inputCrystal(crystalpar);
-    return 0;
+    return false;
   }
 
 
@@ -528,11 +539,24 @@ bool Analysis::testBoxOverloaded(){
   return true;
 }
 
-bool Analysis::generatePSP(Analysis *PSP,vector<vector<int>>,int numCluster,int avgSize,int numNeighbour){
-  PSP->particleNum=numCluster+1;
+bool Analysis::generatePSP(Analysis *PSP,vector<vector<int>> ids,int numNeighbour){
+  PSP->particleNum=ids.size()+1;
+  PSP->particles.resize(PSP->particleNum);
   vector<double> v; // stores the distance between the clusters
-  for(i=0;i<numCluster;i++){
-    // v.push_back(((CenterForIndex(ids[0],10)-CenterForIndex(ids[i],10))).module());
+  int j=0;
+  for(int j=0;j<ids.size();j++){
+    v.clear();
+    PSP->particles[j].r=CenterForIndex(ids[j]);
+    for(i=0;i<ids.size();i++){
+      v.push_back(((PSP->particles[j].r-CenterForIndex(ids[i]))).module());
+    }
+    auto sorted = sort_indexes(v);// sort the index 
+    // cout <<j<<"  ids ="<<sorted<<endl;
+    for(int p=0;p<numNeighbour+1;p++){ // connect only numNeighbour particles
+      if(p==j) continue;
+      PSP->particles[j].connector.push_back(sorted[p]);
+    }
+    PSP->particles[j].connector.push_back(ids.size()); // Add the last central particle to the list
   }
   return true;
 }
@@ -543,7 +567,6 @@ template <typename T> vector<size_t> sort_indexes(const vector<T> &v) {
   // initialize original index locations
   vector<size_t> idx(v.size());
   iota(idx.begin(), idx.end(), 0);
-
   // sort indexes based on comparing values in v
   // using std::stable_sort instead of std::sort
   // to avoid unnecessary index re-orderings

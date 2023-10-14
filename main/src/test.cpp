@@ -3,7 +3,7 @@
 using namespace std;
 
 int main(){
-    Analysis ico("../main/managerExample/DNA/ico.top","../main/managerExample/DNA/ico.dat","DNA"); // Loading the top and the dat files
+    Analysis ico("../../managerExample/DNA/ico.top","../../managerExample/DNA/ico.dat","DNA"); // Loading the top and the dat files
     // ico.shiftbox({0,0,0}); // Bringing everything to 1st coordinate
     // ico.testBoxOverloaded(); // Checking overload from previous action.
 
@@ -22,10 +22,9 @@ int main(){
         {6225,6246,224,180,171,652,6665,6687,589,6712}
         };
     
+    // cout << ids.size()<<endl;
     Analysis psp("","","newPSP");
     ico.generatePSP(&psp,ids);
-    for(int i=0;i<12;i++){
-        // cout << ((ico.CenterForIndex(ids[0],10)-ico.CenterForIndex(ids[i],10))).module()<<endl;
-    }
+    // cout <<psp.particles[5].connector<<endl;
     return 0;
 }

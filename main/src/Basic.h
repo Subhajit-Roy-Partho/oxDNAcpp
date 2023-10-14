@@ -20,7 +20,8 @@ public:
   int id, color, strand;
   std::string name;
   LR_vector r = {0, 0, 0}, a1={1,0,0}, a3={1,0,0};
-  std::vector<int> connector;
+  std::vector<int> connector; // ids of particles connected
+  std::vector<double> spring; // saves the spring constant of the ids
   inline void operator&=(Particle S){
     r=S.r;
     a1=S.a1;

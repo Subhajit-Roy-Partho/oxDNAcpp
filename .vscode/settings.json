@@ -63,6 +63,6 @@
         "hashtable": "cpp",
         "valarray": "cpp"
     },
-    "cmake.sourceDirectory": "/Users/subhajit/Github/oxDNAcpp/main/src",
+    "cmake.sourceDirectory": "/home/gila/Documents/Github/oxDNAcpp/main/src",
     "cmake.configureOnOpen": false
 }

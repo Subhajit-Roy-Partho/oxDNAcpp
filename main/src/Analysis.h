@@ -32,7 +32,9 @@ class Analysis{
   Analysis(std::string topology, std::string config, std::string type = "", std::string output = "output", std::string externalForces = "", std::string parameter1 = "", std::string parameter2 = "");
   ~Analysis();
   // Output the center for a number of index
-  LR_vector CenterForIndex(int *indexes, int N);
+  LR_vector CenterForIndex(int *indexes, int N=-1);
+  LR_vector CenterForIndex(vector<int> indexes); // Taking advantage of modern c++
+  // template <typename A, typename B> LR_vector center(A indexes, B N);
   LR_vector NormalToPlane(Eigen::MatrixXd points);
   void inboxing(LR_vector center = {0, 0, 0});
   bool customSeedForces(std::vector<int> ids);
@@ -49,18 +51,18 @@ class Analysis{
   bool writeConfig(std::string config = "");
   bool shiftbox(LR_vector shift={0,0,0});
   bool testBoxOverloaded();
-  bool generatePSP(Analysis *PSP,vector<vector<int>>,int numCluster=12,int avgSize=10,int numNeighbour=5); // Generate PSP particles from DNA particles
+  bool generatePSP(Analysis *PSP,vector<vector<int>>,int numNeighbour=5); // Generate PSP particles from DNA particles
 
 private:
   string line, temp;
   istringstream ss;
 
   double subBoxing(double coordinate, double divisor);
-  int readCrystalTopology(std::string topology);
+  bool readCrystalTopology(std::string topology);
   bool readDNAtopology(std::string topology);
-  int readConfig(std::string config);
-  int readPatches(std::string patches);
-  int readParticles(std::string crystalpar);
+  bool readConfig(std::string config);
+  bool readPatches(std::string patches);
+  bool readParticles(std::string crystalpar);
 };
 
 
