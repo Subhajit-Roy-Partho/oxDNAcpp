@@ -22,10 +22,12 @@ int main(){
         {6225,6246,224,180,171,652,6665,6687,589,6712}
         };
     
-    vector<int> colors{20,-20,30,-30,20,-20,35,-35,40,-40,35,-35};
+    vector<int> colors{20,-20,30,-30,20,-20,35,-35,40,-40,35,-35}; // if 12 colors provided 13th color will be by default 100 or colorless
+    vector<double> radius{2,10}; // if 2 of the radius are provided then 1st for all particle and 2nd for the central particle
     // cout << ids.size()<<endl;
-    Analysis psp("","","newPSP");
-    ico.generatePSP(&psp,ids,colors);
+    Analysis psp("","","newPSP"); // generating empty particle class
+    ico.generatePSP(&psp,ids,colors,radius); // generating ccg particle from oxDNA file.
+    psp.writeCCGtopology();
     // cout <<psp.particles[5].connector<<endl;
     return 0;
 }

@@ -17,7 +17,7 @@ template <typename T>std::string to_string_with_precision(const T a_value, const
 
 class Particle{
 public:
-  int id, color, strand;
+  int id, color, strand=0;
   double radius;
   std::string name;
   LR_vector r = {0, 0, 0}, a1={1,0,0}, a3={1,0,0};

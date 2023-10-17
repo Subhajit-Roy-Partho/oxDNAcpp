@@ -547,7 +547,7 @@ bool Analysis::testBoxOverloaded(){
   return true;
 }
 
-bool Analysis::generatePSP(Analysis *PSP,vector<vector<int>> ids,vector<int> colors,int numNeighbour){
+bool Analysis::generatePSP(Analysis *PSP,vector<vector<int>> ids,vector<int> colors,vector<double> radius,int numNeighbour){
   if(colors.size()<ids.size() || colors.size()>ids.size()+1){
     cout << "Invalid number of colors are passed."<<endl;
     return false;
@@ -556,26 +556,31 @@ bool Analysis::generatePSP(Analysis *PSP,vector<vector<int>> ids,vector<int> col
   PSP->particles.resize(PSP->particleNum);
   vector<double> v; // stores the distance between the clusters
   int j=0;
-  auto centeroid = CenterForIndex((int)-1);
+  PSP->particles[ids.size()].r = CenterForIndex((int)-1);
   for(int j=0;j<ids.size();j++){
     v.clear();
     PSP->particles[j].color=colors[j];
-    // cout<<colors[j]<<endl;
+    PSP->particles[j].radius=radius.size()==2?radius[0]:radius[j];
+
+
     PSP->particles[j].r=CenterForIndex(ids[j]);
     for(i=0;i<ids.size();i++)  v.push_back(((PSP->particles[j].r-CenterForIndex(ids[i]))).module());
     auto sorted = sort_indexes(v);// sort the index 
-    // cout <<j<<"  ids ="<<sorted<<endl;
+    
     for(int p=0;p<numNeighbour+1;p++){ // connect only numNeighbour particles
       if(sorted[p]==j) continue;
       PSP->particles[j].connector.push_back(sorted[p]);
       PSP->particles[j].eqRadius.push_back(v[sorted[p]]);
+      PSP->particles[j].spring.push_back(100.0);// spring is hardcoded for 100
     }
     PSP->particles[j].connector.push_back(ids.size()); // Add the last central particle to the list
-    PSP->particles[j].eqRadius.push_back((centeroid-PSP->particles[j].r).module());
+    PSP->particles[j].eqRadius.push_back((PSP->particles[ids.size()].r-PSP->particles[j].r).module());
+    PSP->particles[j].spring.push_back(100.0); // spring is hardcoded for 100
     // cout<<PSP->particles[j].eqRadius<<endl;
   }
-  PSP->particles[ids.size()].color=colors.size()== ids.size()?0:colors[ids.size()];
-  // cout << PSP->particles[ids.size()].color<<endl;
+  PSP->particles[ids.size()].color=colors.size()== ids.size()?100:colors[ids.size()];
+  PSP->particles[ids.size()].radius=radius.size()==2?radius[1]:radius[ids.size()];
+  
   return true;
 }
 
@@ -605,8 +610,8 @@ bool Analysis::writeCCGtopology(string topology){
   for (i=0;i<particleNum;i++){
     outputTop<<"-2 "<<particles[i].strand<<" "<<particles[i].color<<" "<<particles[i].radius<<" ";
     for(int j=0;j<particles[i].connector.size();j++){
-      double k = particles[i].spring.size()<particles[i].connector.size()?particles[i].spring[0]:particles[i].spring[i];
-      outputTop<<particles[i].connector[j]<<" "<<k<<" "<<particles[i].eqRadius[j]<<" ";
+    //   // double k = particles[i].spring.size()<particles[i].connector.size()?particles[i].spring[0]:particles[i].spring[i];
+      outputTop<<particles[i].connector[j]<<" "<<particles[i].spring[j]<<" "<<particles[i].eqRadius[j]<<" ";
     }
     outputTop<<std::endl;
   }

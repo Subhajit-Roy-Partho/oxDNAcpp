@@ -51,9 +51,10 @@ class Analysis{
   bool writeDNAtopology(std::string topology="");
   bool writeConfig(std::string config = "");
   bool writeCCGtopology(string topology = "");
+  bool writeCCGviewTopology(string topology="");
   bool shiftbox(LR_vector shift={0,0,0});
   bool testBoxOverloaded();
-  bool generatePSP(Analysis *PSP,vector<vector<int>>,vector<int> colors,int numNeighbour=5); // Generate PSP particles from DNA particles
+  bool generatePSP(Analysis *PSP,vector<vector<int>>,vector<int> colors,vector<double> radius,int numNeighbour=5); // Generate PSP particles from DNA particles
 
 private:
   string line, temp;
