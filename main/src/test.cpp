@@ -22,9 +22,10 @@ int main(){
         {6225,6246,224,180,171,652,6665,6687,589,6712}
         };
     
+    vector<int> colors{20,-20,30,-30,20,-20,35,-35,40,-40,35,-35};
     // cout << ids.size()<<endl;
     Analysis psp("","","newPSP");
-    ico.generatePSP(&psp,ids);
+    ico.generatePSP(&psp,ids,colors);
     // cout <<psp.particles[5].connector<<endl;
     return 0;
 }

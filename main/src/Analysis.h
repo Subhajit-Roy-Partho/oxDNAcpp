@@ -32,8 +32,9 @@ class Analysis{
   Analysis(std::string topology, std::string config, std::string type = "", std::string output = "output", std::string externalForces = "", std::string parameter1 = "", std::string parameter2 = "");
   ~Analysis();
   // Output the center for a number of index
-  LR_vector CenterForIndex(int *indexes, int N=-1);
-  LR_vector CenterForIndex(vector<int> indexes); // Taking advantage of modern c++
+  LR_vector CenterForIndex(int *indexes, int N=-1); // if int* is passed 
+  LR_vector CenterForIndex(vector<int> indexes); // Taking advantage of modern c++ if vector is passed.
+  LR_vector CenterForIndex(int N);// to get the mean position.
   // template <typename A, typename B> LR_vector center(A indexes, B N);
   LR_vector NormalToPlane(Eigen::MatrixXd points);
   void inboxing(LR_vector center = {0, 0, 0});
@@ -46,12 +47,13 @@ class Analysis{
   // Computes the minimum distances for two particles with indices p and q
   template <typename A, typename B>double min_image(A p, B q);
   bool planeFitting(int *cluster, LR_vector center, LR_vector normal);
-  bool writeCrystalTopology(std::string topology = "");
-  bool writeDNAtopology(std::string topology);
+  bool writeCrystalTopology(std::string topology="");
+  bool writeDNAtopology(std::string topology="");
   bool writeConfig(std::string config = "");
+  bool writeCCGtopology(string topology = "");
   bool shiftbox(LR_vector shift={0,0,0});
   bool testBoxOverloaded();
-  bool generatePSP(Analysis *PSP,vector<vector<int>>,int numNeighbour=5); // Generate PSP particles from DNA particles
+  bool generatePSP(Analysis *PSP,vector<vector<int>>,vector<int> colors,int numNeighbour=5); // Generate PSP particles from DNA particles
 
 private:
   string line, temp;

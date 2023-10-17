@@ -78,8 +78,6 @@ using namespace std;
     return true;
   };
 
-
-
   Analysis::Analysis(std::string topology, std::string config, std::string type, std::string output, std::string externalForces, std::string parameter1, std::string parameter2){
     this->type = type;
     this->output = output;
@@ -133,6 +131,19 @@ using namespace std;
     mean /= N;
     return mean;
   }
+
+LR_vector Analysis::CenterForIndex(int N){
+  LR_vector mean = {0,0,0};
+  for(i=0;i<particleNum;i++){
+    mean += particles[i].r;
+  }
+  mean /= particleNum;
+  if(N==-1){//mean of the whole structure
+    return mean;
+  }
+  mean -= particles[i].r; // module of this would be the distance of the particle from the center.
+  return mean;
+}
 
   LR_vector Analysis::NormalToPlane(Eigen::MatrixXd points)
   {
@@ -395,6 +406,7 @@ using namespace std;
       outputConfig << particles[i].a3.z << " ";
       outputConfig << "0 0 0 0 0 0" << std::endl;
     }
+    outputConfig.close();
     return true;
   }
 
@@ -500,10 +512,6 @@ using namespace std;
     return false;
   }
 
-
-
-
-
 bool Analysis::shiftbox(LR_vector shift){
   if(shift==LR_vector({0,0,0})){
     LR_vector minimum={0,0,0};
@@ -539,25 +547,35 @@ bool Analysis::testBoxOverloaded(){
   return true;
 }
 
-bool Analysis::generatePSP(Analysis *PSP,vector<vector<int>> ids,int numNeighbour){
+bool Analysis::generatePSP(Analysis *PSP,vector<vector<int>> ids,vector<int> colors,int numNeighbour){
+  if(colors.size()<ids.size() || colors.size()>ids.size()+1){
+    cout << "Invalid number of colors are passed."<<endl;
+    return false;
+  }
   PSP->particleNum=ids.size()+1;
   PSP->particles.resize(PSP->particleNum);
   vector<double> v; // stores the distance between the clusters
   int j=0;
+  auto centeroid = CenterForIndex((int)-1);
   for(int j=0;j<ids.size();j++){
     v.clear();
+    PSP->particles[j].color=colors[j];
+    // cout<<colors[j]<<endl;
     PSP->particles[j].r=CenterForIndex(ids[j]);
-    for(i=0;i<ids.size();i++){
-      v.push_back(((PSP->particles[j].r-CenterForIndex(ids[i]))).module());
-    }
+    for(i=0;i<ids.size();i++)  v.push_back(((PSP->particles[j].r-CenterForIndex(ids[i]))).module());
     auto sorted = sort_indexes(v);// sort the index 
     // cout <<j<<"  ids ="<<sorted<<endl;
     for(int p=0;p<numNeighbour+1;p++){ // connect only numNeighbour particles
-      if(p==j) continue;
+      if(sorted[p]==j) continue;
       PSP->particles[j].connector.push_back(sorted[p]);
+      PSP->particles[j].eqRadius.push_back(v[sorted[p]]);
     }
     PSP->particles[j].connector.push_back(ids.size()); // Add the last central particle to the list
+    PSP->particles[j].eqRadius.push_back((centeroid-PSP->particles[j].r).module());
+    // cout<<PSP->particles[j].eqRadius<<endl;
   }
+  PSP->particles[ids.size()].color=colors.size()== ids.size()?0:colors[ids.size()];
+  // cout << PSP->particles[ids.size()].color<<endl;
   return true;
 }
 
@@ -575,4 +593,23 @@ template <typename T> vector<size_t> sort_indexes(const vector<T> &v) {
        [&v](size_t i1, size_t i2) {return v[i1] < v[i2];});
 
   return idx;
+}
+
+bool Analysis::writeCCGtopology(string topology){
+  if (topology == "") topology = output + ".dat";
+  ofstream outputTop(topology);
+  if(!outputTop.is_open()) return false;
+
+  outputTop.precision(15);
+  outputTop<<particleNum<<" "<<strands<<" "<<particleNum<<" 0 0 0\n";
+  for (i=0;i<particleNum;i++){
+    outputTop<<"-2 "<<particles[i].strand<<" "<<particles[i].color<<" "<<particles[i].radius<<" ";
+    for(int j=0;j<particles[i].connector.size();j++){
+      double k = particles[i].spring.size()<particles[i].connector.size()?particles[i].spring[0]:particles[i].spring[i];
+      outputTop<<particles[i].connector[j]<<" "<<k<<" "<<particles[i].eqRadius[j]<<" ";
+    }
+    outputTop<<std::endl;
+  }
+  outputTop.close();
+  return true;
 }
