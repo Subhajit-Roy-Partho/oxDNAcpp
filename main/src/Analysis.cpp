@@ -1,6 +1,7 @@
 #include "Analysis.h"
 #include <eigen3/Eigen/Dense>
 #include <numeric>
+#include <map>
 using namespace std;
 
 
@@ -386,7 +387,7 @@ LR_vector Analysis::CenterForIndex(int N){
 
     if (config == "")
       config = output + ".dat";
-    std::ofstream outputConfig(config);
+    std::ofstream outputConfig(config,ios::trunc);
     if (!outputConfig.is_open())
       return false;
     outputConfig.precision(15);
@@ -552,8 +553,12 @@ bool Analysis::generatePSP(Analysis *PSP,vector<vector<int>> ids,vector<int> col
     cout << "Invalid number of colors are passed."<<endl;
     return false;
   }
+  // Setting up all the parameters of the particle
+  PSP->strands=1;
   PSP->particleNum=ids.size()+1;
   PSP->particles.resize(PSP->particleNum);
+  PSP->box={50,50,50};
+
   vector<double> v; // stores the distance between the clusters
   int j=0;
   PSP->particles[ids.size()].r = CenterForIndex((int)-1);
@@ -580,7 +585,14 @@ bool Analysis::generatePSP(Analysis *PSP,vector<vector<int>> ids,vector<int> col
   }
   PSP->particles[ids.size()].color=colors.size()== ids.size()?100:colors[ids.size()];
   PSP->particles[ids.size()].radius=radius.size()==2?radius[1]:radius[ids.size()];
-  
+
+  int max=0;
+  for(int j=0;j<3;j++){   
+    for(i=0;i<PSP->particleNum;i++){
+      if(std::ceil(PSP->particles[i].r[j])>max) max=std::ceil(PSP->particles[i].r[j]);
+    }
+    PSP->box[j]=max+2;
+  }
   return true;
 }
 
@@ -601,7 +613,7 @@ template <typename T> vector<size_t> sort_indexes(const vector<T> &v) {
 }
 
 bool Analysis::writeCCGtopology(string topology){
-  if (topology == "") topology = output + ".dat";
+  if (topology == "") topology = output + ".top";
   ofstream outputTop(topology);
   if(!outputTop.is_open()) return false;
 
@@ -617,4 +629,42 @@ bool Analysis::writeCCGtopology(string topology){
   }
   outputTop.close();
   return true;
+}
+
+bool Analysis::writeCCGviewTopology(string topology){
+  if(topology=="") topology = "view"+output+".top";
+  ofstream outputTop(topology,ios::trunc);
+  if(!outputTop.is_open()) return false;
+  outputTop.precision(0);
+  outputTop<<particleNum<<" "<<strands<<endl;
+
+  std::map<int, std::string> fakeNucluo = {{0,"A"},
+                                            {1,"T"},
+                                            {2,"G"},
+                                            {3,"C"}};
+  bool first=true;
+  for(i=0;i<particleNum;i++){
+    if(first){
+      outputTop<<particles[i].strand+1<<" "<<fakeNucluo[particles[i].strand%4]<<" "<<-1<<" "<<i+1<<endl;
+      first=false;
+    }else if(particles[i].connector.size()==0){
+      outputTop<<particles[i].strand+1<<" "<<fakeNucluo[particles[i].strand%4]<<" "<<i-1<<" "<<-1<<endl;
+      first =true;
+    }else outputTop<<particles[i].strand+1<<" "<<fakeNucluo[particles[i].strand%4]<<" "<<i-1<<" "<<i+1<<endl;
+  }
+  outputTop.close();
+  return true;
+}
+
+bool Analysis::populate(int num){
+  int totPar=particleNum;
+   
+  // Genral parameters
+  strands*=num;
+  particleNum*=num;
+  particles.resize(particleNum);
+  box*=num;
+  
+  int dim=std::ceil(std::pow(num,1.0/3.0));
+
 }

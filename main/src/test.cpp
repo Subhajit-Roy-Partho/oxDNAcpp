@@ -28,6 +28,8 @@ int main(){
     Analysis psp("","","newPSP"); // generating empty particle class
     ico.generatePSP(&psp,ids,colors,radius); // generating ccg particle from oxDNA file.
     psp.writeCCGtopology();
+    psp.writeCCGviewTopology();
+    psp.writeConfig();
     // cout <<psp.particles[5].connector<<endl;
     return 0;
 }

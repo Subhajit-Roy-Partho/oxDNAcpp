@@ -20,7 +20,7 @@ public:
   int id, color, strand=0;
   double radius;
   std::string name;
-  LR_vector r = {0, 0, 0}, a1={1,0,0}, a3={1,0,0};
+  LR_vector r = {0, 0, 0}, a1={1,1,0}, a3={0,0,-1};
   std::vector<int> connector; // ids of particles connected
   std::vector<double> spring,eqRadius; // saves the spring constant of the ids
   inline void operator&=(Particle S){
