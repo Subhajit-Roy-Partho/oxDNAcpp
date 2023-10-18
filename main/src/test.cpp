@@ -27,6 +27,7 @@ int main(){
     // cout << ids.size()<<endl;
     Analysis psp("","","newPSP"); // generating empty particle class
     ico.generatePSP(&psp,ids,colors,radius); // generating ccg particle from oxDNA file.
+    psp.populate();
     psp.writeCCGtopology();
     psp.writeCCGviewTopology();
     psp.writeConfig();

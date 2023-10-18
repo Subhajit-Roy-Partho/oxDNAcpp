@@ -51,12 +51,27 @@ public:
 		return LR_vector(x - V2.x, y - V2.y, z - V2.z);
 	}
 
+	inline LR_vector operator-(const number& i2) const{
+		return LR_vector(x-i2,y-i2,z-i2);
+	}
+
+	inline LR_vector operator-(const int& i2) const{
+		return LR_vector(x-i2,y-i2,z-i2);
+	}
+
 	inline LR_vector operator-() const {
 		return LR_vector(-x, -y, -z);
 	}
 
 	inline LR_vector operator+() const {
 		return LR_vector(x, y, z);
+	}
+	inline LR_vector operator+(const number& i2) const{
+		return LR_vector(x+i2,y+i2,z+i2);
+	}
+
+	inline LR_vector operator+(const int& i2) const{
+		return LR_vector(x+i2,y+i2,z+i2);
 	}
 
 	inline LR_vector operator/(number S) const {

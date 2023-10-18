@@ -614,7 +614,7 @@ template <typename T> vector<size_t> sort_indexes(const vector<T> &v) {
 
 bool Analysis::writeCCGtopology(string topology){
   if (topology == "") topology = output + ".top";
-  ofstream outputTop(topology);
+  ofstream outputTop(topology,ios::trunc);
   if(!outputTop.is_open()) return false;
 
   outputTop.precision(15);
@@ -656,15 +656,38 @@ bool Analysis::writeCCGviewTopology(string topology){
   return true;
 }
 
-bool Analysis::populate(int num){
+bool Analysis::populate(int num,double seperator){
   int totPar=particleNum;
-   
+  LR_vector minSize = box-2;
   // Genral parameters
   strands*=num;
   particleNum*=num;
   particles.resize(particleNum);
-  box*=num;
   
   int dim=std::ceil(std::pow(num,1.0/3.0));
+  box=minSize*dim+2;
 
+  LR_vector translate={0,0,0};
+  int currentNum=1;
+  buildingParticles:
+    for(i=0;i<dim;i++){
+      for(int j=0;j<dim;j++){
+        for(int k=0;k<dim;k++){
+          if(i==0 && j==0 && k==0) continue;
+          LR_vector shift={minSize.x*k,minSize.y*j,minSize.z*i};
+          for(int p=0;p<totPar;p++){
+            particles[p+k*totPar+j*dim*totPar+i*dim*dim*totPar] =particles[p];
+            particles[p+k*totPar+j*dim*totPar+i*dim*dim*totPar].r+=shift;
+            particles[p+k*totPar+j*dim*totPar+i*dim*dim*totPar].strand=currentNum;
+          }
+          currentNum+=1;
+          if(currentNum==num) goto exit;
+        }
+      }
+    }
+    return true;
+  exit:
+    return true;
+
+  return true;
 }

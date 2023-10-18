@@ -23,19 +23,22 @@ public:
   LR_vector r = {0, 0, 0}, a1={1,1,0}, a3={0,0,-1};
   std::vector<int> connector; // ids of particles connected
   std::vector<double> spring,eqRadius; // saves the spring constant of the ids
-  inline void operator&=(Particle S){
-    r=S.r;
-    a1=S.a1;
-    a3=S.a3;
-    // color=S.color;
-    // strand=S.strand;
-  }
+  // inline void operator&=(Particle S){
+  //   r=S.r;
+  //   a1=S.a1;
+  //   a3=S.a3;
+  //   // color=S.color;
+  //   // strand=S.strand;
+  // }
   inline void operator+=(Particle S){
-        r=S.r;
+    r=S.r;
     a1=S.a1;
     a3=S.a3;
     color=S.color;
     strand=S.strand;
+    connector=S.connector;
+    spring=S.spring;
+    eqRadius=S.eqRadius;
   }
 };
 
