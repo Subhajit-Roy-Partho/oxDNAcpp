@@ -26,11 +26,12 @@ int main(){
     vector<double> radius{2,10}; // if 2 of the radius are provided then 1st for all particle and 2nd for the central particle
     // cout << ids.size()<<endl;
     Analysis psp("","","newPSP"); // generating empty particle class
-    ico.generatePSP(&psp,ids,colors,radius); // generating ccg particle from oxDNA file.
-    psp.populate();
-    psp.writeCCGtopology();
-    psp.writeCCGviewTopology();
-    psp.writeConfig();
+    ico.generatePSP(&psp,ids,colors,radius,5,10); // generating ccg particle from oxDNA file.
+    // psp.populate(125,40); //generate 125 crystal with extra 1 su seperation between them
+    psp.boxToCubic();// make the box cubic nothing is effected
+    psp.writeCCGtopology("125.top"); // write the CCG topology
+    psp.writeCCGviewTopology("125view.top"); // write oxview readeable topology
+    psp.writeConfig("125.dat"); // write config dat file
     // cout <<psp.particles[5].connector<<endl;
     return 0;
 }

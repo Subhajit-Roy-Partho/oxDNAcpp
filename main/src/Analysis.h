@@ -54,8 +54,9 @@ class Analysis{
   bool writeCCGviewTopology(string topology="");
   bool shiftbox(LR_vector shift={0,0,0});
   bool testBoxOverloaded();
-  bool generatePSP(Analysis *PSP,vector<vector<int>>ids,vector<int> colors,vector<double> radius,int numNeighbour=5); // Generate PSP particles from DNA particles
+  bool generatePSP(Analysis *PSP,vector<vector<int>>ids,vector<int> colors,vector<double> radius,int numNeighbour=5,double fixedSpringConstant=0); // Generate PSP particles from DNA particles
   bool populate(int num=125,double seperator=1);
+  bool boxToCubic();
 
 private:
   string line, temp;

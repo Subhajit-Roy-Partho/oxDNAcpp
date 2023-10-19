@@ -548,7 +548,7 @@ bool Analysis::testBoxOverloaded(){
   return true;
 }
 
-bool Analysis::generatePSP(Analysis *PSP,vector<vector<int>> ids,vector<int> colors,vector<double> radius,int numNeighbour){
+bool Analysis::generatePSP(Analysis *PSP,vector<vector<int>> ids,vector<int> colors,vector<double> radius,int numNeighbour,double fixedSpringConstant){
   if(colors.size()<ids.size() || colors.size()>ids.size()+1){
     cout << "Invalid number of colors are passed."<<endl;
     return false;
@@ -576,11 +576,11 @@ bool Analysis::generatePSP(Analysis *PSP,vector<vector<int>> ids,vector<int> col
       if(sorted[p]==j) continue;
       PSP->particles[j].connector.push_back(sorted[p]);
       PSP->particles[j].eqRadius.push_back(v[sorted[p]]);
-      PSP->particles[j].spring.push_back(100.0);// spring is hardcoded for 100
+      if(fixedSpringConstant!=0) PSP->particles[j].spring.push_back(fixedSpringConstant);// spring is hardcoded for 100
     }
     PSP->particles[j].connector.push_back(ids.size()); // Add the last central particle to the list
     PSP->particles[j].eqRadius.push_back((PSP->particles[ids.size()].r-PSP->particles[j].r).module());
-    PSP->particles[j].spring.push_back(100.0); // spring is hardcoded for 100
+    if(fixedSpringConstant!=0) PSP->particles[j].spring.push_back(fixedSpringConstant); // spring is hardcoded for 100
     // cout<<PSP->particles[j].eqRadius<<endl;
   }
   PSP->particles[ids.size()].color=colors.size()== ids.size()?100:colors[ids.size()];
@@ -620,10 +620,14 @@ bool Analysis::writeCCGtopology(string topology){
   outputTop.precision(15);
   outputTop<<particleNum<<" "<<strands<<" "<<particleNum<<" 0 0 0\n";
   for (i=0;i<particleNum;i++){
-    outputTop<<"-2 "<<particles[i].strand<<" "<<particles[i].color<<" "<<particles[i].radius<<" ";
+    if(particles[i].connector.size()==0){
+      outputTop<<"-2 "<<particles[i].strand<<" "<<particles[i].color<<" "<<particles[i].radius;
+    }else{
+      outputTop<<"-2 "<<particles[i].strand<<" "<<particles[i].color<<" "<<particles[i].radius<<" ";
+    }
     for(int j=0;j<particles[i].connector.size();j++){
-    //   // double k = particles[i].spring.size()<particles[i].connector.size()?particles[i].spring[0]:particles[i].spring[i];
-      outputTop<<particles[i].connector[j]<<" "<<particles[i].spring[j]<<" "<<particles[i].eqRadius[j]<<" ";
+      if(j==particles[i].connector.size()-1){outputTop<<particles[i].connector[j]<<" "<<particles[i].spring[j]<<" "<<particles[i].eqRadius[j];}
+      else{outputTop<<particles[i].connector[j]<<" "<<particles[i].spring[j]<<" "<<particles[i].eqRadius[j]<<" ";};
     }
     outputTop<<std::endl;
   }
@@ -658,7 +662,7 @@ bool Analysis::writeCCGviewTopology(string topology){
 
 bool Analysis::populate(int num,double seperator){
   int totPar=particleNum;
-  LR_vector minSize = box-2;
+  LR_vector minSize = box-2+seperator;
   // Genral parameters
   strands*=num;
   particleNum*=num;
@@ -676,9 +680,11 @@ bool Analysis::populate(int num,double seperator){
           if(i==0 && j==0 && k==0) continue;
           LR_vector shift={minSize.x*k,minSize.y*j,minSize.z*i};
           for(int p=0;p<totPar;p++){
-            particles[p+k*totPar+j*dim*totPar+i*dim*dim*totPar] =particles[p];
-            particles[p+k*totPar+j*dim*totPar+i*dim*dim*totPar].r+=shift;
-            particles[p+k*totPar+j*dim*totPar+i*dim*dim*totPar].strand=currentNum;
+            int index=p+k*totPar+j*dim*totPar+i*dim*dim*totPar;
+            particles[index] =particles[p];
+            particles[index].r+=shift;
+            particles[index].strand=currentNum;
+            // std::for_each(particles[index].connector.begin(),particles[index].connector.end(),[](& d){d+=fcurrentNum*13;});
           }
           currentNum+=1;
           if(currentNum==num) goto exit;
@@ -689,5 +695,14 @@ bool Analysis::populate(int num,double seperator){
   exit:
     return true;
 
+  return true;
+}
+
+bool Analysis::boxToCubic(){
+  double max=0;
+  for(i=0;i<3;i++){
+    if(max<box[i])max=box[i];
+  }
+  box=(LR_vector){max,max,max};
   return true;
 }
