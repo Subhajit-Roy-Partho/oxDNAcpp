@@ -3,7 +3,7 @@
 using namespace std;
 
 int main(){
-    Analysis ico("../../managerExample/DNA/ico.top","../../managerExample/DNA/ico.dat","DNA"); // Loading the top and the dat files
+    Analysis ico("ico.top","ico.dat","DNA"); // Loading the top and the dat files
     // ico.shiftbox({0,0,0}); // Bringing everything to 1st coordinate
     // ico.testBoxOverloaded(); // Checking overload from previous action.
 

@@ -557,6 +557,7 @@ bool Analysis::generatePSP(Analysis *PSP,vector<vector<int>> ids,vector<int> col
   PSP->strands=1;
   PSP->particleNum=ids.size()+1;
   PSP->particles.resize(PSP->particleNum);
+  PSP->particlePerStrand=ids.size()+1;
   PSP->box={50,50,50};
 
   vector<double> v; // stores the distance between the clusters
@@ -685,6 +686,7 @@ bool Analysis::populate(int num,double seperator){
             particles[index].r+=shift;
             particles[index].strand=currentNum;
             // std::for_each(particles[index].connector.begin(),particles[index].connector.end(),[](& d){d+=fcurrentNum*13;});
+            for(int m=0;m<particles[index].connector.size();m++) particles[index].connector[m]+=currentNum*particlePerStrand;
           }
           currentNum+=1;
           if(currentNum==num) goto exit;

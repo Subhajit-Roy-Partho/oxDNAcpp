@@ -20,7 +20,7 @@ public:
 
 class Analysis{
   public:
-  int particleNum=0, strands=0, i,tempInt;
+  int particleNum=0, strands=0, i,tempInt,particlePerStrand=0;
   double safeMultiplier = 1.4; // Multiplier with safe distance
   std::string type, output,topology,tempString;
   LR_vector box, energy;
