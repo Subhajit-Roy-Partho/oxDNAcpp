@@ -95,6 +95,11 @@ using namespace std;
       if(!readConfig(config)){cout <<"Error reading configuration file."<<endl;throw std::exception();};
       if(!shiftbox({0,0,0})){cout<<"Box overloaded from shift."<<endl;throw std::exception();};
     }
+
+    if(type=="CCG"){
+      if(!readCCGtopology(topology)){cout<<"Error reading CCG topolofy"<<endl;throw std::exception();};
+      if(!readConfig(config)){cout<<"Error reading configuration file."<<endl;throw std::exception();};
+    }
     // if(type == "newPSP"){
     // }
   }
@@ -411,10 +416,23 @@ LR_vector Analysis::CenterForIndex(int N){
     return true;
   }
 
+  bool Analysis::writeMGL(std::string config){
+    if(config == "") config = output+".mgl";
+    std::ofstream outputMGL(config,ios::trunc);
+    if(!outputMGL.is_open()) return false;
+    outputMGL<<".Box:"<<box<<std::endl;
+    for(i=0;i<strands;i++){
+      auto part = particles[i*particlePerStrand+particlePerStrand-1].r;
+      outputMGL<<part.x<<" "<<part.y<<" "<<part.z<<" @ 18 C[]"<<std::endl;
+      for(int j=particlePerStrand-2;j>=0;j--){
+      }
+    }
+    return true;
+  }
+
   double Analysis::subBoxing(double coordinate, double divisor){
     coordinate = std::remainder(coordinate, divisor);
-    if (coordinate < 0)
-      coordinate += divisor;
+    if (coordinate < 0) coordinate += divisor;
     return coordinate;
   };
 
@@ -464,6 +482,29 @@ LR_vector Analysis::CenterForIndex(int N){
     return true;
   }
 
+  bool Analysis::readCCGtopology(string topology){
+    ifstream inputTop(topology);
+    if (!inputTop.is_open())
+      return false;
+    getline(inputTop, line);
+    ss.clear();
+    ss.str(line);
+    ss >> particleNum;
+    ss >> strands;
+    particles.resize(particleNum);
+    particlePerStrand=particleNum/strands;
+    for(i=0;i<particleNum;i++){
+      ss.clear();
+      getline(inputTop,line);
+      ss.str(line);
+      ss>>temp;
+      ss>>particles[i].strand;
+      ss>>particles[i].color;
+      ss>>particles[i].radius;
+    }
+    return true;
+  }
+
   bool Analysis::readConfig(string config){
     ifstream inputConfig(config);
     if (!inputConfig.is_open())
@@ -485,9 +526,34 @@ LR_vector Analysis::CenterForIndex(int N){
     ss >> energy.x;
     ss >> energy.y;
     ss >> energy.z;
+
+    int count=0;
+    if(particleNum==0){
+      particles.resize(99999);
+      while(getline(inputConfig, line)){
+        if(line.empty()||line[0]=='#') continue;
+        ss.clear();
+        ss.str(line);
+        ss >> particles[i].r.x;
+        ss >> particles[i].r.y;
+        ss >> particles[i].r.z;
+        ss >> particles[i].a1.x;
+        ss >> particles[i].a1.y;
+        ss >> particles[i].a1.z;
+        ss >> particles[i].a3.x;
+        ss >> particles[i].a3.y;
+        ss >> particles[i].a3.z;
+        count++;
+      }
+      particles.resize(count);
+      particleNum=count;
+      return true;
+    }
+
     for (i = 0; i < particleNum; i++)
     {
       getline(inputConfig, line);
+      if(line.empty()||line[0]=='#') continue;
       ss.clear();
       ss.str(line);
       ss >> particles[i].r.x;

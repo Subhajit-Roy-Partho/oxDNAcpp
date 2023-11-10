@@ -57,8 +57,8 @@ class Analysis{
   bool generatePSP(Analysis *PSP,vector<vector<int>>ids,vector<int> colors,vector<double> radius,int numNeighbour=5,double fixedSpringConstant=0); // Generate PSP particles from DNA particles
   bool populate(int num=125,double seperator=1);
   bool boxToCubic();
-
-private:
+  bool readCCGtopology(std::string topology);
+  bool writeMGL(std::string output);
   string line, temp;
   istringstream ss;
 
@@ -68,6 +68,8 @@ private:
   bool readConfig(std::string config);
   bool readPatches(std::string patches);
   bool readParticles(std::string crystalpar);
+
+private:
 };
 
 

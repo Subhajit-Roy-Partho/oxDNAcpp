@@ -27,11 +27,11 @@ int main(){
     // cout << ids.size()<<endl;
     Analysis psp("","","newPSP"); // generating empty particle class
     ico.generatePSP(&psp,ids,colors,radius,5,10); // generating ccg particle from oxDNA file.
-    psp.populate(2,40); //generate 125 crystal with extra 1 su seperation between them
+    psp.populate(125,1); //generate 125 crystal with extra 1 su seperation between them
     psp.boxToCubic();// make the box cubic nothing is effected
-    psp.writeCCGtopology("2.top"); // write the CCG topology
-    psp.writeCCGviewTopology("2view.top"); // write oxview readeable topology
-    psp.writeConfig("2.dat"); // write config dat file
+    psp.writeCCGtopology("125.top"); // write the CCG topology
+    psp.writeCCGviewTopology("125view.top"); // write oxview readeable topology
+    psp.writeConfig("125.dat"); // write config dat file
     // cout <<psp.particles[5].connector<<endl;
     return 0;
 }
