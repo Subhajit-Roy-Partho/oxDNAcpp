@@ -22,3 +22,6 @@ deleteIds([...Array(21).keys()].map(x => x+15930))//extra strand no use
 api.selectElementsIDs(juncturePoints);
 console.log(juncturePoints);
 render();
+
+// 12882, 13397,13366
+// 13130, 13925, 12582
