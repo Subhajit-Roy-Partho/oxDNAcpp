@@ -22,7 +22,7 @@ class Analysis{
   public:
   int particleNum=0, strands=0, i,tempInt,particlePerStrand=0;
   double safeMultiplier = 1.4; // Multiplier with safe distance
-  std::string type, output,topology,tempString;
+  std::string type, output,topology,tempString,config;
   LR_vector box, energy;
   std::vector<Particle> particles;
   std::vector<std::vector<Traj>> traj; // For storing trajectory;
@@ -65,7 +65,7 @@ class Analysis{
   double subBoxing(double coordinate, double divisor);
   bool readCrystalTopology(std::string topology);
   bool readDNAtopology(std::string topology);
-  bool readConfig(std::string config);
+  bool readConfig(std::string config="");
   bool readPatches(std::string patches);
   bool readParticles(std::string crystalpar);
 

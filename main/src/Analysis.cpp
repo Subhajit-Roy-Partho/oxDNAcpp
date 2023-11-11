@@ -83,6 +83,7 @@ using namespace std;
     this->type = type;
     this->output = output;
     this->topology = topology;
+    this->config=config;
     
     if (type == "crystal"){
       readCrystalTopology(topology);
@@ -534,15 +535,15 @@ LR_vector Analysis::CenterForIndex(int N){
         if(line.empty()||line[0]=='#') continue;
         ss.clear();
         ss.str(line);
-        ss >> particles[i].r.x;
-        ss >> particles[i].r.y;
-        ss >> particles[i].r.z;
-        ss >> particles[i].a1.x;
-        ss >> particles[i].a1.y;
-        ss >> particles[i].a1.z;
-        ss >> particles[i].a3.x;
-        ss >> particles[i].a3.y;
-        ss >> particles[i].a3.z;
+        ss >> particles[count].r.x;
+        ss >> particles[count].r.y;
+        ss >> particles[count].r.z;
+        ss >> particles[count].a1.x;
+        ss >> particles[count].a1.y;
+        ss >> particles[count].a1.z;
+        ss >> particles[count].a3.x;
+        ss >> particles[count].a3.y;
+        ss >> particles[count].a3.z;
         count++;
       }
       particles.resize(count);
@@ -553,7 +554,7 @@ LR_vector Analysis::CenterForIndex(int N){
     for (i = 0; i < particleNum; i++)
     {
       getline(inputConfig, line);
-      if(line.empty()||line[0]=='#') continue;
+      // if(line.empty()||line[0]=='#') continue;
       ss.clear();
       ss.str(line);
       ss >> particles[i].r.x;

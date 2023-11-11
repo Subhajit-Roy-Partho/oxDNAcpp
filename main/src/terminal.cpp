@@ -32,8 +32,9 @@ int main(int argc, char *argv[]){
         Manager manage(config);
         // manage.readYAML();
     }
-    if(string(argv[1])=="inboxDAT"){
+    if(string(argv[1])=="inboxDat"){
         Analysis data("",inputDat);
+        data.readConfig(inputDat);
         data.inboxing();
         data.writeConfig(outputDat);
     }
