@@ -36,3 +36,4 @@ trajectory*.dat
 # */managerExample/plots/
 *.ipynb_checkpoints
 **/build
+**/.DS_Store
