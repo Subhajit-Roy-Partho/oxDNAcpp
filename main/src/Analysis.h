@@ -29,7 +29,7 @@ class Analysis{
 
   Traj trajtemp;
 
-  Analysis(std::string topology, std::string config, std::string type = "", std::string output = "output", std::string externalForces = "", std::string parameter1 = "", std::string parameter2 = "");
+  Analysis(std::string topology="", std::string config="", std::string type = "", std::string output = "output", std::string externalForces = "", std::string parameter1 = "", std::string parameter2 = "");
   ~Analysis();
   // Output the center for a number of index
   LR_vector CenterForIndex(int *indexes, int N=-1); // if int* is passed 
@@ -68,6 +68,10 @@ class Analysis{
   bool readConfig(std::string config="");
   bool readPatches(std::string patches);
   bool readParticles(std::string crystalpar);
+
+
+  bool selectIDs(Analysis* selected,std::vector<int> ids,bool reboxing=true); // select only few particles
+  bool reboxing(int offset=2); //optimize the box dimensions
 
 private:
 };

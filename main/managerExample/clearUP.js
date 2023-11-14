@@ -9,7 +9,9 @@ let juncturePoints =[];
 let i=0;
 selectedBases.forEach(base => {// Do the operations on 3' selected bases
   let id = base.id;
+  console.log(id);
   id -=24;
+  console.log(id);
   id=api.getElements([id])[0].n5.id;
   juncturePoints.push(id);
 

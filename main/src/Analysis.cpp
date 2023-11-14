@@ -86,8 +86,8 @@ using namespace std;
     this->config=config;
     
     if (type == "crystal"){
-      readCrystalTopology(topology);
-      readConfig(config);
+      if(!readCrystalTopology(topology)){cout <<"Error reading Patchy Crystal topology "<<endl;throw std::exception();};
+      if(!readConfig(config)){cout <<"Error reading configuration file."<<endl;throw std::exception();};
       inboxing();
       // pickAndPlace();
     }
@@ -773,5 +773,42 @@ bool Analysis::boxToCubic(){
     if(max<box[i])max=box[i];
   }
   box=(LR_vector){max,max,max};
+  return true;
+}
+
+bool Analysis::selectIDs(Analysis* selectedParticles,std::vector<int> ids,bool reboxing){
+  selectedParticles->particleNum=ids.size();
+  selectedParticles->particles.resize(ids.size());
+  selectedParticles->box=this->box;
+  for(i=0;i<ids.size();i++){
+    selectedParticles->particles[i]=this->particles[ids[i]];
+  }
+  if(reboxing) return selectedParticles->reboxing();
+  return true;
+}
+
+bool Analysis::reboxing(int offset){
+  LR_vector mean = CenterForIndex(-1);
+  for(i=0;i<particleNum;i++){
+    particles[i].r-=mean;
+  }
+  //find minimum
+  LR_vector min={0,0,0};
+  for(i=0;i<particleNum;i++){
+    for(int j=0;j<3;j++)
+      if(particles[i].r[j]<min[j]) min[j]=particles[i].r[j];
+  }
+  min-=offset;
+  // Adjust the quantity
+  for(i=0;i<particleNum;i++){
+    particles[i].r-=min;
+  }
+  inboxing();
+  box={0,0,0};
+  for(i=0;i<particleNum;i++){
+    for(int j=0;j<3;j++)
+      if(particles[i].r[j]>box[j]) box[j]=particles[i].r[j];
+  }
+  for(int j=0;j<3;j++)box[j] = ceil(box[j]);
   return true;
 }

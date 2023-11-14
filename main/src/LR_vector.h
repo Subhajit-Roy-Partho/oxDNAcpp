@@ -97,6 +97,11 @@ public:
 		y -= V2.y;
 		z -= V2.z;
 	}
+	inline void operator-=(int S) {
+		x -= S;
+		y -= S;
+		z -= S;
+	}
 
 	inline void operator/=(number S) {
 		number f = 1 / S;
