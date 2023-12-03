@@ -20,7 +20,7 @@ public:
 
 class Analysis{
   public:
-  int particleNum=0, strands=0, i,tempInt,particlePerStrand=0;
+  int particleNum=0, strands=0, i,tempInt,particlePerStrand=0,particleTypes=1;
   double safeMultiplier = 1.4; // Multiplier with safe distance
   std::string type, output,topology,tempString,config;
   LR_vector box, energy;
@@ -54,7 +54,8 @@ class Analysis{
   bool writeCCGviewTopology(string topology="");
   bool shiftbox(LR_vector shift={0,0,0});
   bool testBoxOverloaded();
-  bool generatePSP(Analysis *PSP,vector<vector<int>>ids,vector<int> colors,vector<double> radius,int numNeighbour=5,double fixedSpringConstant=0); // Generate PSP particles from DNA particles
+  bool generatePSP(Analysis *PSP,vector<vector<int>>ids,vector<int> &colors,vector<double> &radius,int numNeighbour=5,double fixedSpringConstant=0); // Generate PSP particles from DNA particles
+  bool addNewType(vector<int> colors={},vector<double> radius={});
   bool populate(int num=125,double seperator=1);
   bool boxToCubic();
   bool readCCGtopology(std::string topology);

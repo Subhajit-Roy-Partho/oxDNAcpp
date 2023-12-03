@@ -615,7 +615,7 @@ bool Analysis::testBoxOverloaded(){
   return true;
 }
 
-bool Analysis::generatePSP(Analysis *PSP,vector<vector<int>> ids,vector<int> colors,vector<double> radius,int numNeighbour,double fixedSpringConstant){
+bool Analysis::generatePSP(Analysis *PSP,vector<vector<int>> ids,vector<int> &colors,vector<double> &radius,int numNeighbour,double fixedSpringConstant){
   if(colors.size()<ids.size() || colors.size()>ids.size()+1){
     cout << "Invalid number of colors are passed."<<endl;
     return false;
@@ -664,6 +664,15 @@ bool Analysis::generatePSP(Analysis *PSP,vector<vector<int>> ids,vector<int> col
   return true;
 }
 
+bool Analysis::addNewType(vector<int> colors,vector<double> radius){
+  strands+=1;
+  particleTypes+=1;
+  particleNum+=particlePerStrand;
+  particles.resize(particleNum);
+  for(i=0;i<3;i++) box[i]=box[i]*particleTypes/(particleTypes-1); //go over x,y,z of the box
+
+  return true;
+};
 
 template <typename T> vector<size_t> sort_indexes(const vector<T> &v) {
 
