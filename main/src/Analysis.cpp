@@ -670,7 +670,11 @@ bool Analysis::addNewType(vector<int> colors,vector<double> radius){
   particleNum+=particlePerStrand;
   particles.resize(particleNum);
   for(i=0;i<3;i++) box[i]=box[i]*particleTypes/(particleTypes-1); //go over x,y,z of the box
-
+  LR_vector minSize=box;
+  for(i=0;i<particlePerStrand;i++){
+    int index = strands*particlePerStrand+i;
+    particles[index]=particles[i];
+  }
   return true;
 };
 
@@ -758,7 +762,7 @@ bool Analysis::populate(int num,double seperator){
           LR_vector shift={minSize.x*k,minSize.y*j,minSize.z*i};
           for(int p=0;p<totPar;p++){
             int index=p+k*totPar+j*dim*totPar+i*dim*dim*totPar;
-            particles[index] =particles[p];
+            particles[index] =particles[p]; //copy the whole particle property
             particles[index].r+=shift;
             particles[index].strand=currentNum;
             // std::for_each(particles[index].connector.begin(),particles[index].connector.end(),[](& d){d+=fcurrentNum*13;});
