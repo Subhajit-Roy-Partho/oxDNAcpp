@@ -664,7 +664,7 @@ bool Analysis::generatePSP(Analysis *PSP,vector<vector<int>> ids,vector<int> &co
   return true;
 }
 
-bool Analysis::addNewType(vector<int> colors,vector<double> radius){
+bool Analysis::addNewType(LR_vector shift,vector<int> colors,vector<double> radius){
   strands+=1;
   particleTypes+=1;
   particleNum+=particlePerStrand;
@@ -674,6 +674,9 @@ bool Analysis::addNewType(vector<int> colors,vector<double> radius){
   for(i=0;i<particlePerStrand;i++){
     int index = strands*particlePerStrand+i;
     particles[index]=particles[i];
+    particles[index].color=colors[i];
+    particles[index].r+=shift*minSize;
+    for(int m=0;m<particles[index].connector.size();m++) particles[index].connector[m]+=strands*particlePerStrand;
   }
   return true;
 };
