@@ -665,6 +665,12 @@ bool Analysis::generatePSP(Analysis *PSP,vector<vector<int>> ids,vector<int> &co
 }
 
 bool Analysis::addNewType(LR_vector shift,vector<int> colors,vector<double> radius){
+  if(colors.size()==particlePerStrand-1){// As the central particle is always 100 so prevent redundency
+    colors.push_back(100);
+  } else if(colors.size()<particlePerStrand){// if less number of colors are provided the process will fails
+    cout << "Invalid number of colors, operation failed"<<endl;
+    return false;
+  }
   strands+=1;
   particleTypes+=1;
   particleNum+=particlePerStrand;
@@ -675,7 +681,8 @@ bool Analysis::addNewType(LR_vector shift,vector<int> colors,vector<double> radi
     int index = strands*particlePerStrand+i;
     particles[index]=particles[i];
     particles[index].color=colors[i];
-    particles[index].r+=shift*minSize;
+    particles[index].r+=minSize.multiplyEach(shift);
+    particles[index].strand=strands;
     for(int m=0;m<particles[index].connector.size();m++) particles[index].connector[m]+=strands*particlePerStrand;
   }
   return true;

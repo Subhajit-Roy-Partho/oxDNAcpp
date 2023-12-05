@@ -55,7 +55,7 @@ class Analysis{
   bool shiftbox(LR_vector shift={0,0,0});
   bool testBoxOverloaded();
   bool generatePSP(Analysis *PSP,vector<vector<int>>ids,vector<int> &colors,vector<double> &radius,int numNeighbour=5,double fixedSpringConstant=0); // Generate PSP particles from DNA particles
-  bool addNewType(vector<int> colors={},vector<double> radius={});
+  bool addNewType(LR_vector shift ,vector<int> colors={},vector<double> radius={});
   bool populate(int num=125,double seperator=1);
   bool boxToCubic();
   bool readCCGtopology(std::string topology);

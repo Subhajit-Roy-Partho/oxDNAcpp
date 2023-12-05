@@ -152,6 +152,10 @@ public:
 		return (LR_vector){x2,y2,z2};
 	}
 
+	LR_vector multiplyEach(const LR_vector &V2){
+		return (LR_vector){x*V2.x,y*V2.y,z*V2.z};
+	}
+
 	inline LR_vector stably_normalised() {
 		LR_vector res(*this);
 
