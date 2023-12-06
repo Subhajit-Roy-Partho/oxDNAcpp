@@ -52,10 +52,11 @@ class Analysis{
   bool writeConfig(std::string config = "");
   bool writeCCGtopology(string topology = "");
   bool writeCCGviewTopology(string topology="");
-  bool shiftbox(LR_vector shift={0,0,0});
+  bool shiftbox(LR_vector shift={0,0,0}); // Shift the box by given amount but for default case resizes the box
   bool testBoxOverloaded();
   bool generatePSP(Analysis *PSP,vector<vector<int>>ids,vector<int> &colors,vector<double> &radius,int numNeighbour=5,double fixedSpringConstant=0); // Generate PSP particles from DNA particles
   bool addNewType(LR_vector shift ,vector<int> colors={},vector<double> radius={});
+  bool populateSingle(int num=125,double seperator=1);
   bool populate(int num=125,double seperator=1);
   bool boxToCubic();
   bool readCCGtopology(std::string topology);

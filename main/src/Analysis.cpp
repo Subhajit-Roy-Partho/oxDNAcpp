@@ -676,15 +676,17 @@ bool Analysis::addNewType(LR_vector shift,vector<int> colors,vector<double> radi
   particleNum+=particlePerStrand;
   particles.resize(particleNum);
   for(i=0;i<3;i++) box[i]=box[i]*particleTypes/(particleTypes-1); //go over x,y,z of the box
-  LR_vector minSize=box;
+  LR_vector minSize=(box/particleTypes);
+  // cout<<minSize.multiplyEach(shift)<<endl;
   for(i=0;i<particlePerStrand;i++){
-    int index = strands*particlePerStrand+i;
+    int index = (strands-1)*particlePerStrand+i;
     particles[index]=particles[i];
     particles[index].color=colors[i];
-    particles[index].r+=minSize.multiplyEach(shift);
+    particles[index].r+=minSize.multiplyEach(shift*1.3);
     particles[index].strand=strands;
-    for(int m=0;m<particles[index].connector.size();m++) particles[index].connector[m]+=strands*particlePerStrand;
+    for(int m=0;m<particles[index].connector.size();m++) particles[index].connector[m]+=(strands-1)*particlePerStrand;
   }
+  // box+=minSize;
   return true;
 };
 
@@ -751,7 +753,7 @@ bool Analysis::writeCCGviewTopology(string topology){
   return true;
 }
 
-bool Analysis::populate(int num,double seperator){
+bool Analysis::populateSingle(int num,double seperator){
   int totPar=particleNum;
   LR_vector minSize = box-2+seperator;
   // Genral parameters
@@ -833,5 +835,15 @@ bool Analysis::reboxing(int offset){
       if(particles[i].r[j]>box[j]) box[j]=particles[i].r[j];
   }
   for(int j=0;j<3;j++)box[j] = ceil(box[j]);
+  return true;
+}
+
+
+bool Analysis::populate(int num, double seperator){
+  if(particleTypes==1) return populateSingle(num,seperator);
+  if(particlePerStrand==0) particlePerStrand=particleNum/particleTypes;
+  LR_vector minSize = box-2+seperator;
+  auto store=this;
+  cout<<"Test "<< store->particleNum<<endl;
   return true;
 }
