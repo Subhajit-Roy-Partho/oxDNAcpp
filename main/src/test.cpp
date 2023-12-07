@@ -38,13 +38,13 @@ void PSPgenerator(){
     Analysis psp("","","newPSP"); // generating empty particle class
     ico.generatePSP(&psp,ids,colors,radius,5,10); // generating ccg particle from oxDNA file.
     colors ={100,-25,30,100,-22,100,29,100,27,28,100,100};
-    psp.addNewType((LR_vector){0,0,1},colors);
+    psp.addFalseType(colors);
     colors = {100,-30,-24,100,-28,100,32,100,31,-21,100,100};
-    psp.addNewType((LR_vector){0,1,0},colors);
+    psp.addFalseType(colors);
     colors = {100,-32,23,100,-31,100,-29,100,-27,-23,100,100};
-    psp.addNewType((LR_vector){0,1,1},colors);
-    psp.reboxing();
-    psp.populate(125,5); //generate 125 crystal with extra 1 su seperation between them
+    psp.addFalseType(colors);
+    psp.populate(128,5); //generate 125 crystal with extra 1 su seperation between them
+    // psp.reboxing();
     // psp.boxToCubic();// make the box cubic nothing is effected
     psp.writeCCGtopology("125.top"); // write the CCG topology
     psp.writeCCGviewTopology("125view.top"); // write oxview readeable topology

@@ -690,6 +690,29 @@ bool Analysis::addNewType(LR_vector shift,vector<int> colors,vector<double> radi
   return true;
 };
 
+bool Analysis::addFalseType(vector<int> colors){
+  if(colors.size()==particlePerStrand-1){// As the central particle is always 100 so prevent redundency
+    colors.push_back(100);
+  } else if(colors.size()<particlePerStrand){// if less number of colors are provided the process will fails
+    cout << "Invalid number of colors, operation failed"<<endl;
+    return false;
+  }
+  strands+=1;
+  particleTypes+=1;
+  particleNum+=particlePerStrand;
+  particles.resize(particleNum);
+  for(i=0;i<3;i++) box[i]=box[i]*particleTypes/(particleTypes-1); //go over x,y,z of the box
+  LR_vector minSize=(box/particleTypes);
+  // cout<<minSize.multiplyEach(shift)<<endl;
+  for(i=0;i<particlePerStrand;i++){
+    int index =(strands-1)*particlePerStrand+i;
+    particles[index]=particles[i];
+    particles[index].color=colors[i];
+  }
+  // box+=minSize;
+  return true;
+};
+
 template <typename T> vector<size_t> sort_indexes(const vector<T> &v) {
 
   // initialize original index locations
@@ -842,8 +865,82 @@ bool Analysis::reboxing(int offset){
 bool Analysis::populate(int num, double seperator){
   if(particleTypes==1) return populateSingle(num,seperator);
   if(particlePerStrand==0) particlePerStrand=particleNum/particleTypes;
+  if(num%particleTypes!=0) return false;
+
+  Analysis psp("","","newPSP"); // generating empty particle class
+  psp.particles.resize(particleNum);
+  for(i=0;i<particleNum;i++){
+    psp.particles[i]=particles[i];
+  }
+
+  particleNum=particlePerStrand*num;
+  strands=num;
+  particles.clear(); // flush out everything
+  particles.resize(particleNum);
+
+  int dim=std::ceil(std::pow(num,1.0/3.0));
   LR_vector minSize = box-2+seperator;
-  auto store=this;
-  cout<<"Test "<< store->particleNum<<endl;
-  return true;
+  // minSize*=1.05;
+  box=minSize*dim+2;
+  // cout<<psp.particles[0].connector<<endl;
+  // for(i=0;i<particleTypes;i++){ //need to work on later to make certain the sample particle is at mindist config
+  //   LR_vector minimum = {0,0,0};
+  //   for(int j=0;j<particlePerStrand;j++){
+  //     if (minimum.x<)
+  //   }
+  // }
+  std::vector<int> count(particleTypes,0); // Keep count of different types of particle, prevent excess
+  LR_vector translate={0,0,0};
+  int currentNum=1;
+  auto drawn=draw();
+  // cout<<drawn<<endl;
+  buildingParticles:
+    for(i=0;i<dim;i++){
+      for(int j=0;j<dim;j++){
+        for(int k=0;k<dim;k++){
+          LR_vector shift={minSize.x*k,minSize.y*j,minSize.z*i};
+          for(int p=0;p<particlePerStrand;p++){
+            int index=p+k*particlePerStrand+j*dim*particlePerStrand+i*dim*dim*particlePerStrand;
+            int pspIndex = p+drawn[currentNum]*particlePerStrand;
+            particles[index]=psp.particles[pspIndex];
+            particles[index].r+=shift;
+            particles[index].strand=currentNum;
+            for(int m=0;m<particles[index].connector.size();m++) particles[index].connector[m]+=(currentNum-1)*particlePerStrand;
+          }
+          currentNum+=1;
+          if(currentNum==num) goto exit;
+        }
+      }
+    }
+    return true;
+  exit:
+    return true;
+
+  cout<<"Program should not have reached this state. Building particles failed."<<endl;
+  return false;
+}
+
+
+vector<int> Analysis::draw(){
+  int maxCount=(particleNum/particlePerStrand)/particleTypes;
+  vector<int> count(particleTypes,0);
+  vector<int> result(strands);
+  std::random_device rd;  // a seed source for the random number engine
+  std::mt19937 gen(rd()); // mersenne_twister_engine seeded with rd()
+  std::uniform_int_distribution<> distrib(0,particleTypes-1);
+  int random;
+  for(i=0;i<strands;i++){
+    bool cont=true;
+    while (cont){
+      random = distrib(gen);
+      // cout<<random<<endl;
+      if(count[random]<maxCount) cont=false;
+    }
+    count[random]+=1;
+    result[i]=random;
+  }
+  // cout<<"Particle Numbers"<<strands<<endl;
+  // cout<<"Count of particle types = "<<count<<endl;
+  // cout<<"Length of result = "<<result.size()<<endl;
+  return result;
 }

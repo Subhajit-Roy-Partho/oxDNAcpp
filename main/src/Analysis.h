@@ -1,4 +1,5 @@
 #include "main.h"
+#include <random>
 #include <eigen3/Eigen/Dense>
 using namespace std;
 
@@ -56,6 +57,7 @@ class Analysis{
   bool testBoxOverloaded();
   bool generatePSP(Analysis *PSP,vector<vector<int>>ids,vector<int> &colors,vector<double> &radius,int numNeighbour=5,double fixedSpringConstant=0); // Generate PSP particles from DNA particles
   bool addNewType(LR_vector shift ,vector<int> colors={},vector<double> radius={});
+  bool addFalseType(vector<int> colors);
   bool populateSingle(int num=125,double seperator=1);
   bool populate(int num=125,double seperator=1);
   bool boxToCubic();
@@ -74,6 +76,8 @@ class Analysis{
 
   bool selectIDs(Analysis* selected,std::vector<int> ids,bool reboxing=true); // select only few particles
   bool reboxing(int offset=2); //optimize the box dimensions
+
+  vector<int> draw();
 
 private:
 };
