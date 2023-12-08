@@ -36,7 +36,7 @@ void PSPgenerator(){
     vector<double> radius{8,10}; // if 2 of the radius are provided then 1st for all particle and 2nd for the central particle
     // cout << ids.size()<<endl;
     Analysis psp("","","newPSP"); // generating empty particle class
-    ico.generatePSP(&psp,ids,colors,radius,5,10); // generating ccg particle from oxDNA file.
+    ico.generatePSP(&psp,ids,colors,radius,5,100); // generating ccg particle from oxDNA file.
     colors ={100,-25,30,100,-22,100,29,100,27,28,100,100};
     psp.addFalseType(colors);
     colors = {100,-30,-24,100,-28,100,32,100,31,-21,100,100};
@@ -46,14 +46,22 @@ void PSPgenerator(){
     psp.populate(128,5); //generate 125 crystal with extra 1 su seperation between them
     // psp.reboxing();
     // psp.boxToCubic();// make the box cubic nothing is effected
-    psp.writeCCGtopology("125.top"); // write the CCG topology
-    psp.writeCCGviewTopology("125view.top"); // write oxview readeable topology
-    psp.writeConfig("125.dat"); // write config dat file
+    psp.writeCCGtopology("127.top"); // write the CCG topology
+    psp.writeCCGviewTopology("127view.top"); // write oxview readeable topology
+    psp.writeConfig("127.dat"); // write config dat file
     // cout <<psp.particles[5].connector<<endl;
 };
 
+void PHBgenerator(){
+    cout<<"This is to generate PHB"<<endl;
+}
+
+void PatchyGenerator(){
+    
+}
+
 int main(){
     // patchyReturn();
-    PSPgenerator();
+    // PSPgenerator();
     return 0;
 }

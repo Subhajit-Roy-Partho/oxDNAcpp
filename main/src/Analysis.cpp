@@ -901,6 +901,7 @@ bool Analysis::populate(int num, double seperator){
           LR_vector shift={minSize.x*k,minSize.y*j,minSize.z*i};
           for(int p=0;p<particlePerStrand;p++){
             int index=p+k*particlePerStrand+j*dim*particlePerStrand+i*dim*dim*particlePerStrand;
+            cout<<index<<" ";
             int pspIndex = p+drawn[currentNum]*particlePerStrand;
             particles[index]=psp.particles[pspIndex];
             particles[index].r+=shift;

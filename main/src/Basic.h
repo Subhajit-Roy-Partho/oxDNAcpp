@@ -42,6 +42,8 @@ public:
   }
 };
 
+
+
 struct Traj{
   LR_vector r;
   LR_vector a1;
