@@ -945,3 +945,7 @@ vector<int> Analysis::draw(){
   // cout<<"Length of result = "<<result.size()<<endl;
   return result;
 }
+
+bool Analysis::readCrystalPatches(std::string patch){
+  
+};

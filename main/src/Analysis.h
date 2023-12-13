@@ -68,6 +68,8 @@ class Analysis{
 
   double subBoxing(double coordinate, double divisor);
   bool readCrystalTopology(std::string topology);
+  bool readCrystalPatches(std::string patch);
+  bool readCrystalParticles(std::string particles);
   bool readDNAtopology(std::string topology);
   bool readConfig(std::string config="");
   bool readPatches(std::string patches);
