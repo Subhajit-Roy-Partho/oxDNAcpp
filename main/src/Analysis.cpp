@@ -88,6 +88,7 @@ using namespace std;
     if (type == "crystal"){
       if(!readCrystalTopology(topology)){cout <<"Error reading Patchy Crystal topology "<<endl;throw std::exception();};
       if(!readConfig(config)){cout <<"Error reading configuration file."<<endl;throw std::exception();};
+      // if(!readCrystalPatches())
       inboxing();
       // pickAndPlace();
     }
@@ -101,8 +102,12 @@ using namespace std;
       if(!readCCGtopology(topology)){cout<<"Error reading CCG topolofy"<<endl;throw std::exception();};
       if(!readConfig(config)){cout<<"Error reading configuration file."<<endl;throw std::exception();};
     }
-    // if(type == "newPSP"){
-    // }
+
+    size_t pos=0;
+    if((pos=type.find("new"))!=std::string::npos){ //make sure if new keyword is attached keep the type same and don't do extra stuff
+      type.erase(0,pos+3);
+      this->type=type;
+    }
   }
 
   Analysis::~Analysis()
@@ -417,16 +422,19 @@ LR_vector Analysis::CenterForIndex(int N){
     return true;
   }
 
-  bool Analysis::writeMGL(std::string config){
+  bool Analysis::writeMGL(std::string config,double centralRadius,double patchRadius,bool modern){
     if(config == "") config = output+".mgl";
     std::ofstream outputMGL(config,ios::trunc);
     if(!outputMGL.is_open()) return false;
     outputMGL<<".Box:"<<box<<std::endl;
-    for(i=0;i<strands;i++){
-      auto part = particles[i*particlePerStrand+particlePerStrand-1].r;
-      outputMGL<<part.x<<" "<<part.y<<" "<<part.z<<" @ 18 C[]"<<std::endl;
-      for(int j=particlePerStrand-2;j>=0;j--){
+    for(i=0;i<particleNum;i++){
+      outputMGL<<particles[i].r.x<<" "<<particles[i].r.y<<" "<<particles[i].r.z<<" @ ";
+      if(centralRadius==0){
+        outputMGL<<particles[i].radius<<" ";
+      }else{
+        outputMGL<<centralRadius<<" ";
       }
+      outputMGL<<"C[green] M ";
     }
     return true;
   }
@@ -457,6 +465,85 @@ LR_vector Analysis::CenterForIndex(int N){
       ss >> temp;
       particles[i].id = i;
       particles[i].strand = stoi(temp);
+    }
+    return true;
+  }
+
+  bool Analysis::readCrystalPatches(std::string patch){
+    ifstream inputPatch(patch);
+    if(!inputPatch.is_open()) return false;
+    bool open=false;
+    int count = 0;
+    // std::string delimiter = "=";
+    Patch tempPatch;
+    while(getline(inputPatch,line)){
+      if(!line.size()) continue; //ignore empty lines 
+      if(line[0]=='#') continue; //ignore comments 
+      if(line.find("{") != std::string::npos){
+        open=true;
+        continue;
+      };
+      if(line.find("}") != std::string::npos){
+        if(open){
+          sourcePatch.push_back(tempPatch);
+          count++;
+        }
+        open=false;
+        continue;
+      }
+      auto splitted = npSplit(line,"=");
+      if(splitted[0]=="id") if(stoi(splitted[1])!=count) return false;
+      if(splitted[0]=="color") tempPatch.color=stoi(splitted[1]);
+      if(splitted[0]=="strength") tempPatch.strength=stoi(splitted[1]);
+      if(splitted[0]=="position"){
+        splitted = npSplit(splitted[1],",");
+        tempPatch.position=(LR_vector){stod(splitted[0]),stod(splitted[1]),stod(splitted[2])};
+        // cout<<tempPatch.position<<endl;
+      }
+      if(splitted[0]=="a1"){
+        splitted=npSplit(splitted[1],",");
+        tempPatch.a1=(LR_vector){stod(splitted[0]),stod(splitted[1]),stod(splitted[2])};
+      }
+      if(splitted[0]=="a2"){
+        splitted=npSplit(splitted[1],",");
+        tempPatch.a2=(LR_vector){stod(splitted[0]),stod(splitted[1]),stod(splitted[2])};
+      }
+    }
+    return true;
+  };
+
+  bool Analysis::readCrystalParticlePatchyConfig(std::string file){
+    ifstream inputConfig(file);
+    if(!inputConfig.is_open()) return false;
+    bool open=false;
+    int count = 0;
+    std::vector<int> tempConfig;
+    while(getline(inputConfig,line)){
+      if(!line.size()) continue; //ignore empty lines 
+      if(line[0]=='#') continue; //ignore comments 
+      if(line.find("{") != std::string::npos){
+        open=true;
+        continue;
+      };
+      if(line.find("}") != std::string::npos){
+        if(open){
+          patchConfig.push_back(tempConfig);
+          tempConfig.clear();
+          count++;
+        }
+        open=false;
+        continue;
+      }
+      auto splitted = npSplit(line,"=");
+      if(splitted[0]=="type") if(stoi(splitted[1])!=count) return false;
+      if(splitted[0]=="patches"){
+        splitted = npSplit(splitted[1],",");
+        for(int i=0;i<splitted.size();i++){
+          tempConfig.push_back(stoi(splitted[i]));
+        }
+        for(i=0;i<particleNum;i++)
+          if(particles[i].strand==count) particles[i].patches=tempConfig;
+      }
     }
     return true;
   }
@@ -946,6 +1033,17 @@ vector<int> Analysis::draw(){
   return result;
 }
 
-bool Analysis::readCrystalPatches(std::string patch){
-  
-};
+std::vector<std::string> npSplit(std::string s, std::string delimiter){
+  std::vector<std::string> output;
+  size_t pos;
+  std::string token;
+  while((pos=s.find(delimiter))!=std::string::npos){
+    token=s.substr(0,pos);
+    istringstream iss(token);
+    iss>>token;
+    output.push_back(token);
+    s.erase(0,pos+delimiter.length());
+  }
+  output.push_back(s);
+  return output;
+}

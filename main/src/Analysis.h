@@ -3,8 +3,7 @@
 #include <eigen3/Eigen/Dense>
 using namespace std;
 
-class Forces
-{
+class Forces{
 public:
   std::vector<int> particles;
   std::vector<float> stiff, rate, position;
@@ -27,6 +26,8 @@ class Analysis{
   LR_vector box, energy;
   std::vector<Particle> particles;
   std::vector<std::vector<Traj>> traj; // For storing trajectory;
+  std::vector<Patch> sourcePatch; //For storing patch information and only the index are stored inside particles
+  std::vector<std::vector <int>> patchConfig; // Store patch configuration for a particle.
 
   Traj trajtemp;
 
@@ -49,10 +50,13 @@ class Analysis{
   template <typename A, typename B>double min_image(A p, B q);
   bool planeFitting(int *cluster, LR_vector center, LR_vector normal);
   bool writeCrystalTopology(std::string topology="");
+  bool writeMGL(std::string output="",double centralRadius=0,double patchRadius=0,bool modern=true);
   bool writeDNAtopology(std::string topology="");
   bool writeConfig(std::string config = "");
   bool writeCCGtopology(string topology = "");
   bool writeCCGviewTopology(string topology="");
+
+
   bool shiftbox(LR_vector shift={0,0,0}); // Shift the box by given amount but for default case resizes the box
   bool testBoxOverloaded();
   bool generatePSP(Analysis *PSP,vector<vector<int>>ids,vector<int> &colors,vector<double> &radius,int numNeighbour=5,double fixedSpringConstant=0); // Generate PSP particles from DNA particles
@@ -62,13 +66,13 @@ class Analysis{
   bool populate(int num=125,double seperator=1);
   bool boxToCubic();
   bool readCCGtopology(std::string topology);
-  bool writeMGL(std::string output);
   string line, temp;
   istringstream ss;
 
   double subBoxing(double coordinate, double divisor);
   bool readCrystalTopology(std::string topology);
   bool readCrystalPatches(std::string patch);
+  bool readCrystalParticlePatchyConfig(std::string config);
   bool readCrystalParticles(std::string particles);
   bool readDNAtopology(std::string topology);
   bool readConfig(std::string config="");
@@ -86,3 +90,4 @@ private:
 
 
 template <typename T> vector<size_t> sort_indexes(const vector<T> &v);
+std::vector<std::string> npSplit(std::string s, std::string delimiter);

@@ -12,6 +12,14 @@ void patchyReturn(){
     selected.writeConfig();
 };
 
+void MGLgenerator(){
+    Analysis crystals("../../managerExample/4flat/input.top","../../managerExample/4flat/input.dat","crystal");
+    crystals.readCrystalPatches("../../managerExample/4flat/sat24.patches.txt");
+    crystals.readCrystalParticlePatchyConfig("../../managerExample/4flat/CRYSTAL.particles.txt");
+    crystals.writeMGL();
+    cout<<crystals.particles[500].patches<<endl;
+}
+
 void PSPgenerator(){
     Analysis ico("../../managerExample/DNA/icoAligned.top","../../managerExample/DNA/icoAligned.dat","DNA"); // Loading the top and the dat files
     // ico.shiftbox({0,0,0}); // Bringing everything to 1st coordinate
@@ -63,5 +71,7 @@ void PatchyGenerator(){
 int main(){
     // patchyReturn();
     // PSPgenerator();
+    MGLgenerator();
+    Analysis("","","newcrystal");
     return 0;
 }

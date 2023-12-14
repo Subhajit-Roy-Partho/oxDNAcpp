@@ -15,6 +15,23 @@ template <typename T>std::string to_string_with_precision(const T a_value, const
     return std::move(out).str();
 }
 
+struct Patch {
+    LR_vector position; //the position of the patch with respect to the CM of the particle
+    LR_vector a1;  //vector that is to be compared against the vector connecting the patches r_pp, needs to be parallel
+    LR_vector a2; // vector which needs to be parallel with a2 on the complementary patch
+    int id=0; //the id of the patch; it is used during initialization to assign patches to particles according to input file; sets the type of patch
+    int index ; //this is the unique index of the patch in the simulation
+    bool active = false; //is the patch on or not
+    int locked_to_particle=-1; //id of the particle this patch is bound to; used to make sure 1 patch is only in 1 interaction
+    int locked_to_patch=-1; //id of the particle this patch is bound to; used to make sure 1 patch is only in 1 interaction
+    number locked_energy=0;
+
+    int color=-1; //this is the color of the patch
+    number strength=1;  //sets the strength of the interaction
+    // number a1_x=1, a1_y=0, a1_z=0;
+    // number a2_x=1, a2_y=0, a2_z=0;
+};
+
 class Particle{
 public:
   int id, color, strand=0;
@@ -23,6 +40,7 @@ public:
   LR_vector r = {0, 0, 0}, a1={1,1,0}, a3={0,0,-1};
   std::vector<int> connector; // ids of particles connected
   std::vector<double> spring,eqRadius; // saves the spring constant of the ids
+  std::vector<int> patches;
   // inline void operator&=(Particle S){
   //   r=S.r;
   //   a1=S.a1;
@@ -40,23 +58,6 @@ public:
     spring=S.spring;
     eqRadius=S.eqRadius;
   }
-};
-
-struct Patch {
-    LR_vector position; //the position of the patch with respect to the CM of the particle
-    LR_vector a1;  //vector that is to be compared against the vector connecting the patches r_pp, needs to be parallel
-    LR_vector a2; // vector which needs to be parallel with a2 on the complementary patch
-    int id=0; //the id of the patch; it is used during initialization to assign patches to particles according to input file; sets the type of patch
-    int index ; //this is the unique index of the patch in the simulation
-    bool active = false; //is the patch on or not
-    int locked_to_particle=-1; //id of the particle this patch is bound to; used to make sure 1 patch is only in 1 interaction
-    int locked_to_patch=-1; //id of the particle this patch is bound to; used to make sure 1 patch is only in 1 interaction
-    number locked_energy=0;
-
-    int color=-1; //this is the color of the patch
-    number strength=1;  //sets the strength of the interaction
-    number a1_x=1, a1_y=0, a1_z=0;
-    number a2_x=1, a2_y=0, a2_z=0;
 };
 
 struct Traj{
