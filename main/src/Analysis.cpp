@@ -426,6 +426,7 @@ LR_vector Analysis::CenterForIndex(int N){
     if(config == "") config = output+".mgl";
     std::ofstream outputMGL(config,ios::trunc);
     if(!outputMGL.is_open()) return false;
+    outputMGL.precision(15);
     outputMGL<<".Box:"<<box<<std::endl;
     for(i=0;i<particleNum;i++){
       outputMGL<<particles[i].r.x<<" "<<particles[i].r.y<<" "<<particles[i].r.z<<" @ ";
@@ -433,8 +434,14 @@ LR_vector Analysis::CenterForIndex(int N){
         outputMGL<<particles[i].radius<<" ";
       }else{
         outputMGL<<centralRadius<<" ";
+      };
+      outputMGL<<"C["<<centralColorMap.find(particles[i].strand)->second<<"] M ";
+      for(int j=0;j<particles[i].patches.size();j++){
+        auto temp=sourcePatch[particles[i].patches[j]];
+        if(patchRadius==0) patchRadius=temp.radius;
+        outputMGL<<temp.position.x<<" "<<temp.position.y<<" "<<temp.position.z<<" "<<patchRadius<<" C["<<colorMap.find(temp.color)->second<<"] ";
       }
-      outputMGL<<"C[green] M ";
+      outputMGL<<std::endl;
     }
     return true;
   }

@@ -27,7 +27,8 @@ struct Patch {
     number locked_energy=0;
 
     int color=-1; //this is the color of the patch
-    number strength=1;  //sets the strength of the interaction
+    number strength=1;  //sets the strength of the interaction/
+    number radius=0.4;
     // number a1_x=1, a1_y=0, a1_z=0;
     // number a2_x=1, a2_y=0, a2_z=0;
 };

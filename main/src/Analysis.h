@@ -1,6 +1,11 @@
 #include "main.h"
 #include <random>
 #include <eigen3/Eigen/Dense>
+#include <iostream>
+#include <map>
+#include <string>
+#include <string_view>
+
 using namespace std;
 
 class Forces{
@@ -85,9 +90,51 @@ class Analysis{
 
   vector<int> draw();
 
+  std::map<int, std::string> colorMap ={{20,"red"},
+                                        {21,"blue"},
+                                        {22,"green"},
+                                        {23,"yellow"},
+                                        {24,"orange"},
+                                        {25,"purple"},
+                                        {26,"pink"},
+                                        {27,"brown"},
+                                        {28,"cyan"},
+                                        {29,"gray"},
+                                        {30,"magenta"},
+                                        {31,"skyblue"},
+                                        {32,"crimson"},
+                                        {33,"amber"},
+                                        {34,"brass"},
+                                        {35,"applegreen"},
+                                        {-20,"darkred"},
+                                        {-21,"darkblue"},
+                                        {-22,"darkgreen"},
+                                        {-23,"darkyellow"},
+                                        {-24,"darkorange"},
+                                        {-25,"darkpurple"},
+                                        {-26,"darkpink"},
+                                        {-27,"darkbrown"},
+                                        {-28,"darkcyan"},
+                                        {-29,"darkgray"},
+                                        {-30,"darkmagenta"}};
+
+
+  std::map<int, std::string> centralColorMap ={{0,"red"},
+                                        {1,"blue"},
+                                        {2,"green"},
+                                        {3,"yellow"},
+                                        {4,"orange"},
+                                        {5,"purple"},
+                                        {6,"pink"},
+                                        {7,"brown"},
+                                        {8,"cyan"},
+                                        {9,"gray"},
+                                        {10,"magenta"}};
+
 private:
-};
+  };
 
 
 template <typename T> vector<size_t> sort_indexes(const vector<T> &v);
 std::vector<std::string> npSplit(std::string s, std::string delimiter);
+void print_map(std::string_view comment, const std::map<std::string, int>& m);

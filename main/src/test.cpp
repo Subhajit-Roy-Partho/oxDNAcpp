@@ -16,8 +16,8 @@ void MGLgenerator(){
     Analysis crystals("../../managerExample/4flat/input.top","../../managerExample/4flat/input.dat","crystal");
     crystals.readCrystalPatches("../../managerExample/4flat/sat24.patches.txt");
     crystals.readCrystalParticlePatchyConfig("../../managerExample/4flat/CRYSTAL.particles.txt");
-    crystals.writeMGL();
-    cout<<crystals.particles[500].patches<<endl;
+    crystals.writeMGL("output.mgl",0.4,0.1);
+    // cout<<crystals.particles[500].patches<<endl;
 }
 
 void PSPgenerator(){
@@ -72,6 +72,6 @@ int main(){
     // patchyReturn();
     // PSPgenerator();
     MGLgenerator();
-    Analysis("","","newcrystal");
+    // Analysis("","","newcrystal");
     return 0;
 }
