@@ -116,7 +116,12 @@ class Analysis{
                                         {-27,"darkbrown"},
                                         {-28,"darkcyan"},
                                         {-29,"darkgray"},
-                                        {-30,"darkmagenta"}};
+                                        {-30,"darkmagenta"},
+                                        {-31,"lightskyblue"},
+                                        {-32,"lightcrimson"},
+                                        {-33,"lightamber"},
+                                        {-34,"lightbrass"},
+                                        {-35,"lightapplegreen"},};
 
 
   std::map<int, std::string> centralColorMap ={{0,"red"},
