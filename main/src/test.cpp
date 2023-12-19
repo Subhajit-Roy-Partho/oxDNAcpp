@@ -64,6 +64,36 @@ void PHBgenerator(){
     cout<<"This is to generate PHB"<<endl;
 }
 
+void CubeGenerator(){
+    Analysis cub("","","newcrystal");
+    cub.particleNum=2,cub.particlePerStrand=1,cub.strands=2; cub.particles.resize(2),cub.particleTypes=2;
+    cub.box=(LR_vector){1.2,1.2,1.2};
+    Patch cubSide;
+    cubSide.position=(LR_vector){0,0.5,0};cubSide.color=22;cub.sourcePatch.push_back(cubSide);
+    cubSide.position=(LR_vector){0.5,0,0};cubSide.color=22;cub.sourcePatch.push_back(cubSide);
+    cubSide.position=(LR_vector){0,-0.5,0};cubSide.color=22;cub.sourcePatch.push_back(cubSide);
+    cubSide.position=(LR_vector){-0.5,0,0};cubSide.color=22;cub.sourcePatch.push_back(cubSide);
+    cubSide.position=(LR_vector){0,0,-0.5};cubSide.color=22;cub.sourcePatch.push_back(cubSide);
+    cubSide.position=(LR_vector){0,0,0.5};cubSide.color=22;cub.sourcePatch.push_back(cubSide);
+
+    //complimentary patches
+    cubSide.position=(LR_vector){0,0.5,0};cubSide.color=-22;cub.sourcePatch.push_back(cubSide);
+    cubSide.position=(LR_vector){0.5,0,0};cubSide.color=-22;cub.sourcePatch.push_back(cubSide);
+    cubSide.position=(LR_vector){0,-0.5,0};cubSide.color=-22;cub.sourcePatch.push_back(cubSide);
+    cubSide.position=(LR_vector){-0.5,0,0};cubSide.color=-22;cub.sourcePatch.push_back(cubSide);
+    cubSide.position=(LR_vector){0,0,-0.5};cubSide.color=-22;cub.sourcePatch.push_back(cubSide);
+    cubSide.position=(LR_vector){0,0,0.5};cubSide.color=-22;cub.sourcePatch.push_back(cubSide);
+
+    cub.particles[0].patches={0,1,2,3,4,5}; cub.particles[0].strand=0;
+    cub.particles[1].patches={6,7,8,9,10,11};cub.particles[1].strand=1;
+    cub.populate(1000,3);
+    for(int i=0;i<cub.particleNum;i++){
+        cout<<cub.particles[i].patches<<endl;
+    }
+    cout<<cub.type<<endl;
+    cub.writeMGL("output.mgl",0.4,0.1);
+}
+
 void PatchyGenerator(){
     
 }
@@ -71,7 +101,9 @@ void PatchyGenerator(){
 int main(){
     // patchyReturn();
     // PSPgenerator();
-    MGLgenerator();
+    // MGLgenerator();
     // Analysis("","","newcrystal");
+    CubeGenerator();
+
     return 0;
 }

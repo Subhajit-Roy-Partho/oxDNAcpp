@@ -960,8 +960,9 @@ bool Analysis::populate(int num, double seperator){
   if(particleTypes==1) return populateSingle(num,seperator);
   if(particlePerStrand==0) particlePerStrand=particleNum/particleTypes;
   if(num%particleTypes!=0) return false;
+  cout<<"tell me something"<<endl;
 
-  Analysis psp("","","newPSP"); // generating empty particle class
+  Analysis psp("","","new"+type); // generating empty particle class
   psp.particles.resize(particleNum);
   for(i=0;i<particleNum;i++){
     psp.particles[i]=particles[i];
@@ -999,7 +1000,8 @@ bool Analysis::populate(int num, double seperator){
             int pspIndex = p+drawn[currentNum]*particlePerStrand;
             particles[index]=psp.particles[pspIndex];
             particles[index].r+=shift;
-            particles[index].strand=currentNum;
+            particles[index].strand=(type!="crystal")? currentNum:drawn[currentNum];
+            if(type=="crystal") particles[index].patches=psp.particles[pspIndex].patches;
             for(int m=0;m<particles[index].connector.size();m++) particles[index].connector[m]+=(currentNum-1)*particlePerStrand;
           }
           currentNum+=1;
