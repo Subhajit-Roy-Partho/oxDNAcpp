@@ -98,12 +98,16 @@ void PatchyGenerator(){
     
 }
 
+void DNAarmAnalysis(){
+    Analysis dna("../../managerExample/DNA/icoAligned.top","../../managerExample/DNA/icoAligned.dat","DNA");
+}
+
 int main(){
     // patchyReturn();
     // PSPgenerator();
     // MGLgenerator();
     // Analysis("","","newcrystal");
-    CubeGenerator();
+    // CubeGenerator();
 
     return 0;
 }
