@@ -62,9 +62,15 @@ public:
 };
 
 struct Traj{
-  LR_vector r;
-  LR_vector a1;
-  LR_vector a3;
+  int time;
+  std::vector<LR_vector> r;
+  std::vector<LR_vector> a1;
+  std::vector<LR_vector> a3;
+  void updateParticleNumber(int particleNum){
+    r.resize(particleNum);
+    a1.resize(particleNum);
+    a3.resize(particleNum);
+  }
 };
 
 template <typename A, std::size_t N>A npMean(A (&vector)[N])

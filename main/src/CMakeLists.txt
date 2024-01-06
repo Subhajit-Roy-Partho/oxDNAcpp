@@ -7,12 +7,20 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 include_directories("/usr/local/include")
 link_directories("/usr/local/lib")
 
+# In mac, brew install openmp seperately so that gcc headers are not overwrittern.
+if(APPLE)
+    link_directories("/usr/local/opt/libomp/lib")
+    include_directories("/usr/local/opt/libomp/include")
+endif(APPLE)
+
+
 find_package(yaml-cpp CONFIG REQUIRED)
 message(STATUS "Used config file: ${yaml-cpp_CONFIG}")
 
 add_library(libraries
     SimulationManager.cpp
     Analysis.cpp
+    AnalysisMulticore.cpp
 )
 
 add_executable(terminal terminal.cpp)

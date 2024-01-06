@@ -30,7 +30,7 @@ class Analysis{
   std::string type, output,topology,tempString,config;
   LR_vector box, energy;
   std::vector<Particle> particles;
-  std::vector<std::vector<Traj>> traj; // For storing trajectory;
+  std::vector<Traj> traj; // For storing trajectory;
   std::vector<Patch> sourcePatch; //For storing patch information and only the index are stored inside particles
   std::vector<std::vector <int>> patchConfig; // Store patch configuration for a particle.
 
