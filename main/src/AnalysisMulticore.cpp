@@ -41,6 +41,12 @@ bool Amc::readPartialTrajectory(ifstream *trajectoryFile,int numRead, int skip){
 //     return true;
 // }
 
+bool Amc::writePHBtopology(std::string topology){
+    if (topology == "")
+      topology = output + ".top";
+    
+}
+
 //   bool Analysis::readConfig(string config){
 //     ifstream inputConfig(config);
 //     if (!inputConfig.is_open())

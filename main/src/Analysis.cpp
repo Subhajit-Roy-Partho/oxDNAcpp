@@ -1017,6 +1017,13 @@ bool Analysis::populate(int num, double seperator){
   return false;
 }
 
+bool Analysis::PHBhelixExtender(int particleId,double particleRadius,int numHelix,double helixRadius){
+  strands+=1;
+  particleNum+=1;
+  particles.resize(particleNum);
+  if(particlePerStrand==0) particlePerStrand = patchConfig[particleId].size()*numHelix+1;
+  
+};
 
 vector<int> Analysis::draw(){
   int maxCount=(particleNum/particlePerStrand)/particleTypes;

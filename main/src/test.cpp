@@ -1,5 +1,6 @@
 #include <iostream>
-#include "Analysis.h"
+// #include "Analysis.h"
+#include "AnalysisMulticore.h"
 using namespace std;
 
 // Return selected patchy particles
@@ -60,10 +61,6 @@ void PSPgenerator(){
     // cout <<psp.particles[5].connector<<endl;
 };
 
-void PHBgenerator(){
-    cout<<"This is to generate PHB"<<endl;
-}
-
 void CubeGenerator(){
     Analysis cub("","","newcrystal");
     cub.particleNum=2,cub.particlePerStrand=1,cub.strands=2; cub.particles.resize(2),cub.particleTypes=2;
@@ -102,12 +99,21 @@ void DNAarmAnalysis(){
     Analysis dna("../../managerExample/DNA/icoAligned.top","../../managerExample/DNA/icoAligned.dat","DNA");
 }
 
+void PHBgenerator(){
+    Analysis phb("newPHB");
+    phb.readCrystalPatches("../../managerExample/4flat/sat24.patches.txt");
+    phb.readCrystalParticlePatchyConfig("../../managerExample/4flat/CRYSTAL.particles.txt");
+}
+
 int main(){
     // patchyReturn();
     // PSPgenerator();
     // MGLgenerator();
     // Analysis("","","newcrystal");
     // CubeGenerator();
-
+    PHBgenerator();
     return 0;
 }
+
+//PHB system 
+// 55 ico, 39 helix ratio(helix,ico)=0.71

@@ -5,6 +5,7 @@
 #include <map>
 #include <string>
 #include <string_view>
+#include "omp.h"
 
 using namespace std;
 
@@ -136,6 +137,8 @@ class Analysis{
                                         {9,"gray"},
                                         {10,"magenta"}};
 
+
+  bool PHBhelixExtender(int particleId,double particleRadius,int numHelix,double helixRadius=1);
 private:
   };
 
