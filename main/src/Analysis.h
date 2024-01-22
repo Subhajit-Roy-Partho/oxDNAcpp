@@ -137,8 +137,8 @@ class Analysis{
                                         {9,"gray"},
                                         {10,"magenta"}};
 
-
-  bool PHBhelixExtender(int particleId,double particleRadius,int numHelix,double helixRadius=1);
+  // All the calculations are done in r,theta,phi coordinates.
+  bool PHBhelixExtender(int particleId,double particleRadius,int numHelix,double helixRadius=1,LR_vector com={0,0,0});
 private:
   };
 
@@ -146,3 +146,4 @@ private:
 template <typename T> vector<size_t> sort_indexes(const vector<T> &v);
 std::vector<std::string> npSplit(std::string s, std::string delimiter);
 void print_map(std::string_view comment, const std::map<std::string, int>& m);
+template <typename T> int sgn(T val);

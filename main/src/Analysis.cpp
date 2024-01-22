@@ -1017,12 +1017,15 @@ bool Analysis::populate(int num, double seperator){
   return false;
 }
 
-bool Analysis::PHBhelixExtender(int particleId,double particleRadius,int numHelix,double helixRadius){
+bool Analysis::PHBhelixExtender(int particleId,double particleRadius,int numHelix,double helixRadius,LR_vector com){
   strands+=1;
   particleNum+=1;
   particles.resize(particleNum);
   if(particlePerStrand==0) particlePerStrand = patchConfig[particleId].size()*numHelix+1;
-  
+  #pragma omp parallel for
+  for(i=0;i<patchConfig[particleId].size();i++){
+
+  }
 };
 
 vector<int> Analysis::draw(){
@@ -1062,4 +1065,8 @@ std::vector<std::string> npSplit(std::string s, std::string delimiter){
   }
   output.push_back(s);
   return output;
+}
+
+template <typename T> int sgn(T val) {
+    return (T(0) < val) - (val < T(0));
 }
