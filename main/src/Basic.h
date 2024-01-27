@@ -25,6 +25,7 @@ struct Patch {
     int locked_to_particle=-1; //id of the particle this patch is bound to; used to make sure 1 patch is only in 1 interaction
     int locked_to_patch=-1; //id of the particle this patch is bound to; used to make sure 1 patch is only in 1 interaction
     number locked_energy=0;
+    bool spherical = false; //is the patch in spherical coordinates or not
 
     int color=-1; //this is the color of the patch
     number strength=1;  //sets the strength of the interaction/
@@ -98,4 +99,9 @@ template <typename A> A npFloor(A vector){
 template <typename A>A npRound(A vector){
   if (std::is_same<A, LR_vector>::value)
     return (LR_vector){std::round(vector.x), std::round(vector.y), std::round(vector.z)};
+}
+
+// This is basic sgn function whre 1 for >0 and -1 for <0 and 0 for 0.
+template <typename T> int sgn(T val) {
+    return (T(0) < val) - (val < T(0));
 }

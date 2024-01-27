@@ -1017,16 +1017,35 @@ bool Analysis::populate(int num, double seperator){
   return false;
 }
 
-bool Analysis::PHBhelixExtender(int particleId,double particleRadius,int numHelix,double helixRadius,LR_vector com){
-  strands+=1;
-  particleNum+=1;
+bool Analysis::PHBhelixExtender(int numParticles,double particleRadius,int numHelix,double helixRadius,LR_vector com){
+  PatchesToSpherical();
+  strands=numParticles;
+  particleNum+=(patchConfig[0].size()*numHelix+1)*numParticles;
   particles.resize(particleNum);
-  if(particlePerStrand==0) particlePerStrand = patchConfig[particleId].size()*numHelix+1;
-  #pragma omp parallel for
-  for(i=0;i<patchConfig[particleId].size();i++){
+  if(particlePerStrand==0) particlePerStrand = patchConfig[0].size()*numHelix+1;
+  
+  // #pragma omp parallel for collapse(2)
 
-  }
+
+  return true;
 };
+
+bool Analysis::PatchesToSpherical(){
+  #pragma omp parallel for
+  for(i=0;i<sourcePatch.size();i++){
+    LR_vector converted;
+    if(!sourcePatch[i].spherical){
+      sourcePatch[i].position = cartesianToSpherical(sourcePatch[i].position);
+      sourcePatch[i].spherical=true;
+    }
+    // #pragma omp critical
+    // {
+    // cout<<i<<"\t";
+    // cout<<sourcePatch[i].position<<endl;
+    // }
+  }
+  return true;
+}
 
 vector<int> Analysis::draw(){
   int maxCount=(particleNum/particlePerStrand)/particleTypes;
@@ -1067,6 +1086,18 @@ std::vector<std::string> npSplit(std::string s, std::string delimiter){
   return output;
 }
 
-template <typename T> int sgn(T val) {
-    return (T(0) < val) - (val < T(0));
+LR_vector cartesianToSpherical(LR_vector cartesian){
+  LR_vector spherical;
+  spherical.x=cartesian.module();
+  spherical.y=acos(cartesian.z/spherical.x);
+  spherical.z=atan2(cartesian.y,cartesian.x);
+  return spherical;
+}
+
+LR_vector sphericalToCartesian(LR_vector spherical){
+  LR_vector cartesian;
+  cartesian.x=spherical.x*sin(spherical.y)*cos(spherical.z);
+  cartesian.y=spherical.x*sin(spherical.y)*sin(spherical.z);
+  cartesian.z=spherical.x*cos(spherical.y);
+  return cartesian;
 }

@@ -138,7 +138,8 @@ class Analysis{
                                         {10,"magenta"}};
 
   // All the calculations are done in r,theta,phi coordinates.
-  bool PHBhelixExtender(int particleId,double particleRadius,int numHelix,double helixRadius=1,LR_vector com={0,0,0});
+  bool PHBhelixExtender(int numParticles=125,double particleRadius=5,int numHelix=7,double helixRadius=0.5,LR_vector com={0,0,0});
+  bool PatchesToSpherical();
 private:
   };
 
@@ -146,4 +147,5 @@ private:
 template <typename T> vector<size_t> sort_indexes(const vector<T> &v);
 std::vector<std::string> npSplit(std::string s, std::string delimiter);
 void print_map(std::string_view comment, const std::map<std::string, int>& m);
-template <typename T> int sgn(T val);
+LR_vector cartesianToSpherical(LR_vector cartesian);
+LR_vector sphericalToCartesian(LR_vector spherical);

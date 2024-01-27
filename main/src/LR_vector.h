@@ -2,9 +2,10 @@
 /*
  * LR_vector.h
  *
- *  Created on: 14 ott 2019
- *      Author: lorenzo
+ *  Created on: developing
+ *      Author: Subhajit
  */
+// x,y,z = r,theta,phi in spherical coordinate
 
 #ifndef SRC_UTILITIES_LR_VECTOR_H_
 #define SRC_UTILITIES_LR_VECTOR_H_

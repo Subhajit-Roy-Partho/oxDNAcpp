@@ -103,6 +103,10 @@ void PHBgenerator(){
     Analysis phb("newPHB");
     phb.readCrystalPatches("../../managerExample/4flat/sat24.patches.txt");
     phb.readCrystalParticlePatchyConfig("../../managerExample/4flat/CRYSTAL.particles.txt");
+    // phb.PatchesToSpherical();
+    // cout<<sphericalToCartesian(LR_vector{0.5,M_PI_2,M_PI})<<endl;
+    phb.PHBhelixExtender();
+    // phb.PHBhelixExtender();
 }
 
 int main(){

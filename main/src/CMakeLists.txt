@@ -3,10 +3,22 @@ project(terminal)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CONDA ON)
 
 include_directories("/usr/local/include")
 link_directories("/usr/local/lib")
 
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fopenmp")
+# find_package(OpenMP)
+# if(OpenMP_CXX_FOUND)
+#     message(STATUS "OpenMP found")
+#     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
+# endif(OpenMP_CXX_FOUND)
+
+if(CONDA)
+    include_directories("~/miniconda3/include")
+    link_directories("~/miniconda3/lib")
+endif(CONDA)
 # In mac, brew install openmp seperately so that gcc headers are not overwrittern.
 if(APPLE)
     link_directories("/usr/local/opt/libomp/lib")
