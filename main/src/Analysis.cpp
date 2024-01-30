@@ -1019,11 +1019,32 @@ bool Analysis::populate(int num, double seperator){
 
 bool Analysis::PHBhelixExtender(int numParticles,double particleRadius,int numHelix,double helixRadius,LR_vector com){
   PatchesToSpherical();
+  // Checks for this formulation to work
+  if(helixRadius*numHelix>particleRadius){cout<< "Too many big helixes for this algo"<<endl; return false;}
+  double xOffset = particleRadius-helixRadius*numHelix;
+  double yGap = (particleRadius*2-helixRadius*2*patchConfig[0].size())/patchConfig[0].size();
+
+  //Set particle parameters
   strands=numParticles;
   particleNum+=(patchConfig[0].size()*numHelix+1)*numParticles;
   particles.resize(particleNum);
   if(particlePerStrand==0) particlePerStrand = patchConfig[0].size()*numHelix+1;
   
+  //Real stuff starts here
+  #pragma omp parallel for collapse(2)
+  for(int j=0;j<patchConfig[0].size();j++){for(i=0;i<numHelix;i++){
+    particles[patchConfig[0].size()*j+i].r={xOffset+helixRadius*2*i,j*2*helixRadius,helixRadius};
+    if(i==0){
+      particles[i].connector.push_back(i+1);
+    }else if(i==numHelix-1){
+      particles[i].connector.push_back(i-1);
+      particles[i].r.y+=yGap;
+    }else{
+      particles[i].connector.push_back(i+1);
+      particles[i].connector.push_back(i-1);
+      particles[i].r.y+=yGap;
+    }
+  }} // This is for the square loop
   // #pragma omp parallel for collapse(2)
 
 
