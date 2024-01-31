@@ -8,7 +8,7 @@ set(CONDA ON)
 include_directories("/usr/local/include")
 link_directories("/usr/local/lib")
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fopenmp")
+
 # find_package(OpenMP)
 # if(OpenMP_CXX_FOUND)
 #     message(STATUS "OpenMP found")
@@ -23,6 +23,9 @@ endif(CONDA)
 if(APPLE)
     link_directories("/usr/local/opt/libomp/lib")
     include_directories("/usr/local/opt/libomp/include")
+
+else()
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fopenmp")
 endif(APPLE)
 
 

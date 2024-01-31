@@ -1031,7 +1031,7 @@ bool Analysis::PHBhelixExtender(int numParticles,double particleRadius,int numHe
   double sourcePatchNum = sourcePatch.size();
   double patchConfigNum = patchConfig.size();
   if (particleTypes != patchConfigNum){
-    cout<< "Current Particle Types =" << particleTypes 0<< "  resetting this"<<endl;
+    cout<< "Current Particle Types =" << particleTypes<< "  resetting this"<<endl;
     particleTypes = patchConfigNum;
   }
   if(particlePerStrand==0) particlePerStrand = patchConfig[0].size()*numHelix+1;

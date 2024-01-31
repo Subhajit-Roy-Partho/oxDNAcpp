@@ -61,7 +61,7 @@ class Analysis{
   bool writeConfig(std::string config = "");
   bool writeCCGtopology(string topology = "");
   bool writeCCGviewTopology(string topology="");
-
+  bool writePHBTopology(string topology="");
 
   bool shiftbox(LR_vector shift={0,0,0}); // Shift the box by given amount but for default case resizes the box
   bool testBoxOverloaded();
