@@ -1028,21 +1028,37 @@ bool Analysis::PHBhelixExtender(int numParticles,double particleRadius,int numHe
   strands=numParticles;
   particleNum+=(patchConfig[0].size()*numHelix+1)*numParticles;
   particles.resize(particleNum);
+  double sourcePatchNum = sourcePatch.size();
+  double patchConfigNum = patchConfig.size();
+  if (particleTypes != patchConfigNum){
+    cout<< "Current Particle Types =" << particleTypes 0<< "  resetting this"<<endl;
+    particleTypes = patchConfigNum;
+  }
   if(particlePerStrand==0) particlePerStrand = patchConfig[0].size()*numHelix+1;
-  
+
+ // Setting up Patches configuration
+  #pragma omp parallel for
+  for(i=0;i<patchConfig[0].size();i++)
+
+
+
   //Real stuff starts here
   #pragma omp parallel for collapse(2)
   for(int j=0;j<patchConfig[0].size();j++){for(i=0;i<numHelix;i++){
-    particles[patchConfig[0].size()*j+i].r={xOffset+helixRadius*2*i,j*2*helixRadius,helixRadius};
+    int index = patchConfig[0].size()*j+i;
+    particles[index].r={xOffset+helixRadius*2*i,j*2*helixRadius,helixRadius};
+    particles[index].radius=helixRadius;
     if(i==0){
-      particles[i].connector.push_back(i+1);
+      particles[index].connector.push_back(i+1);
     }else if(i==numHelix-1){
-      particles[i].connector.push_back(i-1);
-      particles[i].r.y+=yGap;
+      particles[index].connector.push_back(i-1);
+      particles[index].r.y+=yGap;
+      particles[index+1].r={particleRadius,particleRadius,particleRadius+4*helixRadius};
+      particles[index+1].radius= particleRadius;
     }else{
-      particles[i].connector.push_back(i+1);
-      particles[i].connector.push_back(i-1);
-      particles[i].r.y+=yGap;
+      particles[index].connector.push_back(i+1);
+      particles[index].connector.push_back(i-1);
+      particles[index].r.y+=yGap;
     }
   }} // This is for the square loop
   // #pragma omp parallel for collapse(2)
