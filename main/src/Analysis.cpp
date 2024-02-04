@@ -1135,6 +1135,20 @@ std::vector<std::string> npSplit(std::string s, std::string delimiter){
   return output;
 }
 
+std::vector<std::vector<double>> readCSV(std::string inputFile){
+  std::vector<std::vector<double>> output;
+  std::vector<double> temp;
+  std::string line;
+  ifstream input(inputFile);
+  while(getline(input,line)){
+    auto split = npSplit(line,",");
+    for(int i=0;i<split.size();i++){
+      temp.push_back(split[i].stod);
+    }
+  }
+  return output;
+}
+
 LR_vector cartesianToSpherical(LR_vector cartesian){
   LR_vector spherical;
   spherical.x=cartesian.module();
