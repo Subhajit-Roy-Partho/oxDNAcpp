@@ -1135,18 +1135,34 @@ std::vector<std::string> npSplit(std::string s, std::string delimiter){
   return output;
 }
 
-std::vector<std::vector<double>> readCSV(std::string inputFile){
-  std::vector<std::vector<double>> output;
-  std::vector<double> temp;
+std::vector<std::vector<double> > readCSV(std::string inputFile){
+  std::vector<std::vector<double> > output;
   std::string line;
   ifstream input(inputFile);
   while(getline(input,line)){
+    std::vector<double> temp;
     auto split = npSplit(line,",");
-    for(int i=0;i<split.size();i++){
-      temp.push_back(split[i].stod);
-    }
+    for(int i=0;i<split.size();i++)
+      temp.push_back(std::stod(split[i]));
+    output.push_back(temp);
   }
   return output;
+}
+
+bool writeCSV(std::vector<std::vector<double> > data,std::string output="output.csv",int precession=10){
+  ofstream outputFile(output);
+  outputFile.precision(precession);
+  for(int i=0;i<data.size();i++){
+    for(int j=0;j<data[i].size();j++){
+      if(j==data[i].size()-1){
+        outputFile<<data[i][j]<<"\n";
+      }else{
+        outputFile<<data[i][j]<<",";
+      }
+    }
+  }
+  outputFile.close();
+  return true;
 }
 
 LR_vector cartesianToSpherical(LR_vector cartesian){
