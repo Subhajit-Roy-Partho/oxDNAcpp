@@ -832,6 +832,25 @@ bool Analysis::writePHBTopology(string topology){
   for(i=0;i<sourcePatch.size();i++){
     outputTop<<"iP "<<i<<" "<< sourcePatch[i].color<<" "<<sourcePatch[i].strength<<" "<<sourcePatch[i].position.x<<" "<<sourcePatch[i].position.y<<" "<<sourcePatch[i].position.z<<" "<< sourcePatch[i].a1.x<<" "<<sourcePatch[i].a1.y<<" "<<sourcePatch[i].a1.z<<" "<<sourcePatch[i].a2.x<<" "<<sourcePatch[i].a2.y<<" "<<sourcePatch[i].a2.z<<std::endl;
   }
+  for(i=0;i<patchConfig.size();i++){
+    outputTop<<"iC "<<i<<" ";
+    for(int j=0;j<patchConfig[i].size();j++){
+      outputTop<<patchConfig[i][j]<<" ";
+    }
+    outputTop<<std::endl;
+  }
+  if(patchy){
+    for(i=0;i<particleNum;i++){
+      outputTop<<"-3 0 "<<particles[i].strand<<" "<<patchyRadius;
+      outputTop<<std::endl;
+    }
+  }else{
+    for(i=0;i<particleNum;i++){
+      outputTop<<-3<<" "<<particles[i].strand<<" "<<particles[i].color<<" "<<particles[i].radius;
+      outputTop<<std::endl;
+    }
+  }
+  return true;
 }
 
 bool Analysis::writeCCGtopology(string topology){
@@ -966,7 +985,6 @@ bool Analysis::reboxing(int offset){
   for(int j=0;j<3;j++)box[j] = ceil(box[j]);
   return true;
 }
-
 
 bool Analysis::populate(int num, double seperator){
   if(particleTypes==1) return populateSingle(num,seperator);

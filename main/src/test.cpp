@@ -109,13 +109,23 @@ void PHBgenerator(){
     // phb.PHBhelixExtender();
 }
 
+void patchyToPHB(){
+    Analysis crystals("../../managerExample/4flat/input.top","../../managerExample/4flat/input.dat","crystal");
+    crystals.readCrystalPatches("../../managerExample/4flat/sat24.patches.txt");
+    crystals.readCrystalParticlePatchyConfig("../../managerExample/4flat/CRYSTAL.particles.txt");
+    crystals.patchy=true;
+    crystals.writePHBTopology("output.top");
+    crystals.writeConfig("output.dat");
+}
+
 int main(){
     // patchyReturn();
     // PSPgenerator();
     // MGLgenerator();
     // Analysis("","","newcrystal");
     // CubeGenerator();
-    PHBgenerator();
+    // PHBgenerator();
+    patchyToPHB();
     return 0;
 }
 

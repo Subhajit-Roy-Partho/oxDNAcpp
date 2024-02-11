@@ -27,7 +27,8 @@ public:
 class Analysis{
   public:
   int particleNum=0, strands=0, i,tempInt,particlePerStrand=0,particleTypes=1;
-  double safeMultiplier = 1.4; // Multiplier with safe distance
+  double safeMultiplier = 1.4,patchyRadius=0.4; // Multiplier with safe distance
+  bool patchy=false;
   std::string type, output,topology,tempString,config;
   LR_vector box, energy;
   std::vector<Particle> particles;
