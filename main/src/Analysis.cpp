@@ -841,7 +841,7 @@ bool Analysis::writePHBTopology(string topology){
   }
   if(patchy){
     for(i=0;i<particleNum;i++){
-      outputTop<<"-3 0 "<<particles[i].strand<<" "<<patchyRadius;
+      outputTop<<"-3 -1 "<<particles[i].strand<<" "<<patchyRadius;
       outputTop<<std::endl;
     }
   }else{
