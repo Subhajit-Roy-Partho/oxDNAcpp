@@ -828,6 +828,7 @@ bool Analysis::writePHBTopology(string topology){
   if(!outputTop.is_open()) return false;
 
   outputTop.precision(15);
+  if(patchy) strands=particleNum;
   outputTop<<particleNum<<" "<<strands<<" "<<particleNum<<std::endl;
   for(i=0;i<sourcePatch.size();i++){
     outputTop<<"iP "<<i<<" "<< sourcePatch[i].color<<" "<<sourcePatch[i].strength<<" "<<sourcePatch[i].position.x<<" "<<sourcePatch[i].position.y<<" "<<sourcePatch[i].position.z<<" "<< sourcePatch[i].a1.x<<" "<<sourcePatch[i].a1.y<<" "<<sourcePatch[i].a1.z<<" "<<sourcePatch[i].a2.x<<" "<<sourcePatch[i].a2.y<<" "<<sourcePatch[i].a2.z<<std::endl;
