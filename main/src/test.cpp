@@ -14,7 +14,8 @@ void patchyReturn(){
 };
 
 void MGLgenerator(){
-    Analysis crystals("../../managerExample/4flat/input.top","../../managerExample/4flat/input.dat","crystal");
+    //Analysis crystals("../../managerExample/4flat/input.top","../../managerExample/4flat/input.dat","crystal");
+    Analysis crystals("../../managerExample/4flat/input.top","/tmp/subho/last_conf-t125-b1000.dat","crystal");
     crystals.readCrystalPatches("../../managerExample/4flat/sat24.patches.txt");
     crystals.readCrystalParticlePatchyConfig("../../managerExample/4flat/CRYSTAL.particles.txt");
     crystals.writeMGL("output.mgl",0.4,0.1);
@@ -121,11 +122,12 @@ void patchyToPHB(){
 int main(){
     // patchyReturn();
     // PSPgenerator();
-    // MGLgenerator();
+    MGLgenerator();
     // Analysis("","","newcrystal");
     // CubeGenerator();
     // PHBgenerator();
-    patchyToPHB();
+    // patchyToPHB();
+
     return 0;
 }
 
