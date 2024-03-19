@@ -122,10 +122,10 @@ void patchyToPHB(){
 int main(){
     // patchyReturn();
     // PSPgenerator();
-    MGLgenerator();
+    // MGLgenerator();
     // Analysis("","","newcrystal");
     // CubeGenerator();
-    // PHBgenerator();
+    PHBgenerator();
     // patchyToPHB();
 
     return 0;

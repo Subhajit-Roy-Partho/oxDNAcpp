@@ -1049,10 +1049,10 @@ bool Analysis::populate(int num, double seperator){
 }
 
 bool Analysis::PHBhelixExtender(int numParticles,double particleRadius,int numHelix,double helixRadius,LR_vector com){
-  PatchesToSpherical();
+  PatchesToSpherical(); //converts patches coordinates from cartesian to spherical#
   // Checks for this formulation to work
   if(helixRadius*numHelix>particleRadius){cout<< "Too many big helixes for this algo"<<endl; return false;}
-  double xOffset = particleRadius-helixRadius*numHelix;
+  double xOffset = particleRadius-helixRadius*numHelix; //
   double yGap = (particleRadius*2-helixRadius*2*patchConfig[0].size())/patchConfig[0].size();
 
   //Set particle parameters
@@ -1097,6 +1097,8 @@ bool Analysis::PHBhelixExtender(int numParticles,double particleRadius,int numHe
 
   return true;
 };
+
+
 
 bool Analysis::PatchesToSpherical(){
   #pragma omp parallel for
