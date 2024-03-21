@@ -446,6 +446,11 @@ LR_vector Analysis::CenterForIndex(int N){
     return true;
   }
 
+  bool Analysis::writeMGLtraj(std::string topology, int start, int end, int step,bool truncate){
+    if(topology=="") topology = output+".mgl";
+    if(truncate){std::ofstream outputMGL(topology,ios::trunc);}else{std::ofstream outputMGL(topology,ios::app);}
+  }
+
   double Analysis::subBoxing(double coordinate, double divisor){
     coordinate = std::remainder(coordinate, divisor);
     if (coordinate < 0) coordinate += divisor;
@@ -664,15 +669,78 @@ LR_vector Analysis::CenterForIndex(int N){
     return true;
   }
 
-  bool Analysis::readPatches(string patches){
-    ifstream inputPatches(patches);
-    return false;
+  bool Analysis::readTrajectory(std::string trajectory,unsigned int start,int end, unsigned int step){
+    ifstream inputTraj(trajectory);
+    if(!inputTraj.is_open()) return false;
+
+    traj.clear();
+    temptraj.updateParticleNumber(particleNum);
+    if(end==-1) while(getline(inputTraj,line)){
+      temptraj.time=stoi(line);
+      getline(inputTraj,line); //skip the box line
+      if(box==LR_vector({0,0,0})){
+        ss.clear();ss.str(line);
+        ss>>temp;ss>>temp;
+        ss>>box.x;ss>>box.y;ss>>box.z;
+      }
+      getline(inputTraj,line); // skip the energy line
+      for(i=0;i<particleNum;i++){
+        getline(inputTraj,line);
+        ss.clear();ss.str(line);
+        ss>>temptraj.r[i].x;
+        ss>>temptraj.r[i].y;
+        ss>>temptraj.r[i].z;
+        ss>>temptraj.a1[i].x;
+        ss>>temptraj.a1[i].y;
+        ss>>temptraj.a1[i].z;
+        ss>>temptraj.a3[i].x;
+        ss>>temptraj.a3[i].y;
+        ss>>temptraj.a3[i].z;
+      }
+      traj.push_back(temptraj);
+      if(step>1) skipLines(inputTraj,(step-1)*(particleNum+3));
+    }else{
+      traj.resize((end-start)/step);
+      traj.shrink_to_fit();
+      for(i=start;i<end;i+=step){
+        getline(inputTraj,line); // time
+        temptraj.time=stoi(line);
+        getline(inputTraj,line); //skip the box line
+        if(box==LR_vector({0,0,0})){
+          ss.clear();ss.str(line);
+          ss>>temp;ss>>temp;
+          ss>>box.x;ss>>box.y;ss>>box.z;
+        }
+        getline(inputTraj,line); // skip the energy line
+        for(int j=0;j<particleNum;j++){
+          getline(inputTraj,line);
+          ss.clear();ss.str(line);
+          ss>>temptraj.r[j].x;
+          ss>>temptraj.r[j].y;
+          ss>>temptraj.r[j].z;
+          ss>>temptraj.a1[j].x;
+          ss>>temptraj.a1[j].y;
+          ss>>temptraj.a1[j].z;
+          ss>>temptraj.a3[j].x;
+          ss>>temptraj.a3[j].y;
+          ss>>temptraj.a3[j].z;
+        }
+        traj.push_back(temptraj);
+      }
+    }
+    inputTraj.close();
+    return true;
   }
 
-  bool Analysis::readParticles(string crystalpar){
-    ifstream inputCrystal(crystalpar);
-    return false;
-  }
+  // bool Analysis::readPatches(string patches){
+  //   ifstream inputPatches(patches);
+  //   return false;
+  // }
+
+  // bool Analysis::readParticles(string crystalpar){
+  //   ifstream inputCrystal(crystalpar);
+  //   return false;
+  // }
 
 bool Analysis::shiftbox(LR_vector shift){
   if(shift==LR_vector({0,0,0})){
@@ -1200,4 +1268,28 @@ LR_vector sphericalToCartesian(LR_vector spherical){
   cartesian.y=spherical.x*sin(spherical.y)*sin(spherical.z);
   cartesian.z=spherical.x*cos(spherical.y);
   return cartesian;
+}
+
+std::vector<LR_vector> generateRandomColors(int n) {
+    if(n<1){std::cout<<"Generate Random Colors says: avoid giving me meaningless input." ;return {};};
+    std::vector<LR_vector> colors;
+    std::random_device rd;  // Obtain a random number from hardware
+    std::mt19937 gen(rd()); // Seed the generator
+    std::uniform_int_distribution<> distrib(0, 255); // Define the range
+
+    for (int i = 0; i < n; ++i) {
+        LR_vector color;
+        color.x = distrib(gen); // Generate a random value for red
+        color.y = distrib(gen); // Generate a random value for green
+        color.z = distrib(gen); // Generate a random value for blue
+        colors.push_back(color);
+    }
+
+    return colors;
+}
+
+void skipLines(std::ifstream& file, unsigned int linesToSkip) {
+    std::string unused;
+    while (linesToSkip-- > 0 && std::getline(file, unused)) {
+    }
 }

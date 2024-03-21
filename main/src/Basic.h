@@ -63,14 +63,17 @@ public:
 };
 
 struct Traj{
-  int time;
+  unsigned int time;
   std::vector<LR_vector> r;
   std::vector<LR_vector> a1;
   std::vector<LR_vector> a3;
   void updateParticleNumber(int particleNum){
     r.resize(particleNum);
+    r.shrink_to_fit();
     a1.resize(particleNum);
+    a1.shrink_to_fit();
     a3.resize(particleNum);
+    a3.shrink_to_fit();
   }
 };
 

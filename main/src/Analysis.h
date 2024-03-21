@@ -6,6 +6,7 @@
 #include <string>
 #include <string_view>
 #include "omp.h"
+#include <random>
 
 using namespace std;
 
@@ -30,13 +31,13 @@ class Analysis{
   double safeMultiplier = 1.4,patchyRadius=0.4; // Multiplier with safe distance
   bool patchy=false;
   std::string type, output,topology,tempString,config;
-  LR_vector box, energy;
+  LR_vector box={0,0,0}, energy={0,0,0};
   std::vector<Particle> particles;
   std::vector<Traj> traj; // For storing trajectory;
   std::vector<Patch> sourcePatch; //For storing patch information and only the index are stored inside particles
   std::vector<std::vector <int>> patchConfig; // Store patch configuration for a particle.
 
-  Traj trajtemp;
+  Traj temptraj;
 
   Analysis(std::string topology="", std::string config="", std::string type = "", std::string output = "output", std::string externalForces = "", std::string parameter1 = "", std::string parameter2 = "");
   ~Analysis();
@@ -63,6 +64,7 @@ class Analysis{
   bool writeCCGtopology(string topology = "");
   bool writeCCGviewTopology(string topology="");
   bool writePHBTopology(string topology="");
+  bool writeMGLtraj(std::string topology="", int start=0, int end=-1, int step=1,bool truncate=false);
 
   bool shiftbox(LR_vector shift={0,0,0}); // Shift the box by given amount but for default case resizes the box
   bool testBoxOverloaded();
@@ -83,8 +85,10 @@ class Analysis{
   bool readCrystalParticles(std::string particles);
   bool readDNAtopology(std::string topology);
   bool readConfig(std::string config="");
-  bool readPatches(std::string patches);
-  bool readParticles(std::string crystalpar);
+  // bool readPatches(std::string patches);
+  // bool readParticles(std::string crystalpar);
+  bool readTrajectory(std::string trajectory,unsigned int start = 0,int end = -1,unsigned int step = 1); // end = -1 means read till end;
+  bool readPSPtoplogy(std::string topology);
 
 
   bool selectIDs(Analysis* selected,std::vector<int> ids,bool reboxing=true); // select only few particles
@@ -142,7 +146,7 @@ class Analysis{
   bool PHBhelixExtender(int numParticles=10,double particleRadius=10,int numHelix=7,double helixRadius=1,LR_vector com={0,0,0});
   bool PatchesToSpherical();
 private:
-  };
+};
 
 
 template <typename T> vector<size_t> sort_indexes(const vector<T> &v);
@@ -150,3 +154,5 @@ std::vector<std::string> npSplit(std::string s, std::string delimiter);
 void print_map(std::string_view comment, const std::map<std::string, int>& m);
 LR_vector cartesianToSpherical(LR_vector cartesian);
 LR_vector sphericalToCartesian(LR_vector spherical);
+std::vector<LR_vector> generateRandomColors(int n);
+void skipLines(std::ifstream& file, unsigned int linesToSkip);
