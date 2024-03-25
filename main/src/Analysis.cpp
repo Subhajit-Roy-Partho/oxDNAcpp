@@ -447,8 +447,36 @@ LR_vector Analysis::CenterForIndex(int N){
   }
 
   bool Analysis::writeMGLtraj(std::string topology, int start, int end, int step,bool truncate){
+    //get unique colors
+    std::vector<int> uniqueColors;
+    for(uint p=0;p<sourcePatch.size();p++){
+      uniqueColors.push_back(sourcePatch[p].color);
+    }
+    std::set<int> unique(uniqueColors.begin(),uniqueColors.end());
+    uniqueColors.assign(unique.begin(),unique.end());
+    for(int value:uniqueColors){
+      cout<<value<<endl;
+    }
+
+    auto colorRGB = generateRandomColors(uniqueColors.size());
+
     if(topology=="") topology = output+".mgl";
-    if(truncate){std::ofstream outputMGL(topology,ios::trunc);}else{std::ofstream outputMGL(topology,ios::app);}
+    std::ofstream outputMGL(topology,ios::app);
+    if(!outputMGL.is_open()) return false;
+    outputMGL.precision(15);
+    for(i=start;i<end;i+=step){
+      outputMGL<<".Box:"<<box<<std::endl;
+      for(int j=0;j<particleNum;j++){
+        outputMGL<<traj[i].r[j].x<<" "<<traj[i].r[j].y<<" "<<traj[i].r[j].z<<" @ ";
+        outputMGL<<particles[j].radius<<" ";
+        // outputMGL<<"C["<<centralColorMap.find(particles[j].strand)->second<<"] M ";
+        // for(int k=0;k<particles[j].patches.size();k++){
+        //   auto temp=sourcePatch[particles[j].patches[k]];
+        //   outputMGL<<temp.position.x<<" "<<temp.position.y<<" "<<temp.position.z<<" "<<temp.strength<<" C["<<colorMap.find(temp.color)->second<<"] ";
+        // }
+        // outputMGL<<std::endl;
+      }
+    }
   }
 
   double Analysis::subBoxing(double coordinate, double divisor){
@@ -596,6 +624,39 @@ LR_vector Analysis::CenterForIndex(int N){
     for(i=0;i<particleNum;i++){
       ss.clear();
       getline(inputTop,line);
+      ss.str(line);
+      ss>>temp;
+      ss>>particles[i].strand;
+      ss>>particles[i].color;
+      ss>>particles[i].radius;
+    }
+    return true;
+  }
+
+  bool Analysis::readPHBTopology(string topology){
+    ifstream inputTop(topology);
+    if (!inputTop.is_open())
+      return false;
+    getline(inputTop, line);
+    ss.clear();
+    ss.str(line);
+    ss >> particleNum;
+    ss >> strands;
+    particles.resize(particleNum);
+    particlePerStrand=-1;
+    for(i=0;i<particleNum;i++){
+      ss.clear();
+      getline(inputTop,line);
+      if(line.empty()||line[0]=='#') continue;
+      if(line[0]=='i'){
+        if(line[1]=='P'){
+          std::stringstream body(line);
+          int j=0;
+          while(body.tellg()!=-1){
+            body>>temp;
+          }
+        }
+      }
       ss.str(line);
       ss>>temp;
       ss>>particles[i].strand;
@@ -1286,6 +1347,18 @@ std::vector<LR_vector> generateRandomColors(int n) {
     }
 
     return colors;
+}
+
+std::vector<LR_vector> generateComplimentaryColors(std::vector<LR_vector> colors,double percentage){
+  std::vector<LR_vector> output;
+  percentage = std::min(percentage,1.0);
+  output.resize(colors.size());
+  for(int i=0;i<colors.size();i++){
+    output[i].x = std::min(255,static_cast<int>(colors[i].x+(255-colors[i].x)*percentage));
+    output[i].y = std::min(255,static_cast<int>(colors[i].y+(255-colors[i].y)*percentage));
+    output[i].z = std::min(255,static_cast<int>(colors[i].z+(255-colors[i].z)*percentage));
+  }
+  return output;
 }
 
 void skipLines(std::ifstream& file, unsigned int linesToSkip) {

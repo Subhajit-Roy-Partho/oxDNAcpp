@@ -7,6 +7,8 @@
 #include <string_view>
 #include "omp.h"
 #include <random>
+#include <set>
+#include <algorithm>
 
 using namespace std;
 
@@ -89,6 +91,7 @@ class Analysis{
   // bool readParticles(std::string crystalpar);
   bool readTrajectory(std::string trajectory,unsigned int start = 0,int end = -1,unsigned int step = 1); // end = -1 means read till end;
   bool readPSPtoplogy(std::string topology);
+  bool readPHBTopology(std::string topology);
 
 
   bool selectIDs(Analysis* selected,std::vector<int> ids,bool reboxing=true); // select only few particles
