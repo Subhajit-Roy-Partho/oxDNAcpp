@@ -17,6 +17,7 @@ using number = float;
 #else
 using number = double;
 #endif
+#include <eigen3/Eigen/Dense>
 
 /**
  * @brief A three-dimensional vector with built-in basic vectorial operations.
@@ -42,6 +43,9 @@ public:
 	LR_vector(const LR_vector &) = default;
 	LR_vector(LR_vector &&) = default;
 	LR_vector &operator=(const LR_vector &) = default;
+	operator Eigen::Vector3d() const {
+		return Eigen::Vector3d(x, y, z);
+	}
 
 	// Operator Overloads
 	inline LR_vector operator+(const LR_vector& V2) const {

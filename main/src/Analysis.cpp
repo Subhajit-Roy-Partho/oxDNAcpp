@@ -452,6 +452,9 @@ LR_vector Analysis::CenterForIndex(int N){
   }
 
   bool Analysis::writeMGLtraj(std::string topology, int start, int end, int step,bool truncate,double patchRadius){
+    Eigen::Matrix3d Rot;
+    // Eigen::Vector3d a1, a2, a3;
+
     // Get end if end is -1
     if(end==-1) end=traj.size();
     if(topology=="") topology = output+".mgl";
@@ -497,7 +500,12 @@ LR_vector Analysis::CenterForIndex(int N){
           if(it!=uniqueColors.end()){
             int index = std::distance(uniqueColors.begin(),it);
             LR_vector patchColor = colorRGB[index];
-            outputMGL<<temp.position.x<<" "<<temp.position.y<<" "<<temp.position.z<<" "<<patchRadius<<" C["<<(int)patchColor.x<<","<<(int)patchColor.y<<","<<(int)patchColor.z<<",1] ";
+            Eigen::Vector3d a1 = traj[i].a1[j];
+            Eigen::Vector3d a3 = traj[i].a3[j];
+            Eigen::Vector3d a2 = a1.cross(a3);
+            Rot.col(0) = a1;Rot.col(1) = a2;Rot.col(2) = a3;
+            Eigen::Vector3d position = Rot*Eigen::Vector3d(temp.position.x,temp.position.y,temp.position.z);
+            outputMGL<<position(0)<<" "<<position(1)<<" "<<position(2)<<" "<<patchRadius<<" C["<<(int)patchColor.x<<","<<(int)patchColor.y<<","<<(int)patchColor.z<<",1] ";
           }
         }
         outputMGL<<std::endl;
