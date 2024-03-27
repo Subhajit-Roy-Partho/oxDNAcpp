@@ -119,14 +119,22 @@ void patchyToPHB(){
     crystals.writeConfig("output.dat");
 }
 
+void PHBtoMGL(){
+    Analysis phb("helix.top","trajectory2.dat","trajPHB");
+    // cout<<phb.traj[1].a1[0]<<endl;
+    cout<<phb.particles[1].radius<<endl;
+    phb.writeMGLtraj("output2.mgl",0,-1,1,true);
+}
+
 int main(){
     // patchyReturn();
     // PSPgenerator();
     // MGLgenerator();
     // Analysis("","","newcrystal");
     // CubeGenerator();
-    PHBgenerator();
+    // PHBgenerator();
     // patchyToPHB();
+    PHBtoMGL();
 
     return 0;
 }

@@ -30,7 +30,7 @@ public:
 class Analysis{
   public:
   int particleNum=0, strands=0, i,tempInt,particlePerStrand=0,particleTypes=1;
-  double safeMultiplier = 1.4,patchyRadius=0.4; // Multiplier with safe distance
+  double safeMultiplier = 1.4,patchyRadius=0.12; // Multiplier with safe distance
   bool patchy=false;
   std::string type, output,topology,tempString,config;
   LR_vector box={0,0,0}, energy={0,0,0};
@@ -66,7 +66,7 @@ class Analysis{
   bool writeCCGtopology(string topology = "");
   bool writeCCGviewTopology(string topology="");
   bool writePHBTopology(string topology="");
-  bool writeMGLtraj(std::string topology="", int start=0, int end=-1, int step=1,bool truncate=false);
+  bool writeMGLtraj(std::string topology="", int start=0, int end=-1, int step=1,bool truncate=false,double patchRadius=0.12);
 
   bool shiftbox(LR_vector shift={0,0,0}); // Shift the box by given amount but for default case resizes the box
   bool testBoxOverloaded();

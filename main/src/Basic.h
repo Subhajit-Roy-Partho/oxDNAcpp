@@ -36,7 +36,7 @@ struct Patch {
 
 class Particle{
 public:
-  int id, color, strand=0;
+  int id, color, strand=0,type=0;
   double radius;
   std::string name;
   LR_vector r = {0, 0, 0}, a1={1,1,0}, a3={0,0,-1};

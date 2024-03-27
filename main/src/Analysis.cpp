@@ -103,6 +103,11 @@ using namespace std;
       if(!readConfig(config)){cout<<"Error reading configuration file."<<endl;throw std::exception();};
     }
 
+    if(type=="trajPHB"){
+      if(!readPHBTopology(topology)){cout<<"Error reading PHB topology"<<endl;throw std::exception();};
+      if(!readTrajectory(config)){cout<<"Error reading trajectory file."<<endl;throw std::exception();};
+    }
+
     size_t pos=0;
     if((pos=type.find("new"))!=std::string::npos){ //make sure if new keyword is attached keep the type same and don't do extra stuff
       type.erase(0,pos+3);
@@ -446,7 +451,19 @@ LR_vector Analysis::CenterForIndex(int N){
     return true;
   }
 
-  bool Analysis::writeMGLtraj(std::string topology, int start, int end, int step,bool truncate){
+  bool Analysis::writeMGLtraj(std::string topology, int start, int end, int step,bool truncate,double patchRadius){
+    // Get end if end is -1
+    if(end==-1) end=traj.size();
+    if(topology=="") topology = output+".mgl";
+
+    std::ofstream outputMGL(topology,ios::app);
+    if(!outputMGL.is_open()) return false;
+
+    if(truncate){
+      std::ofstream outputMGL(topology,ios::trunc);
+      if(!outputMGL.is_open()) return false;
+    }
+
     //get unique colors
     std::vector<int> uniqueColors;
     for(uint p=0;p<sourcePatch.size();p++){
@@ -454,29 +471,39 @@ LR_vector Analysis::CenterForIndex(int N){
     }
     std::set<int> unique(uniqueColors.begin(),uniqueColors.end());
     uniqueColors.assign(unique.begin(),unique.end());
-    for(int value:uniqueColors){
-      cout<<value<<endl;
-    }
+    // for(int value:uniqueColors){
+    //   cout<<value<<endl;
+    // }
 
     auto colorRGB = generateRandomColors(uniqueColors.size());
+    auto colorParticle = generateRandomColors(patchConfig.size());
 
-    if(topology=="") topology = output+".mgl";
-    std::ofstream outputMGL(topology,ios::app);
-    if(!outputMGL.is_open()) return false;
     outputMGL.precision(15);
     for(i=start;i<end;i+=step){
       outputMGL<<".Box:"<<box<<std::endl;
       for(int j=0;j<particleNum;j++){
         outputMGL<<traj[i].r[j].x<<" "<<traj[i].r[j].y<<" "<<traj[i].r[j].z<<" @ ";
         outputMGL<<particles[j].radius<<" ";
-        // outputMGL<<"C["<<centralColorMap.find(particles[j].strand)->second<<"] M ";
-        // for(int k=0;k<particles[j].patches.size();k++){
-        //   auto temp=sourcePatch[particles[j].patches[k]];
-        //   outputMGL<<temp.position.x<<" "<<temp.position.y<<" "<<temp.position.z<<" "<<temp.strength<<" C["<<colorMap.find(temp.color)->second<<"] ";
-        // }
-        // outputMGL<<std::endl;
+        if(particles[j].color==100){
+          outputMGL<<"C[255,255,255,1] ";
+          outputMGL<<std::endl;
+          continue;
+        }
+        LR_vector particleColor = colorParticle[particles[j].color];
+        outputMGL<<"C["<<(int)particleColor.x<<","<<(int)particleColor.y<<","<<(int)particleColor.z<<",1] M ";
+        for(int k=0;k<particles[j].patches.size();k++){
+          auto temp=sourcePatch[particles[j].patches[k]];
+          auto it = std::find(uniqueColors.begin(),uniqueColors.end(),temp.color);
+          if(it!=uniqueColors.end()){
+            int index = std::distance(uniqueColors.begin(),it);
+            LR_vector patchColor = colorRGB[index];
+            outputMGL<<temp.position.x<<" "<<temp.position.y<<" "<<temp.position.z<<" "<<patchRadius<<" C["<<(int)patchColor.x<<","<<(int)patchColor.y<<","<<(int)patchColor.z<<",1] ";
+          }
+        }
+        outputMGL<<std::endl;
       }
     }
+    return true;
   }
 
   double Analysis::subBoxing(double coordinate, double divisor){
@@ -644,24 +671,61 @@ LR_vector Analysis::CenterForIndex(int N){
     ss >> strands;
     particles.resize(particleNum);
     particlePerStrand=-1;
-    for(i=0;i<particleNum;i++){
-      ss.clear();
-      getline(inputTop,line);
+    Patch tempPatch;
+    int i=0;
+    while(std::getline(inputTop,line)){
+      // if(i>=particleNum-1) break;
+      std::stringstream body(line);
       if(line.empty()||line[0]=='#') continue;
       if(line[0]=='i'){
         if(line[1]=='P'){
-          std::stringstream body(line);
           int j=0;
           while(body.tellg()!=-1){
             body>>temp;
+            if(j==2) tempPatch.color=std::stoi(temp);
+            if(j==3) tempPatch.strength=std::stod(temp);
+            if(j==4) tempPatch.position.x=std::stod(temp);
+            if(j==5) tempPatch.position.y=std::stod(temp);
+            if(j==6) tempPatch.position.z=std::stod(temp);
+            if(j==7) tempPatch.a1.x=std::stod(temp);
+            if(j==8) tempPatch.a1.y=std::stod(temp);
+            if(j==9) tempPatch.a1.z=std::stod(temp);
+            if(j==10) tempPatch.a2.x=std::stod(temp);
+            if(j==11) tempPatch.a2.y=std::stod(temp);
+            if(j==12) tempPatch.a2.z=std::stod(temp);
+            j++;
           }
+          sourcePatch.push_back(tempPatch);
+          continue;
+        }
+        if(line[1]=='C'){
+          std::vector<int> tempConfig;
+          int j=0;
+          while(body.tellg()!=-1){
+            body>>temp;
+            if(j>1) tempConfig.push_back(std::stoi(temp));
+            j++;
+          }
+          patchConfig.push_back(tempConfig);
+          continue;
         }
       }
-      ss.str(line);
-      ss>>temp;
-      ss>>particles[i].strand;
-      ss>>particles[i].color;
-      ss>>particles[i].radius;
+      // cout<<line<<endl;
+      int j=0;
+      // std::stringstream body(line);
+      while(body.tellg()!=-1){
+        body>>temp;
+        if(j==0) particles[i].type=std::stoi(temp);
+        if(j==1) particles[i].strand=std::stoi(temp);
+        if(j==2) {
+          particles[i].color=std::stoi(temp);
+          if(particles[i].color!=100)
+          particles[i].patches=patchConfig[particles[i].color];
+        };
+        if(j==3) particles[i].radius=std::stod(temp);
+        j++;
+      }
+      i++;
     }
     return true;
   }
@@ -737,7 +801,8 @@ LR_vector Analysis::CenterForIndex(int N){
     traj.clear();
     temptraj.updateParticleNumber(particleNum);
     if(end==-1) while(getline(inputTraj,line)){
-      temptraj.time=stoi(line);
+      ss.clear();ss.str(line);ss>>temp;ss>>temp;ss>>temp;
+      temptraj.time=stoi(temp);
       getline(inputTraj,line); //skip the box line
       if(box==LR_vector({0,0,0})){
         ss.clear();ss.str(line);
