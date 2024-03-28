@@ -483,7 +483,7 @@ LR_vector Analysis::CenterForIndex(int N){
 
     outputMGL.precision(15);
     for(i=start;i<end;i+=step){
-      outputMGL<<".Box:"<<box<<std::endl;
+      outputMGL<<".Box:"<<box.x<<","<<box.y<<","<<box.z<<std::endl;
       for(int j=0;j<particleNum;j++){
         outputMGL<<traj[i].r[j].x<<" "<<traj[i].r[j].y<<" "<<traj[i].r[j].z<<" @ ";
         outputMGL<<particles[j].radius<<" ";
